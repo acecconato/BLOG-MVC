@@ -1,0 +1,17 @@
+{
+    "name": "antho/perso_blog",
+    "authors": [
+        {
+            "name": "Anthony Cecconato",
+            "email": "antho.cecc@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Controller\\": "controller/",
+            "Model\\": "model/"
+        }
+    },
+    "require": {}
+}
