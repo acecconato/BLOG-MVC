@@ -49,14 +49,12 @@ class Route
     {
         if(is_string($this->callable)) {
             $params = explode("#", $this->callable);
-            //$controller = "Blog\\Controller\\" . $params[0] . "Controller";
-            $controller = new \Controller\PostsController();
-
-            $action = $params[1];
-            return $controller->$action();
+            $controller = "\\Controller\\" . $params[0] . "Controller";
+            $controller = new $controller();
+            return call_user_func_array([$controller, $params[1]], $this->matches);
+        } else {
+            return call_user_func_array($this->callable, $this->matches);
         }
-
-        return call_user_func_array($this->callable, $this->matches);
     }
 
     public function getUrl($params)

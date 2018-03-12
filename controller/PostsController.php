@@ -2,8 +2,6 @@
 
 namespace Controller;
 
-echo "PostsController.php chargé !";
-
 class PostsController
 {
     public function show($id) {
