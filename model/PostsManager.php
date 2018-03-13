@@ -15,21 +15,24 @@ class PostsManager extends PDOFactory
         $this->_dbh = PDOFactory::PDOConnect();
     }
 
-    private function hydrate(array $data) {
+    public function getPosts($limit = null) {
+        if(isset($limit) && is_int($limit) && $limit >= 0) {
+            $query = "SELECT * FROM posts LIMIT " . $limit . "ORDER BY DESC";
+        } else {
+            $query = "SELECT * FROM posts";
+        }
 
-    }
+        $query = $this->_dbh->query($query);
+        while ($data = $query->fetch()) {
+            $this->_posts[$data["post_id"]] = new Post($data);
+        }
+        $query->closeCursor();
 
-    public function getPosts() {
-
+        return $this->_posts;
     }
 
     public function getPost($id) {
-        if(is_int($id)) {
-            if(array_key_exists($id, $this->_posts)) {
-                return $this->_posts[$id];
-            }
-        }
-        return false;
+        // Get post by his id
     }
 
     public function addPost(Post $post) {
@@ -38,5 +41,9 @@ class PostsManager extends PDOFactory
 
     public function updatePost(Post $post) {
         // Update a post
+    }
+
+    public function deletePost($id) {
+        // Delete post by Id
     }
 }

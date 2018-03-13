@@ -2,9 +2,9 @@
 
 namespace Model;
 
-class Post
+class Post extends Entity
 {
-    private $_postId;
+    private $_post_id;
     private $_creationDate;
     private $_title;
     private $_summary;
@@ -12,21 +12,16 @@ class Post
     private $_picture;
     private $_lastUpdate;
 
-    public static $nbPosts;
-
-    const DEFAULT_PICTURE_PATH = "../";
+    const DEFAULT_PICTURE_PATH = "../BONJOUR";
 
     public function __construct(array $data) {
         $this->hydrate($data);
     }
 
-    public function hydrate($data) {
-
-    }
-
-    public function setPostId($id) {
+    public function setPost_id($id) {
+        $id = (int) $id;
         if(is_int($id) && $id >= 0) {
-            $this->_postId = $id;
+            $this->_post_id = $id;
         }
     }
 
@@ -69,7 +64,7 @@ class Post
         }
     }
 
-    public function getPostId() { return $this->_postId; }
+    public function getPostId() { return $this->_post_id; }
     public function getCreationDate() { return $this->_creationDate; }
     public function getTitle() { return $this->_title; }
     public function getSummary() { return $this->_summary; }
