@@ -16,6 +16,14 @@ class Post
 
     const DEFAULT_PICTURE_PATH = "../";
 
+    public function __construct(array $data) {
+        $this->hydrate($data);
+    }
+
+    public function hydrate($data) {
+
+    }
+
     public function setPostId($id) {
         if(is_int($id) && $id >= 0) {
             $this->_postId = $id;
