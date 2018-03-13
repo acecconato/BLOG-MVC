@@ -14,7 +14,6 @@ abstract class PDOFactory
         try {
             $pdoConnexion = new \PDO("mysql:host=" . self::$_host . ";dbname=" . self::$_dbname, self::$_user, self::$_password);
             $pdoConnexion->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-
             return $pdoConnexion;
         } catch (\PDOException $e) {
             die("Error : " . $e->getMessage());
