@@ -4,15 +4,19 @@ namespace Model;
 
 class PostsManager extends PDOFactory
 {
-    private $dbh;
-    private $posts = [];
+    private $_dbh;
+    private $_posts = [];
 
-    public function __construct(array $data = []) {
+    public function __construct() {
+        $this->setDbh();
+    }
+
+    private function setDbh() {
         $this->_dbh = PDOFactory::PDOConnect();
     }
 
     private function hydrate(array $data) {
-        // Init. 1 instance = 1 post
+
     }
 
     public function getPosts() {
@@ -20,14 +24,19 @@ class PostsManager extends PDOFactory
     }
 
     public function getPost($id) {
-        // Returns posts by ID
+        if(is_int($id)) {
+            if(array_key_exists($id, $this->_posts)) {
+                return $this->_posts[$id];
+            }
+        }
+        return false;
     }
 
     public function addPost(Post $post) {
         // Add a post
     }
 
-    public function updatePost($post_id, $title, $summary, $content, $picture, $lastUpdate) {
+    public function updatePost(Post $post) {
         // Update a post
     }
 }
