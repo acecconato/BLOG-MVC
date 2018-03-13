@@ -2,7 +2,7 @@
 
 namespace Model;
 
-class Posts
+class Post
 {
     private $_postId;
     private $_creationDate;

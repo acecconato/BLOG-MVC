@@ -2,7 +2,7 @@
 
 namespace Model;
 
-class PostManager extends PDOFactory
+class PostsManager extends PDOFactory
 {
     private $dbh;
     private $posts = [];
