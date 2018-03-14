@@ -11,6 +11,7 @@ class Post extends Entity
     private $_content;
     private $_picture;
     private $_lastUpdate;
+    private $author;
 
     const DEFAULT_PICTURE_PATH = "../TODO";
 
@@ -72,6 +73,13 @@ class Post extends Entity
         }
     }
 
+    public function setAuthor($author)
+    {
+        if(!empty($author) && is_string($author)) {
+            $this->author = $author;
+        }
+    }
+
     public function getPostId()
     {
         return $this->_post_id;
@@ -104,5 +112,10 @@ class Post extends Entity
     public function getLastUpdate()
     {
         return $this->_lastUpdate;
+    }
+
+    public function getAuthor()
+    {
+        return $this->author;
     }
 }
