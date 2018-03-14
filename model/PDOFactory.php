@@ -9,6 +9,9 @@ abstract class PDOFactory
     private static $_user      = "root";
     private static $_password  = "";
 
+    /**
+     * @return \PDO
+     */
     protected static function PDOConnect()
     {
         try {

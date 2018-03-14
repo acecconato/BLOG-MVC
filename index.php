@@ -6,7 +6,12 @@ use App\Router;
 
 $router = new Router($_GET['url']);
 
-$router->get("/", "Posts#showAll");
-$router->get("/posts/:id", "Posts#show")->with(":id", "#[0-9]+#");
+$router->get("/", "Index#homepage");
+$router->get("/articles", "Post#showAll");
+$router->get("/article/:id", "Post#show")->with(":id", "#[0-9]+#");
 
-$router->run();
+try {
+    $router->run();
+} catch (\App\RouterException $e) {
+    die("Error : " . $e->getMessage());
+}
