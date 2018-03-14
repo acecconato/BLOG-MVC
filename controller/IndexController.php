@@ -9,7 +9,7 @@ class IndexController
 {
     private static $_posts = [];
 
-    public function homepage()
+    public static function homepage()
     {
         $postsManager = new PostsManager();
         $posts = $postsManager->getAllPosts();
@@ -18,9 +18,7 @@ class IndexController
             self::$_posts[$k] = new Post($v);
         }
 
-        foreach(self::$_posts as $k => $v) {
-            print_r($v);
-        }
+        // PAGINATION !
 
     }
 }
