@@ -37,7 +37,9 @@ class PostsManager extends PDOFactory
             ORDER BY post_id DESC
             LIMIT :limit
         ");
+
         $query->bindValue(":limit", $limit, \PDO::PARAM_INT);
+
         $query->execute();
         $result = $query->fetchAll();
         $query->closeCursor();
@@ -46,7 +48,12 @@ class PostsManager extends PDOFactory
 
     public function getPostById($id)
     {
-        $query = parent::$_dbh->prepare("SELECT * FROM posts WHERE post_id = :id");
+        $query = parent::$_dbh->prepare("
+            SELECT posts.*, u.pseudo as author
+            FROM posts
+            INNER JOIN users u ON posts.user_id = u.user_id
+            WHERE post_id = :id
+        ");
         $query->bindValue(":id", $id, \PDO::PARAM_INT);
         $query->execute();
         $result = $query->fetchAll();
@@ -56,16 +63,36 @@ class PostsManager extends PDOFactory
 
     public function addPost(Post $post)
     {
-        // Add a post
+        $query = parent::$_dbh->prepare("
+            INSERT INTO posts
+            (title, summary, content, picture, user_id)
+            VALUES 
+            (:title, :summary, :content, :picture, :author)
+        ");
+
+        $query->bindValue(":title", $post->getTitle(), \PDO::PARAM_STR);
+        $query->bindValue(":summary", $post->getSummary(), \PDO::PARAM_STR);
+        $query->bindValue(":content", $post->getContent(), \PDO::PARAM_STR);
+        $query->bindValue(":picture", $post->getPicture(), \PDO::PARAM_STR);
+        $query->bindValue(":author", $post->getAuthor(), \PDO::PARAM_STR);
+
+        return $result = $query->execute();
     }
 
     public function updatePost(Post $post)
     {
-        // Update a post
+
     }
 
     public function deletePost($id)
     {
-        // Delete post by Id
+        $query = parent::$_dbh->prepare("
+            DELETE FROM posts
+            WHERE post_id = :id
+        ");
+
+        $query->bindValue(":id", $id, \PDO::PARAM_INT);
+
+        return $result = $query->execute();
     }
 }
