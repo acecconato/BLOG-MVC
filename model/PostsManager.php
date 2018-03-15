@@ -4,22 +4,14 @@ namespace Model;
 
 class PostsManager extends PDOFactory
 {
-    /** @var \PDO $_dbh */
-    private $_dbh;
-
     public function __construct()
     {
-        $this->setDbh();
-    }
-
-    private function setDbh()
-    {
-        $this->_dbh = PDOFactory::PDOConnect();
+        parent::__construct();
     }
 
     public function getAllPosts()
     {
-        $query = $this->_dbh->prepare("
+        $query = parent::$_dbh->prepare("
             SELECT  posts.post_id, posts.title, posts.summary, posts.picture,
                     DATE_FORMAT(posts.creationDate, '%d/%m/%y à %Hh%i') as creationDate, 
                     DATE_FORMAT(posts.lastUpdate, '%d/%m/%y à %Hh%i') as lastUpdate,
@@ -35,7 +27,16 @@ class PostsManager extends PDOFactory
 
     public function getAllPostsWithLimit($limit)
     {
-        $query = $this->_dbh->prepare("SELECT * FROM posts ORDER BY post_id DESC LIMIT :limit");
+        $query = parent::$_dbh->prepare("
+            SELECT  posts.post_id, posts.title, posts.summary, posts.picture,
+                    DATE_FORMAT(posts.creationDate, '%d/%m/%y à %Hh%i') as creationDate, 
+                    DATE_FORMAT(posts.lastUpdate, '%d/%m/%y à %Hh%i') as lastUpdate,
+                    u.pseudo as author
+            FROM posts
+            INNER JOIN users u ON posts.user_id = u.user_id
+            ORDER BY post_id DESC
+            LIMIT :limit
+        ");
         $query->bindValue(":limit", $limit, \PDO::PARAM_INT);
         $query->execute();
         $result = $query->fetchAll();
@@ -45,7 +46,7 @@ class PostsManager extends PDOFactory
 
     public function getPostById($id)
     {
-        $query = $this->_dbh->prepare("SELECT * FROM posts WHERE post_id = :id");
+        $query = parent::$_dbh->prepare("SELECT * FROM posts WHERE post_id = :id");
         $query->bindValue(":id", $id, \PDO::PARAM_INT);
         $query->execute();
         $result = $query->fetchAll();

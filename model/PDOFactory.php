@@ -2,24 +2,29 @@
 
 namespace Model;
 
-abstract class PDOFactory
-{
-    private static $_host      = "localhost";
-    private static $_dbname    = "perso_blog";
-    private static $_user      = "root";
-    private static $_password  = "";
+use App\Config;
 
-    /**
-     * @return \PDO
-     */
-    protected static function PDOConnect()
+abstract class PDOFactory extends Config
+{
+    /* @var \PDO $_dbh */
+    protected static $_dbh;
+
+    protected function __construct()
     {
-        try {
-            $pdoConnexion = new \PDO("mysql:host=" . self::$_host . ";dbname=" . self::$_dbname, self::$_user, self::$_password);
-            $pdoConnexion->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-            return $pdoConnexion;
-        } catch (\PDOException $e) {
-            die("Error : " . $e->getMessage());
+        parent::__construct();
+        self::getPDO();
+    }
+
+    protected static function getPDO()
+    {
+        if(is_null(self::$_dbh)) {
+            $cfg = Config::getInstance();
+            try {
+                self::$_dbh = new \PDO("mysql:host=" . $cfg->get('db_hostname') . ";dbname=" . $cfg->get('db_name'), $cfg->get('db_user'), $cfg->get('db_password'));
+            } catch (\PDOException $e) {
+                die("Error : " . $e->getMessage());
+            }
         }
+        return self::$_dbh;
     }
 }

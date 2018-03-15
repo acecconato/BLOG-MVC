@@ -2,6 +2,7 @@
 
 namespace Controller;
 
+use App\Config;
 use Model\Post;
 use Model\PostsManager;
 
