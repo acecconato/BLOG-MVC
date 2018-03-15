@@ -2,9 +2,9 @@
 
 namespace Controller;
 
-use App\Config;
 use Model\Post;
 use Model\PostsManager;
+use Model\UsersManager;
 
 class IndexController
 {
@@ -12,13 +12,10 @@ class IndexController
 
     public static function homepage()
     {
-        $postsManager = new PostsManager();
-        $posts = $postsManager->getAllPosts();
+        $manager = new UsersManager();
+        $users = $manager->getAllUsers();
 
-        foreach ($posts as $k => $v) {
-            self::$_posts[$k] = new Post($v);
-        }
-
+        print_r($users);
         // PAGINATION !
 
     }
