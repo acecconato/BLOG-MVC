@@ -4,14 +4,13 @@ namespace Model;
 
 use App\Config;
 
-abstract class PDOFactory extends Config
+abstract class PDOFactory
 {
     /* @var \PDO $_dbh */
     protected static $_dbh;
 
     protected function __construct()
     {
-        parent::__construct();
         self::DBConnect("mysql");
     }
 

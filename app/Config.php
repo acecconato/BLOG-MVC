@@ -11,6 +11,7 @@ class Config
 {
     private $settings = [];
     private static $_instance;
+    private static $_dbh;
 
     protected function __construct()
     {

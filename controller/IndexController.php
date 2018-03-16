@@ -12,6 +12,8 @@ class IndexController
 
     public static function homepage()
     {
+
+
         $manager = new UsersManager();
         $users = $manager->getAllUsers();
 

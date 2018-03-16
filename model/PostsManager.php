@@ -25,6 +25,11 @@ class PostsManager extends PDOFactory
         return $result;
     }
 
+    public function getPostsBetween($a, $b)
+    {
+
+    }
+
     public function getAllPostsWithLimit($limit)
     {
         $query = parent::$_dbh->prepare("
