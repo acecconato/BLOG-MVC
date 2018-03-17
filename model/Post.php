@@ -2,6 +2,8 @@
 
 namespace Model;
 
+use App\Config;
+
 class Post extends Entity
 {
     private $post_id,
@@ -12,8 +14,6 @@ class Post extends Entity
             $picture,
             $lastUpdate,
             $author;
-
-    const DEFAULT_PICTURE_PATH = "../TODO";
 
     public function __construct(array $data)
     {
@@ -56,14 +56,12 @@ class Post extends Entity
         }
     }
 
-    public function setPicture($path = self::DEFAULT_PICTURE_PATH)
+    public function setPicture($path = null)
     {
-        if(is_string($path)) {
-            if(!empty($path)) {
-                $this->picture = $path;
-                return;
-            }
+        if(is_null($path)) {
+            $path = (Config::getInstance())->get("default_picture_path");
         }
+        $this->picture = $path . "" . $this->getPostId();
     }
 
     public function setLastUpdate($date)
