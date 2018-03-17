@@ -2,16 +2,11 @@
 
 namespace Model;
 
-class PostsManager extends PDOFactory
+class PostsManager extends Manager
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function getAllPosts()
     {
-        $query = parent::$_dbh->prepare("
+        $query = $this->dbh->prepare("
             SELECT  posts.post_id, posts.title, posts.summary, posts.picture,
                     DATE_FORMAT(posts.creationDate, '%d/%m/%y à %Hh%i') as creationDate, 
                     DATE_FORMAT(posts.lastUpdate, '%d/%m/%y à %Hh%i') as lastUpdate,
@@ -27,12 +22,29 @@ class PostsManager extends PDOFactory
 
     public function getPostsBetween($a, $b)
     {
+        $query = $this->dbh->prepare("
+            SELECT  posts.post_id, posts.title, posts.summary, posts.picture,
+                    DATE_FORMAT(posts.creationDate, '%d/%m/%y à %Hh%i') as creationDate, 
+                    DATE_FORMAT(posts.lastUpdate, '%d/%m/%y à %Hh%i') as lastUpdate,
+                    u.pseudo as author
+            FROM posts
+            INNER JOIN users u ON posts.user_id = u.user_id
+            WHERE post_id BETWEEN ':a' AND ':b'
+            ORDER BY post_id DESC
+        ");
 
+        $query->bindValue(":a", $a, \PDO::PARAM_INT);
+        $query->bindValue("b", $b, \PDO::PARAM_INT);
+
+        $query->execute();
+        $result = $query->fetchAll();
+        $query->closeCursor();
+        return $result;
     }
 
     public function getAllPostsWithLimit($limit)
     {
-        $query = parent::$_dbh->prepare("
+        $query = $this->dbh->prepare("
             SELECT  posts.post_id, posts.title, posts.summary, posts.picture,
                     DATE_FORMAT(posts.creationDate, '%d/%m/%y à %Hh%i') as creationDate, 
                     DATE_FORMAT(posts.lastUpdate, '%d/%m/%y à %Hh%i') as lastUpdate,
@@ -53,7 +65,7 @@ class PostsManager extends PDOFactory
 
     public function getPostById($id)
     {
-        $query = parent::$_dbh->prepare("
+        $query = $this->dbh->prepare("
             SELECT posts.*, u.pseudo as author
             FROM posts
             INNER JOIN users u ON posts.user_id = u.user_id
@@ -61,14 +73,15 @@ class PostsManager extends PDOFactory
         ");
         $query->bindValue(":id", $id, \PDO::PARAM_INT);
         $query->execute();
-        $result = $query->fetchAll();
+
+        $result = $query->fetch();
         $query->closeCursor();
         return $result;
     }
 
     public function addPost(Post $post)
     {
-        $query = parent::$_dbh->prepare("
+        $query = $this->dbh->prepare("
             INSERT INTO posts
             (title, summary, content, picture, user_id)
             VALUES 
@@ -91,7 +104,7 @@ class PostsManager extends PDOFactory
 
     public function deletePost($id)
     {
-        $query = parent::$_dbh->prepare("
+        $query = $this->dbh->prepare("
             DELETE FROM posts
             WHERE post_id = :id
         ");
