@@ -94,12 +94,24 @@ class PostsManager extends Manager
         $query->bindValue(":picture", $post->getPicture(), \PDO::PARAM_STR);
         $query->bindValue(":author", $post->getAuthor(), \PDO::PARAM_STR);
 
-        return $result = $query->execute();
+        return $query->execute();
     }
 
     public function updatePost(Post $post)
     {
+        $query = $this->dbh->prepare("
+            UPDATE posts
+            SET title = :title, summary = :summary, content = :content, picture = :picture, lastUpdate = NOW()
+            WHERE post_id = :post_id
+        ");
 
+        $query->bindValue(":title", $post->getTitle(), \PDO::PARAM_STR);
+        $query->bindValue(":summary", $post->getSummary(), \PDO::PARAM_STR);
+        $query->bindValue(":content", $post->getContent(), \PDO::PARAM_STR);
+        $query->bindValue(":picture", $post->getPicture(), \PDO::PARAM_STR);
+        $query->bindValue(":post_id", $post->getPostId(), \PDO::PARAM_INT);
+
+        return $query->execute();
     }
 
     public function deletePost($id)
@@ -111,6 +123,6 @@ class PostsManager extends Manager
 
         $query->bindValue(":id", $id, \PDO::PARAM_INT);
 
-        return $result = $query->execute();
+        return $query->execute();
     }
 }

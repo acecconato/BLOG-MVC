@@ -2,16 +2,11 @@
 
 namespace Model;
 
-class UsersManager extends PDOFactory
+class UsersManager extends Manager
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function getAllUsers()
     {
-        $query = parent::$_dbh->prepare("
+        $query = $this->dbh->prepare("
             SELECT *, DATE_FORMAT(creationDate, '%d/%m/%y à %Hh%i') as creationDate
             FROM users
             ORDER BY user_id DESC
@@ -30,7 +25,7 @@ class UsersManager extends PDOFactory
      */
     public function getUser($user)
     {
-        $query = parent::$_dbh->prepare("
+        $query = $this->dbh->prepare("
             SELECT *, DATE_FORMAT(creationDate, '%d/%m/%y à %Hh%i') as creationDate
             FROM users
             WHERE user_id = :id 
@@ -50,7 +45,7 @@ class UsersManager extends PDOFactory
 
     public function addUser(User $user)
     {
-        $query = parent::$_dbh->prepare("
+        $query = $this->dbh->prepare("
             INSERT INTO users 
             (email, pseudo, password) 
             VALUES 
@@ -61,17 +56,27 @@ class UsersManager extends PDOFactory
         $query->bindValue(":pseudo", $user->getPseudo(), \PDO::PARAM_STR);
         $query->bindValue(":password", $user->getPassword(), \PDO::PARAM_STR);
 
-        return $result = $query->execute();
+        return $query->execute();
     }
 
     public function updateUser(User $user)
     {
+        $query = $this->dbh->prepare("
+            UPDATE users
+            SET permissionLevel = :permLevel, email = :email, pseudo = :pseudo, password = :password
+        ");
 
+        $query->bindValue(":permLevel", $user->getPermissionLevel(), \PDO::PARAM_INT);
+        $query->bindValue(":email", $user->getEmail(), \PDO::PARAM_STR);
+        $query->bindValue(":pseudo", $user->getPseudo(), \PDO::PARAM_STR);
+        $query->bindValue(":password", $user->getPassword(), \PDO::PARAM_STR);
+
+        return $query->execute();
     }
 
     public function deleteUser($user)
     {
-        $query = parent::$_dbh->prepare("
+        $query = $this->dbh->prepare("
             DELETE FROM users
             WHERE user_id = :id
             OR pseudo = :pseudo
@@ -82,7 +87,7 @@ class UsersManager extends PDOFactory
         $query->bindValue(":pseudo", $user, \PDO::PARAM_STR);
         $query->bindValue(":email", $user, \PDO::PARAM_STR);
 
-        return $result = $query->execute();
+        return $query->execute();
     }
 
 }

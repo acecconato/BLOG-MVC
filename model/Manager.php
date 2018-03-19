@@ -2,14 +2,28 @@
 
 namespace Model;
 
+use App\Config;
+
 abstract class Manager
 {
     protected $dbh;
+    private static $_defaultType;
 
-    public function __construct($type = "mysql")
+    public function __construct()
     {
-        if(is_null($this->dbh)) {
-            $this->dbh = PDOFactory::create($type);
+        $this->setDefaultType();
+        $this->dbh = PDOFactory::create($this->getDefaultType());
+    }
+
+    private function setDefaultType()
+    {
+        if(is_null(self::$_defaultType)) {
+            self::$_defaultType = Config::getInstance()->get('default_sql_type');
         }
+    }
+
+    private function getDefaultType()
+    {
+        return self::$_defaultType;
     }
 }

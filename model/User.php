@@ -4,7 +4,7 @@ namespace Model;
 
 class User extends Entity
 {
-    private $userId,
+    private $user_id,
             $permissionLevel,
             $email,
             $pseudo,
@@ -16,22 +16,17 @@ class User extends Entity
         $this->hydrate($data);
     }
 
-    public function getPermissionLevel()
+    public function setUser_id($id)
     {
-        return $this->permissionLevel;
+        $id = (int) $id;
+        $this->user_id = $id;
     }
 
-    public function setPermissionLevel($permissionLevel)
+    public function setPermissionLevel($permLevel)
     {
-        $permissionLevel = (int) $permissionLevel;
-        if($permissionLevel >= 0) {
-            $this->permissionLevel = $permissionLevel;
+        if((int) $permLevel >= 0) {
+            $this->permissionLevel = $permLevel;
         }
-    }
-
-    public function getEmail()
-    {
-        return $this->email;
     }
 
     public function setEmail($email)
@@ -41,16 +36,39 @@ class User extends Entity
         }
     }
 
+    public function setPseudo($pseudo)
+    {
+        $this->pseudo = $pseudo;
+    }
+
+    public function setPassword($password)
+    {
+        $this->password = password_hash($password, PASSWORD_DEFAULT);
+    }
+
+    public function setCreationDate($date)
+    {
+        $this->creationDate = $date;
+    }
+
+    public function getUser_id()
+    {
+        return $this->user_id;
+    }
+
+    public function getPermissionLevel()
+    {
+        return $this->permissionLevel;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
     public function getPseudo()
     {
         return $this->pseudo;
-    }
-
-    public function setPseudo($pseudo)
-    {
-        if(is_string($pseudo)) {
-            $this->pseudo = $pseudo;
-        }
     }
 
     public function getPassword()
@@ -58,33 +76,8 @@ class User extends Entity
         return $this->password;
     }
 
-    public function setPassword($password)
-    {
-        if(is_string($password)) {
-            $this->password = password_hash($password, PASSWORD_DEFAULT);
-        }
-    }
-
     public function getCreationDate()
     {
         return $this->creationDate;
-    }
-
-    public function setCreationDate($creationDate)
-    {
-        $this->creationDate = $creationDate;
-    }
-
-    public function getUserId()
-    {
-        return $this->userId;
-    }
-
-    public function setUserId($userId)
-    {
-        $userId = (int) $userId;
-        if($userId >= 0) {
-            $this->userId = $userId;
-        }
     }
 }
