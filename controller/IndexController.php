@@ -2,19 +2,17 @@
 
 namespace Controller;
 
+use Model\CommentsManager;
 use Model\Post;
 use Model\PostsManager;
 
 class IndexController
 {
-    private static $_posts = [];
-
     public static function homepage()
     {
-        $postsManager = new PostsManager();
-        $post = $postsManager->getPostById(1);
+        $commentsManager = new CommentsManager();
+        $comments = $commentsManager->getAllComments();
 
-        $post = new Post($post);
-        var_dump($post);
+        print_r($comments);
     }
 }
