@@ -56,7 +56,8 @@ class UsersManager extends Manager
         $query->bindValue(":pseudo", $user->getPseudo(), \PDO::PARAM_STR);
         $query->bindValue(":password", $user->getPassword(), \PDO::PARAM_STR);
 
-        return $query->execute();
+        $query->execute();
+        return $affectedLines = $query->rowCount();
     }
 
     public function updateUser(User $user)
@@ -71,7 +72,8 @@ class UsersManager extends Manager
         $query->bindValue(":pseudo", $user->getPseudo(), \PDO::PARAM_STR);
         $query->bindValue(":password", $user->getPassword(), \PDO::PARAM_STR);
 
-        return $query->execute();
+        $query->execute();
+        return $affectedLines = $query->rowCount();
     }
 
     public function deleteUser($user)
@@ -87,7 +89,8 @@ class UsersManager extends Manager
         $query->bindValue(":pseudo", $user, \PDO::PARAM_STR);
         $query->bindValue(":email", $user, \PDO::PARAM_STR);
 
-        return $query->execute();
+        $query->execute();
+        return $affectedLines = $query->rowCount();
     }
 
 }

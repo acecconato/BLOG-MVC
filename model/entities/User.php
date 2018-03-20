@@ -1,6 +1,6 @@
 <?php
 
-namespace Model;
+namespace Model\Entities;
 
 class User extends Entity
 {
@@ -43,7 +43,7 @@ class User extends Entity
 
     public function setPassword($password)
     {
-        $this->password = password_hash($password, PASSWORD_DEFAULT);
+        $this->password = $password;
     }
 
     public function setCreationDate($date)

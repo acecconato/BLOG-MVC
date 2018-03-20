@@ -1,20 +1,16 @@
 <?php
 
-namespace Model;
+namespace Model\Entities;
 
 class Comment extends Entity
 {
-
     private $comment_id,
             $content,
             $creationDate,
             $reason = null,
-            $author,
-            $status;
-
-    const WAITING_FOR_MODERATION = 1;
-    const VALIDATED = 2;
-    const REFUSED = 3;
+            $user_id,
+            $post_id,
+            $status_id;
 
     public function __construct(array $data)
     {
@@ -24,9 +20,7 @@ class Comment extends Entity
     public function setComment_id($id)
     {
         $id = (int) $id;
-        if($id >= 0) {
-            $this->comment_id = $id;
-        }
+        ($id >= 0) ? $this->comment_id = $id : null;
     }
 
     public function setContent($content)
@@ -44,14 +38,22 @@ class Comment extends Entity
         $this->reason = $reason;
     }
 
-    public function setAuthor($author)
+    public function setUser_id($id)
     {
-        $this->author = $author;
+        $id = (int) $id;
+        ($id >= 0) ? $this->user_id = $id : null;
     }
 
-    public function setStatus($status)
+    public function setPost_id($id)
     {
-        $this->status = $status;
+        $id = (int) $id;
+        ($id >= 0) ? $this->post_id = $id : null;
+    }
+
+    public function setStatus_id($id)
+    {
+        $id = (int) $id;
+        ($id >= 0) ? $this->status_id = $id : null;
     }
 
     public function getComment_id()
@@ -74,13 +76,18 @@ class Comment extends Entity
         return $this->reason;
     }
 
-    public function getAuthor()
-    {
-        return $this->author;
-    }
+   public function getUser_id()
+   {
+       return $this->user_id;
+   }
 
-    public function getStatus()
+   public function getPost_id()
+   {
+       return $this->post_id;
+   }
+
+    public function getStatus_id()
     {
-        return $this->status;
+        return $this->status_id;
     }
 }

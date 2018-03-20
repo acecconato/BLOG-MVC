@@ -94,7 +94,8 @@ class PostsManager extends Manager
         $query->bindValue(":picture", $post->getPicture(), \PDO::PARAM_STR);
         $query->bindValue(":author", $post->getAuthor(), \PDO::PARAM_STR);
 
-        return $query->execute();
+        $query->execute();
+        return $affectedLines = $query->rowCount();
     }
 
     public function updatePost(Post $post)
@@ -111,7 +112,8 @@ class PostsManager extends Manager
         $query->bindValue(":picture", $post->getPicture(), \PDO::PARAM_STR);
         $query->bindValue(":post_id", $post->getPostId(), \PDO::PARAM_INT);
 
-        return $query->execute();
+        $query->execute();
+        return $affectedLines = $query->rowCount();
     }
 
     public function deletePost($id)
@@ -123,6 +125,7 @@ class PostsManager extends Manager
 
         $query->bindValue(":id", $id, \PDO::PARAM_INT);
 
-        return $query->execute();
+        $query->execute();
+        return $affectedLines = $query->rowCount();
     }
 }

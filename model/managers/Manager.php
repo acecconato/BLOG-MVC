@@ -9,7 +9,7 @@ abstract class Manager
     protected $dbh;
     private static $_defaultType;
 
-    public function __construct()
+    protected function __construct()
     {
         $this->setDefaultType();
         $this->dbh = PDOFactory::create($this->getDefaultType());
