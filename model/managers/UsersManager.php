@@ -1,6 +1,8 @@
 <?php
 
-namespace Model;
+namespace Model\Managers;
+
+use Model\Entities\User;
 
 class UsersManager extends Manager
 {

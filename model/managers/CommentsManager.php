@@ -1,6 +1,8 @@
 <?php
 
-namespace Model;
+namespace Model\Managers;
+
+use Model\Entities\Comment;
 
 class CommentsManager extends Manager
 {
