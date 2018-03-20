@@ -1,18 +1,33 @@
 <?php
 
-namespace Model;
+namespace Model\Managers;
 
 use App\Config;
+use Model\Factories\PDOFactory;
 
 abstract class Manager
 {
     protected $dbh;
     private static $_defaultType;
+    private static $managers = [];
 
-    protected function __construct()
+    public function __construct($type = null)
     {
         $this->setDefaultType();
-        $this->dbh = PDOFactory::create($this->getDefaultType());
+        (is_null($type)) ? $this->dbh = PDOFactory::create($this->getDefaultType()) : $this->dbh = PDOFactory::create($type);
+    }
+
+    public static function getManagerOf($name)
+    {
+        $name = strtolower($name);
+        if(!isset(self::$managers[$name])) {
+            $managerToLoad = "\\Model\\Managers\\" . ucfirst($name) . "Manager";
+            if(!class_exists($managerToLoad)) {
+                throw new \BadFunctionCallException("The manager doesn't exist");
+            }
+            self::$managers[$name] = new $managerToLoad();
+        }
+        return self::$managers[$name];
     }
 
     private function setDefaultType()
