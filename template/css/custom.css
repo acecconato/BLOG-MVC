@@ -1,0 +1,41 @@
+html, body {
+  height: 100%;
+}
+
+.fullHeight {
+  min-height: 100%;
+}
+
+.img-divider {
+  height: 200px;
+  background: url("../img/bg-divider.jpeg") no-repeat fixed;
+  opacity: 0.9;
+  -moz-box-shadow: inset -5px -5px 5px #888;
+  -webkit-box-shadow: inset -5px -5px 5px #888;
+  box-shadow: inset -5px -5px 5px #888;
+}
+
+.skill:hover {
+  -webkit-box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.75);
+  box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.75);
+}
+
+section {
+  padding: 4rem 0;
+}
+
+@font-face {
+    font-family: 'Font Awesome 5 Solid';
+    src: url('../vendor/font-awesome/fonts/fa-solid-900.ttf');
+}
+
+@font-face {
+    font-family: 'Font Awesome 5 Brands';
+    src: url('../vendor/font-awesome/fonts/fa-brands-400.ttf');
+}
+
+@font-face {
+    font-family: 'Font Awesome 5 Regular';
+    src: url('../vendor/font-awesome/fonts/fa-regular-400.ttf');
+}
