@@ -6,15 +6,15 @@ use App\Router;
 
 $router = new Router($_GET['url']);
 
-$router->get("/", "Home#showHome"); // Index page
+$router->get("/", "Frontend#showHome"); // Index page
 
-$router->get("/articles/:id", "Blog#getPost")->with(":id", "#[0-9]+#"); // Show the post :id
-$router->post("/articles/:id/", "Blog#addComment")->with(":id", "#[0-9]+#"); // Add a comment on the post :id
+$router->get("/articles/:id", "Frontend#getPost")->with(":id", "#[0-9]+#"); // Show the post :id
+$router->post("/articles/:id/", "Frontend#addComment")->with(":id", "#[0-9]+#"); // Add a comment on the post :id
 
-$router->get("/articles", "Blog#getAllPosts"); // Show all posts
+$router->get("/articles", "Frontend#getAllPosts"); // Show all posts
 
-$router->get("/connexion", "App#loginForm"); // Login form
-$router->post("/connexion", "App#loginValidation"); // Login validation
+$router->get("/connexion", "Frontend#loginForm"); // Login form
+$router->post("/connexion", "Frontend#loginValidation"); // Login validation
 
 $router->get("/admin/articles/supprimer/:id", "Backend#deletePost")->with(":id", "#[0-9]+#"); // Delete a post
 
