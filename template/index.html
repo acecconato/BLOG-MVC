@@ -2,7 +2,6 @@
 <html lang="fr">
 
   <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Blog personnel d'Anthony Cecconato">
@@ -12,6 +11,7 @@
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="vendor/bootstrap/css/dashboard.css" rel="stylesheet">
 
     <!-- Custom fonts for this template -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" integrity="sha384-3AB7yXWz4OeoZcPbieVW64vVXEwADiYyAEhwilzWsLw+9FgqpyjjStpPnpBO8o8S" crossorigin="anonymous">
@@ -24,7 +24,6 @@
     <!-- Custom styles for this template -->
     <link href="css/freelancer.css" rel="stylesheet">
     <link href="css/custom.css" rel="stylesheet">
-
   </head>
 
   <body id="page-top">
@@ -32,13 +31,16 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg bg-secondary fixed-top text-uppercase" id="mainNav">
       <div class="container">
-        <a class="navbar-brand js-scroll-trigger" href="#page-top">(╯°□°）╯︵ ┻━┻</a>
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">(╯°□°）╯</a>
         <button class="navbar-toggler navbar-toggler-right text-uppercase bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           Menu
           <i class="fa fa-bars"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
+            <li class="nav-item mx-auto">
+              <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="index.html">Accueil</a>
+            </li>
             <li class="nav-item mx-auto">
               <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about">Présentation</a>
             </li>
@@ -49,7 +51,7 @@
               <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#contact">Contact</a>
             </li>
             <li class="nav-item mx-auto">
-              <a class="nav-link py-3 px-0 px-lg-3 rounded" href="#">Le blog</a>
+              <a class="nav-link py-3 px-0 px-lg-3 rounded" href="blog.html">Le blog</a>
             </li>
           </ul>
         </div>
@@ -62,7 +64,7 @@
         <img class="img-fluid mb-4 d-block mx-auto" src="img/profile.png" alt="">
         <h1 class="text-uppercase mb-0">Anthony Cecconato</h1>
         <hr class="star-light">
-        <h2 class="font-weight-light mb-0">Vos idées sont ma force</h2>
+        <h2 class="font-weight-light mb-0">Vos idées sont nos projets</h2>
         <a class="btn btn-xl btn-outline-light mt-3 js-scroll-trigger" href="#about">
           <i class="fa fa-info mr-2"></i>
            Voir ma présentation
@@ -105,34 +107,34 @@
             </div>
           </div>
         </div>
-      </div>
 
       <div class="d-none d-md-block img-divider mt-5"></div>
 
     </section>
 
     <!-- skills Section -->
-    <section class="skills fullHeight" id="skills">
+    <section class="fullHeight mx-auto" id="skills">
       <div class="container">
         <h2 class="text-center text-uppercase text-secondary">Compétences</h2>
         <hr class="star-dark mb-5">
 
-        <div class="row">
+        <div class="row lineOfSkills">
+
           <div class="skill col-sm-12 col-md-4 bg-light border py-2 my-1">
                 <h3><i class="fab fa-html5 "></i>
                   HTML5
-                  <div class="d-block">
+                  <span class="d-block">
                     <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                  </div>
+                  </span>
                 </h3>
           </div>
 
           <div class="skill col-sm-12 col-md-4 bg-light border py-2 my-1">
               <h3><i class="fab fa-css3"></i>
                 CSS3
-                <div class="d-block">
+                <span class="d-block">
                   <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
-                </div>
+                </span>
               </h3>
           </div>
 
@@ -140,39 +142,66 @@
             <h3>
               <i class="fab fa-php"></i>
               PHP
-              <div class="d-block">
+              <span class="d-block">
                 <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
-              </div>
+              </span>
             </h3>
           </div>
 
-          <div class="skill col-sm-12 offset-md-2 col-md-4 bg-light border py-2 my-1">
+        </div>
+
+        <div class="row lineOfSkills">
+
+          <div class="skill col-sm-12 col-md-4 bg-light border py-2 my-1">
             <h3>
               <i class="fab fa-css3"></i>
                Bootstrap 3 / 4
-              <div class="d-block">
+               <span class="d-block">
                 <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
-              </div>
+              </span>
             </h3>
           </div>
 
-          <div class="skill col-sm-12 col-md-4 bg-light border py-1 my-1">
+          <div class="skill col-sm-12 col-md-4 bg-light border py-2 my-1">
             <h3>
               <i class="fab fa-github"></i>
                Git
-              <div class="d-block">
+              <span class="d-block">
                 <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
-              </div>
+              </span>
             </h3>
           </div>
 
-          <div class="skill col-sm-12 offset-md-4 col-md-4 bg-light border py-2 my-1">
+          <div class="skill col-sm-12 col-md-4 bg-light border py-2 my-1">
                 <h3><i class="fas fa-database "></i>
                   SQL / Merise 2
-                  <div class="d-block">
+                  <span class="d-block">
                     <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
-                  </div>
+                  </span>
                 </h3>
+          </div>
+
+        </div>
+        <div class="row lineOfSkills">
+
+          <div class="skill col-sm-12 col-md-4 bg-light border py-2 my-1">
+            <h3>
+              <i class="fas fa-code"></i>
+               Lua
+              <span class="d-block">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              </span>
+            </h3>
+          </div>
+
+          <div class="skill col-sm-12 col-md-4 bg-light border py-2 my-1">
+            <h3>
+              <i class="fab fa-wordpress"></i>
+               Wordpress
+              <span class="d-block">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+              </span>
+            </h3>
           </div>
         </div>
 
@@ -182,7 +211,7 @@
               <i class="far fa-envelope"></i>
               Contactez-moi !
             </a>
-            <a class="btn btn-xl btn-outline-dark mb-1" href="#">
+            <a class="btn btn-xl btn-outline-dark mb-1" href="blog.html">
               <i class="fas fa-eye"></i>
               Voir le blog
             </a>
@@ -192,39 +221,39 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact">
-      <div class="container">
+    <section class="fullHeight" id="contact">
+      <div class="container-fluid">
         <h2 class="text-center text-uppercase mb-0">Contactez moi</h2>
         <hr class="star-dark mb-5">
         <div class="row">
-          <div class="col-lg-8 mx-auto">
 
-            <form name="sentMessage" id="contactForm" novalidate="novalidate" method="POST" action="#">
+          <div class="col-12 col-lg-8 mx-auto">
+            <form method="POST" action="#" name="contactForm" id="contactForm">
               <div class="control-group">
                 <div class="form-group floating-label-form-group controls mb-0 pb-2">
                   <label>Nom</label>
-                  <input class="form-control" id="name" type="text" placeholder="Nom" required="required" data-validation-required-message="Veuillez entrer votre nom">
+                  <input class="form-control" id="name" type="text" placeholder="Nom" required="required">
                   <p class="help-block text-danger"></p>
                 </div>
               </div>
               <div class="control-group">
                 <div class="form-group floating-label-form-group controls mb-0 pb-2">
                   <label>Adresse email</label>
-                  <input class="form-control" id="email" type="email" placeholder="Adresse email" required="required" data-validation-required-message="Veuillez entrer votre adresse email">
+                  <input class="form-control" id="emailAddr" type="text" placeholder="Adresse email" required="required">
                   <p class="help-block text-danger"></p>
                 </div>
               </div>
               <div class="control-group">
                 <div class="form-group floating-label-form-group controls mb-0 pb-2">
                   <label>Numéro de téléphone</label>
-                  <input class="form-control" id="phone" type="tel" placeholder="Numéro de téléphone" required="required" data-validation-required-message="Veuillez entrer votre numéro de téléphone">
+                  <input class="form-control" id="phone" type="tel" placeholder="Numéro de téléphone (Optionnel)">
                   <p class="help-block text-danger"></p>
                 </div>
               </div>
               <div class="control-group">
                 <div class="form-group floating-label-form-group controls mb-0 pb-2">
                   <label>Message</label>
-                  <textarea class="form-control" id="message" rows="5" placeholder="Message" required="required" data-validation-required-message="Veuillez entrer un message"></textarea>
+                  <textarea class="form-control" id="message" rows="5" placeholder="Message" required="required"></textarea>
                   <p class="help-block text-danger"></p>
                 </div>
               </div>
@@ -251,27 +280,28 @@
           <div class="col-md-4 mb-lg-0">
             <h4 class="text-uppercase mb-4">Retrouvez moi sur ...</h4>
             <ul class="list-inline mb-0">
-              <li class="list-inline-item">
+
+              <li class="list-inline-item" title="Facebook">
                 <a class="btn btn-outline-light btn-social text-center rounded-circle" href="#">
                   <i class="fab fa-facebook-f"></i>
                 </a>
               </li>
-              <li class="list-inline-item">
+              <li class="list-inline-item" title="Twitter">
                 <a class="btn btn-outline-light btn-social text-center rounded-circle" href="#">
                   <i class="fab fa-twitter"></i>
                 </a>
               </li>
-              <li class="list-inline-item">
+              <li class="list-inline-item" title="Google+">
                 <a class="btn btn-outline-light btn-social text-center rounded-circle" href="#">
                   <i class="fab fa-google-plus-g"></i>
                 </a>
               </li>
-              <li class="list-inline-item">
+              <li class="list-inline-item" title="Linkedin">
                 <a class="btn btn-outline-light btn-social text-center rounded-circle" href="#">
                   <i class="fab fa-linkedin-in"></i>
                 </a>
               </li>
-              <li class="list-inline-item">
+              <li class="list-inline-item" title="Github">
                 <a class="btn btn-outline-light btn-social text-center rounded-circle" href="#">
                   <i class="fab fa-github"></i>
                 </a>
@@ -279,7 +309,7 @@
             </ul>
           </div>
           <div class="col-md-4 mt-5">
-            <a class="btn btn-md btn-outline-light" href="#">
+            <a class="btn btn-md btn-outline-light" href="login.html">
               <i class="fas fa-sign-in-alt"></i>
               Connexion
             </a>
