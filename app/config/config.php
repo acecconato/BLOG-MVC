@@ -8,5 +8,5 @@ return array(
     "db_password"   => "",
 
     "default_sql_type" => "mysql", // Default SQL type for creating database connections
-    "default_picture_posts_path"  => dirname(__DIR__, 2)."/public/image/posts" // Default path where pictures of posts are stocked
+    "default_picture_posts_path"  => ROOT . "/public/image/posts" // Default path where pictures of posts are stocked
 );
