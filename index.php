@@ -1,5 +1,6 @@
 <?php
 
+define("ROOT", dirname(__DIR__));
 require_once "vendor/autoload.php";
 
 use App\Router;
@@ -8,7 +9,7 @@ $router = new Router($_GET['url']);
 
 $router->get("/", "Frontend#showHome"); // Index page
 
-$router->get("/articles/:id", "Frontend#getPost")->with(":id", "#[0-9]+#"); // Show the post :id
+$router->get("/articles/:id", "Frontend#detailsOfPost")->with(":id", "#[0-9]+#"); // Show the post :id
 $router->post("/articles/:id/", "Frontend#addComment")->with(":id", "#[0-9]+#"); // Add a comment on the post :id
 
 $router->get("/articles", "Frontend#getAllPosts"); // Show all posts
