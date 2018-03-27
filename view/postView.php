@@ -58,7 +58,10 @@ $title = $post->getTitle();
                 <div class="card-body">
                     <form>
                         <div class="form-group">
-                            <textarea class="form-control" rows="3"></textarea>
+                            <input type="text" name="pseudo" placeholder="Pseudo" class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control" rows="3" placeholder="Message ..."></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">Envoyer</button>
                     </form>
@@ -73,18 +76,26 @@ $title = $post->getTitle();
 
         <?php
             if(!empty($comments)) {
-                foreach ($comments as $k => $comment) {
-
-                }
-            }
+                foreach ($comments as $comment) {
         ?>
 
-        <div class="col-12 media mb-4">
-            <div class="media-body">
-                <h5 class="mt-0"><?= $comment->getAuthor() ?></h5>
-                <?= $comment->getContent() ?>
+            <div class="col-12 media mb-4">
+                <div class="media-body">
+                    <h5 class="mt-0"><?= $comment->getAuthor() ?></h5>
+                    <p><?= $comment->getContent() ?></p>
+                </div>
             </div>
-        </div>
+
+        <?php
+                }
+            } else {
+        ?>
+             <div class="col-12 text-center">
+                 <p>Oups ... Il semblerait que personne ne soit passé par là !</p>
+             </div>
+        <?php
+            }
+        ?>
 
     </div>
 
