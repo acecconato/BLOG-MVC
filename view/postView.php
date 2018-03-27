@@ -1,9 +1,9 @@
 <?php
 
 /** @var \Model\Entities\Post $post */
-$title = $post->getTitle();
+/** @var \Model\Entities\Comment $comment */
 
-ob_start();
+$title = $post->getTitle();
 
 ?>
 
@@ -20,7 +20,7 @@ ob_start();
             <p>Posté le <b><?= $post->getCreationDate()?></b> par <b><?= $post->getAuthor() ?></b>
                 <?php
                     if(!is_null($post->getLastUpdate())) {
-                        echo "<span class=\"d-block\">Modifié le <b> " . $post->getLastUpdate() . "  </b></span>";
+                        echo "<span class=\"d-block\">Modifié le <b> " . $post->getLastUpdate() . "</b></span>";
                     }
                 ?>
             </p>
@@ -72,22 +72,12 @@ ob_start();
     <div class="row">
 
         <div class="col-12 media mb-4">
-            <img class="mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
             <div class="media-body">
-                <h5 class="mt-0">Commenter Name</h5>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus
-                viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                <h5 class="mt-0"><?= $comment->getAuthor() ?></h5>
+                <?= $comment->getContent() ?>
             </div>
         </div>
 
-        <div class="col-12 media mb-4">
-            <img class="mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-            <div class="media-body">
-                <h5 class="mt-0">Commenter Name</h5>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus
-                viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-            </div>
-        </div>
     </div>
 
     <hr>

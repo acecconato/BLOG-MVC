@@ -2,8 +2,6 @@
 
 $title = "Accueil";
 
-ob_start();
-
 ?>
     <!-- Header -->
     <header class="masthead bg-primary text-white text-center fullHeight">
@@ -214,11 +212,3 @@ ob_start();
         </div>
       </div>
     </section>
-
- <?php
-
-$content = ob_get_clean();
-
-require 'frontend.php';
-
-?>
