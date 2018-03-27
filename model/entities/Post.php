@@ -59,7 +59,7 @@ class Post extends Entity
     public function setPicture($path = null)
     {
         if(is_null($path)) {
-            $path = (Config::getInstance())->get("default_picture_posts_path");
+            $path = Config::getInstance()->get("default_picture_posts_path");
         }
         $this->picture = $path . "/" . $this->getPostId();
     }
