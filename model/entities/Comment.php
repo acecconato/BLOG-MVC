@@ -10,11 +10,22 @@ class Comment extends Entity
             $reason = null,
             $user_id,
             $post_id,
-            $status_id;
+            $status_id,
+            $author;
 
     public function __construct(array $data)
     {
         $this->hydrate($data);
+    }
+
+    public function setAuthor($author)
+    {
+        $this->author = $author;
+    }
+
+    public function getAuthor()
+    {
+        return $this->getAuthor();
     }
 
     public function setComment_id($id)
