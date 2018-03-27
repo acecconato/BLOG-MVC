@@ -71,6 +71,14 @@ $title = $post->getTitle();
     <!-- Comments list -->
     <div class="row">
 
+        <?php
+            if(!empty($comments)) {
+                foreach ($comments as $k => $comment) {
+
+                }
+            }
+        ?>
+
         <div class="col-12 media mb-4">
             <div class="media-body">
                 <h5 class="mt-0"><?= $comment->getAuthor() ?></h5>
@@ -82,11 +90,3 @@ $title = $post->getTitle();
 
     <hr>
 </div>
-
-<?php
-
-$content = ob_get_clean();
-
-require 'frontend.php';
-
-?>
