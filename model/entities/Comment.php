@@ -18,16 +18,6 @@ class Comment extends Entity
         $this->hydrate($data);
     }
 
-    public function setAuthor($author)
-    {
-        $this->author = $author;
-    }
-
-    public function getAuthor()
-    {
-        return $this->getAuthor();
-    }
-
     public function setComment_id($id)
     {
         $id = (int) $id;
@@ -67,6 +57,11 @@ class Comment extends Entity
         ($id >= 0) ? $this->status_id = $id : null;
     }
 
+    public function setAuthor($pseudo)
+    {
+        $this->author = $pseudo;
+    }
+
     public function getComment_id()
     {
         return $this->comment_id;
@@ -100,5 +95,10 @@ class Comment extends Entity
     public function getStatus_id()
     {
         return $this->status_id;
+    }
+
+    public function getAuthor()
+    {
+        return $this->author;
     }
 }
