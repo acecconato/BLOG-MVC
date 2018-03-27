@@ -3,6 +3,7 @@
 namespace Model\Managers;
 
 use Model\Entities\Comment;
+use Model\Entities\Post;
 
 class CommentsManager extends Manager
 {
@@ -86,6 +87,25 @@ class CommentsManager extends Manager
         return $result;
     }
 
+    public function getValidatedCommentsOfPost(Post $post)
+    {
+        $query = $this->dbh->prepare("
+            SELECT c.*, DATE_FORMAT(c.creationDate, '%d/%m/%y'), u.pseudo as author
+            FROM comments c
+            INNER JOIN posts p ON p.post_id = c.post_id
+            INNER JOIN users u ON u.user_id = c.user_id
+            WHERE c.post_id = :post
+            AND c.status_id = 2
+        ");
+
+        $query->bindValue(":post", $post->getPostId(), \PDO::PARAM_INT);
+
+        $query->execute();
+        $result = $query->fetchAll();
+        $query->closeCursor();
+        return $result;
+    }
+
     /**
      * @param $id
      * @return array
@@ -102,7 +122,7 @@ class CommentsManager extends Manager
             LEFT JOIN users u ON c.user_id = u.user_id
             INNER JOIN posts p ON c.post_id = p.post_id
             INNER JOIN status s ON c.status_id = s.status_id
-            WHERE c.comment_id = :id
+            WHERE p.post_id = :id
         ");
 
         $query->bindValue(":id", $id, \PDO::PARAM_INT);
