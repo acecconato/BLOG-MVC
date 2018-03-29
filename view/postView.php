@@ -1,9 +1,9 @@
 <?php
 
-/** @var \Model\Entities\Post $post */
-/** @var \Model\Entities\Comment $comment */
+    /** @var \Model\Entities\Post $post */
+    /** @var \Model\Entities\Comment $comment */
 
-$title = $post->getTitle();
+    $title = $post->getTitle();
 
 ?>
 
@@ -20,7 +20,7 @@ $title = $post->getTitle();
             <p>Posté le <b><?= $post->getCreationDate()?></b> par <b><?= $post->getAuthor() ?></b>
                 <?php
                     if(!is_null($post->getLastUpdate())) {
-                        echo "<span class=\"d-block\">Modifié le <b> " . $post->getLastUpdate() . "</b></span>";
+                        echo "<span class='d-block'>Modifié le <b> " . $post->getLastUpdate() . "</b></span>";
                     }
                 ?>
             </p>
@@ -28,15 +28,17 @@ $title = $post->getTitle();
             <hr>
 
             <!-- Post  title -->
-            <h2 class="text-center text-uppercase text-secondary mt-4"><?= $post->getSummary() ?></h2>
+            <h2 class="text-center text-uppercase text-secondary mt-4"><?= $post->getTitle() ?></h2>
             <hr class="star-dark mb-5">
         </div>
 
         <!-- Post image -->
         <div class="col-12 text-center">
-
-            <img class="img-fluid rounded" src="<?= $post->getPicture() ?>" alt="Image de présentation">
-
+            <?php
+                if($post->getPicture()) {
+                    echo "<img class='img-fluid rounded' src='". $post->getPicture() ."' alt='Image de l'article numéro'". $post->getPostId() ."'";
+                }
+            ?>
             <hr>
         </div>
 
@@ -56,12 +58,12 @@ $title = $post->getTitle();
             <div class="card my-4">
                 <h5 class="card-header">Laisser un commentaire</h5>
                 <div class="card-body">
-                    <form>
+                    <form action="" method="POST">
                         <div class="form-group">
                             <input type="text" name="pseudo" placeholder="Pseudo" class="form-control"/>
                         </div>
                         <div class="form-group">
-                            <textarea class="form-control" rows="3" placeholder="Message ..."></textarea>
+                            <textarea name="message" class="form-control" rows="3" placeholder="Message ..."></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">Envoyer</button>
                     </form>
