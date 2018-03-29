@@ -5,10 +5,12 @@ namespace Controller;
 use Model\Entities\Comment;
 use Model\Entities\Post;
 use Model\Managers\Manager;
+use Model\Managers\PostsManager;
 
 class FrontendController extends Controller
 {
     private $comments = [];
+    private $posts = [];
 
     public function __construct()
     {
@@ -42,7 +44,7 @@ class FrontendController extends Controller
 
         $comments = $this->comments;
 
-        $this->generatePage("post", compact("post", "comments"));
+        $this->generatePage("Post", compact("post", "comments"));
     }
 
     public function addComment()
@@ -52,7 +54,16 @@ class FrontendController extends Controller
 
     public function getAllPosts()
     {
+        /** @var PostsManager $postsManager */
+        $postsManager = Manager::getManagerOf("Posts");
+        $posts = $postsManager->getAllPosts();
 
+        foreach ($posts as $post) {
+            $this->posts[] = new Post($post);
+        }
+
+        $posts = $this->posts;
+        $this->generatePage("Blog", compact("posts"));
     }
 
     public function loginForm()
