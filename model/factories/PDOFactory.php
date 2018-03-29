@@ -12,7 +12,7 @@ abstract class PDOFactory
         try {
             switch ($type) {
                 case "mysql":
-                     return new \PDO("mysql:host=" . $cfg->get('db_hostname') . ";dbname=" . $cfg->get('db_name'), $cfg->get('db_user'), $cfg->get('db_password'));
+                     return new \PDO("mysql:host=" . $cfg->get('hostname') . ";dbname=" . $cfg->get('dbname'), $cfg->get('username'), $cfg->get('password'));
                 default:
                     throw new \PDOException("Database type not found");
             }

@@ -28,14 +28,14 @@ $title = $post->getTitle();
             <hr>
 
             <!-- Post  title -->
-            <h2 class="text-center text-uppercase text-secondary mt-4"><?= $post->getTitle() ?></h2>
+            <h2 class="text-center text-uppercase text-secondary mt-4"><?= $post->getSummary() ?></h2>
             <hr class="star-dark mb-5">
         </div>
 
         <!-- Post image -->
         <div class="col-12 text-center">
 
-            <img class="img-fluid rounded" src="https://wallpapercave.com/wp/dJUICq8.jpg" alt="Image de présentation">
+            <img class="img-fluid rounded" src="<?= $post->getPicture() ?>" alt="Image de présentation">
 
             <hr>
         </div>

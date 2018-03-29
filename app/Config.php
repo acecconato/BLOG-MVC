@@ -5,12 +5,21 @@ namespace App;
 class Config
 {
     private $settings = [];
+    private $configFile;
     private static $_instance;
 
     protected function __construct()
     {
         if(is_null(self::$_instance)) {
-            $this->settings = require dirname(__DIR__) . "/app/config/config.php";
+            $this->configFile = new \DOMDocument();
+            $this->configFile->load(__DIR__."/../app/config/configuration.xml");
+
+            $elements = $this->configFile->getElementsByTagName("*");
+
+            /** @var \DOMElement $element */
+            foreach ($elements as $element) {
+                $this->settings[$element->getAttribute("var")] = $element->getAttribute("value");
+            }
         }
     }
 
