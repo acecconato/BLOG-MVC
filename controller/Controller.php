@@ -20,8 +20,8 @@ abstract class Controller
             $view = $nameExploded[1];
         }
 
-        $templateToLoad = "/view/" . strtolower($template ) . ".php";
-        $viewToLoad = "/view/" . strtolower($view ) . "View.php";
+        $templateToLoad = ROOT . "/view/" . strtolower($template ) . ".php";
+        $viewToLoad = ROOT . "/view/" . strtolower($view ) . "View.php";
 
         ob_start();
         extract($args);
