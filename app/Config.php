@@ -11,14 +11,12 @@ class Config
     protected function __construct()
     {
         if(is_null(self::$_instance)) {
-            $this->configFile = new \DOMDocument();
-            $this->configFile->load(__DIR__."/../app/config/configuration.xml");
+            $this->configFile = yaml_parse_file(ROOT . "/app/config/config.yaml");
 
-            $elements = $this->configFile->getElementsByTagName("*");
-
-            /** @var \DOMElement $element */
-            foreach ($elements as $element) {
-                $this->settings[$element->getAttribute("var")] = $element->getAttribute("value");
+            foreach ($this->configFile as $key => $value) {
+                foreach ($value as $k => $v) {
+                    $this->settings[$k] = $v;
+                }
             }
         }
     }
@@ -31,9 +29,19 @@ class Config
         return self::$_instance;
     }
 
+    public function getAllowedPostsImgType()
+    {
+        $allowedTypes = [];
+        foreach ($this->settings["postsImg"] as $type) {
+            $allowedTypes[] = constant("IMAGETYPE_".strtoupper($type));
+        }
+
+        return $allowedTypes;
+    }
+
     public function get($key) {
-        if(!isset($this->settings[$key])) {
-            return null;
+        if(!array_key_exists($key, $this->settings)) {
+            return false;
         }
         return $this->settings[$key];
     }
