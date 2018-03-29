@@ -2,7 +2,7 @@
 
 namespace Model\Entities;
 
-use App\Config;
+use App\Picture;
 
 class Post extends Entity
 {
@@ -18,6 +18,15 @@ class Post extends Entity
     public function __construct(array $data)
     {
         $this->hydrate($data);
+    }
+
+    public function hasPicture()
+    {
+        if(!file_exists($this->picture)) {
+            return false;
+        }
+
+        return true;
     }
 
     public function setPost_id($id)
@@ -56,13 +65,22 @@ class Post extends Entity
         }
     }
 
-    public function setPicture($path = null)
+    /**
+     * @param null $file
+     * @return bool
+     * @throws \Exception
+     */
+    public function setPicture($file = null)
     {
-        if(is_null($path)) {
-            $path = Config::getInstance()->get("default_picture_posts_path");
+        if(!is_null($file)) {
+            try {
+                $this->picture = Picture::getPostPicture($file);
+            } catch (\Exception $e) {
+                die("Error: " . $e->getMessage());
+            }
         }
-        $this->picture = $path . "/" . $this->getPostId();
-    }
+            return false;
+        }
 
     public function setLastUpdate($date)
     {
