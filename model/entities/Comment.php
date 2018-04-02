@@ -8,7 +8,6 @@ class Comment extends Entity
             $content,
             $creationDate,
             $reason = null,
-            $user_id,
             $post_id,
             $status_id,
             $author;
@@ -18,10 +17,20 @@ class Comment extends Entity
         $this->hydrate($data);
     }
 
+    public function verifyCommentData($data)
+    {
+        $author = $data["author"];
+        $content = $data["content"];
+        $post_id = $data["post_id"];
+
+        // Créer un Error manager puis faire les vérifications
+
+        return true;
+    }
+
     public function setComment_id($id)
     {
-        $id = (int) $id;
-        ($id >= 0) ? $this->comment_id = $id : null;
+        $this->comment_id = $id;
     }
 
     public function setContent($content)
@@ -39,22 +48,14 @@ class Comment extends Entity
         $this->reason = $reason;
     }
 
-    public function setUser_id($id)
-    {
-        $id = (int) $id;
-        ($id >= 0) ? $this->user_id = $id : null;
-    }
-
     public function setPost_id($id)
     {
-        $id = (int) $id;
-        ($id >= 0) ? $this->post_id = $id : null;
+        $this->post_id = $id;
     }
 
     public function setStatus_id($id)
     {
-        $id = (int) $id;
-        ($id >= 0) ? $this->status_id = $id : null;
+        $this->status_id = $id;
     }
 
     public function setAuthor($pseudo)
@@ -81,11 +82,6 @@ class Comment extends Entity
     {
         return $this->reason;
     }
-
-   public function getUser_id()
-   {
-       return $this->user_id;
-   }
 
    public function getPost_id()
    {
