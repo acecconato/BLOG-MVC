@@ -4,6 +4,7 @@ namespace Controller;
 
 use Model\Entities\Comment;
 use Model\Entities\Post;
+use Model\Managers\CommentsManager;
 use Model\Managers\Manager;
 use Model\Managers\PostsManager;
 
@@ -47,9 +48,26 @@ class FrontendController extends Controller
         $this->generatePage("Post", compact("post", "comments"));
     }
 
-    public function addComment()
+    public function addComment($post_id)
     {
+        /** @var CommentsManager $commentsManager */
+        $commentsManager = Manager::getManagerOf("Comments");
 
+        if(!$_POST["submit"]) {
+            throw new \InvalidArgumentException("Unable find the form");
+        }
+
+        $data = [
+            "author" => $_POST["pseudo"],
+            "content" => $_POST["content"],
+            "post_id" => $post_id
+        ];
+
+        $comment = new Comment($data);
+
+        $verifyResult = $comment->verifyCommentData($data);
+
+        $commentsManager->addComment($comment);
     }
 
     public function getAllPosts()
