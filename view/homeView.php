@@ -25,10 +25,6 @@ $title = "Accueil";
           <div class="row">
             <div class="col-12">
               <p>
-                J'ai fait trois ans d'apprentissage en mécanique automobile avant de me réorienter vers le développement informatique, un milieu qui me passionne
-                depuis mon adolescence.
-              </p>
-              <p>
                 Je suis actuellement inscrit à la formation "Développeur d'application PHP / Symfony" du MOOC Openclassrooms, qui propose un diplôme enregistré au RNCP,
                 de niveau 2 et reconnu par l'État.
               </p>
@@ -156,7 +152,7 @@ $title = "Accueil";
               <i class="far fa-envelope"></i>
               Contactez-moi !
             </a>
-            <a class="btn btn-xl btn-outline-dark mb-1" href="blog.html">
+            <a class="btn btn-xl btn-outline-dark mb-1" href="/articles">
               <i class="fas fa-eye"></i>
               Voir le blog
             </a>

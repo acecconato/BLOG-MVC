@@ -35,7 +35,7 @@
         <!-- Post image -->
         <div class="col-12 text-center">
             <?php
-                if($post->getPicture()) {
+                if($post->hasPicture()) {
                     echo "<img class='img-fluid rounded' src='". $post->getPicture() ."' alt='Image de l'article numéro'". $post->getPostId() ."'";
                 }
             ?>
@@ -65,7 +65,7 @@
                         <div class="form-group">
                             <textarea name="message" class="form-control" rows="3" placeholder="Message ..."></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Envoyer</button>
+                        <button type="submit" name="submit" value="submit" class="btn btn-primary">Envoyer</button>
                     </form>
                 </div>
             </div>

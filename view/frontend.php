@@ -1,3 +1,13 @@
+<?php
+    if(empty($_GET['url'])) {
+        $scroll = "js-scroll-trigger";
+        $index = "";
+    } else {
+        $scroll = "";
+        $index = "/";
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -39,19 +49,19 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item mx-auto">
-                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/">Accueil</a>
+                    <a class="nav-link py-3 px-0 px-lg-3 rounded <?= $scroll ?>" href="<?= $index ?>">Accueil</a>
                 </li>
                 <li class="nav-item mx-auto">
-                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/#about">Présentation</a>
+                    <a class="nav-link py-3 px-0 px-lg-3 rounded <?= $scroll ?>" href="<?= $index ?>#about">Présentation</a>
                 </li>
                 <li class="nav-item mx-auto">
-                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/#skills">Compétences</a>
+                    <a class="nav-link py-3 px-0 px-lg-3 rounded <?= $scroll ?>" href="<?= $index ?>#skills">Compétences</a>
                 </li>
                 <li class="nav-item mx-auto">
-                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#contact">Contact</a>
+                    <a class="nav-link py-3 px-0 px-lg-3 rounded <?= $scroll ?>" href="<?= $index ?>#contact">Contact</a>
                 </li>
                 <li class="nav-item mx-auto">
-                    <a class="nav-link py-3 px-0 px-lg-3 rounded" href="blog.html">Le blog</a>
+                    <a class="nav-link py-3 px-0 px-lg-3 rounded" href="/articles">Le blog</a>
                 </li>
             </ul>
         </div>
@@ -74,34 +84,34 @@
                 <ul class="list-inline mb-0">
 
                     <li class="list-inline-item" title="Facebook">
-                        <a class="btn btn-outline-light btn-social text-center rounded-circle" href="#">
+                        <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://www.facebook.com/anthony.cecconato" target="_blank">
                             <i class="fab fa-facebook-f"></i>
                         </a>
                     </li>
                     <li class="list-inline-item" title="Twitter">
-                        <a class="btn btn-outline-light btn-social text-center rounded-circle" href="#">
+                        <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://twitter.com/Deediezi" target="_blank">
                             <i class="fab fa-twitter"></i>
                         </a>
                     </li>
                     <li class="list-inline-item" title="Google+">
-                        <a class="btn btn-outline-light btn-social text-center rounded-circle" href="#">
+                        <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://plus.google.com/106535854473464015009" target="_blank">
                             <i class="fab fa-google-plus-g"></i>
                         </a>
                     </li>
                     <li class="list-inline-item" title="Linkedin">
-                        <a class="btn btn-outline-light btn-social text-center rounded-circle" href="#">
+                        <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://www.linkedin.com/in/anthony-cecconato/" target="_blank">
                             <i class="fab fa-linkedin-in"></i>
                         </a>
                     </li>
                     <li class="list-inline-item" title="Github">
-                        <a class="btn btn-outline-light btn-social text-center rounded-circle" href="#">
+                        <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://github.com/Deediezi" target="_blank">
                             <i class="fab fa-github"></i>
                         </a>
                     </li>
                 </ul>
             </div>
             <div class="col-md-4 mt-5">
-                <a class="btn btn-md btn-outline-light" href="login.html">
+                <a class="btn btn-md btn-outline-light" href="/connexion">
                     <i class="fas fa-sign-in-alt"></i>
                     Connexion
                 </a>
@@ -119,19 +129,19 @@
 
 
 <!-- Bootstrap core JavaScript -->
-<script src="public/vendor/jquery/jquery.min.js"></script>
-<script src="public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/public/vendor/jquery/jquery.min.js"></script>
+<script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- Plugin JavaScript -->
-<script src="public/vendor/jquery-easing/jquery.easing.min.js"></script>
-<script src="public/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
+<script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="/public/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
 
 <!-- Contact Form JavaScript -->
-<script src="public/js/jqBootstrapValidation.js"></script>
-<script src="public/js/contact_me.js"></script>
+<script src="/public/js/jqBootstrapValidation.js"></script>
+<script src="/public/js/contact_me.js"></script>
 
 <!-- Custom scripts for this template -->
-<script src="public/js/freelancer.min.js"></script>
+<script src="/public/js/freelancer.min.js"></script>
 
 
 </body>
