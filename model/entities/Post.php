@@ -22,10 +22,9 @@ class Post extends Entity
 
     public function hasPicture()
     {
-        if(!file_exists($this->picture)) {
+        if(is_null($this->picture)) {
             return false;
         }
-
         return true;
     }
 
@@ -79,8 +78,8 @@ class Post extends Entity
                 die("Error: " . $e->getMessage());
             }
         }
-            return false;
-        }
+        return false;
+    }
 
     public function setLastUpdate($date)
     {
