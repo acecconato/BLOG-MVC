@@ -29,4 +29,21 @@ abstract class Controller
         $content = ob_get_clean();
         require $templateToLoad;
     }
+
+    /**
+     * @param $name
+     * @param array $args
+     * @throws \Exception
+     */
+    protected function generateBlankPage($name, $args = [])
+    {
+        $viewToLoad = ROOT . "/view/" . strtolower($name) . "View.php";
+
+        if(!file_exists($viewToLoad)) {
+            throw new \Exception("View doesn't exist");
+        }
+
+        extract($args);
+        require $viewToLoad;
+    }
 }
