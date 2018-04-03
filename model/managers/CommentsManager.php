@@ -14,12 +14,11 @@ class CommentsManager extends Manager
     public function getAllComments()
     {
         $query = $this->dbh->prepare("
-            SELECT  c.comment_id, c.content, c.creationDate, c.reason, DATE_FORMAT(c.creationDate, '%d/%m/%y à %Hh%i') as creationDate,
-                    u.user_id, u.pseudo, u.email,
+            SELECT  c.*, 
+            DATE_FORMAT(c.creationDate, '%d/%m/%y à %Hh%i') as creationDate,
                     p.post_id,
                     s.status_id
             FROM comments c
-            LEFT JOIN users u ON c.user_id = u.user_id
             INNER JOIN posts p ON c.post_id = p.post_id
             INNER JOIN status s ON c.status_id = s.status_id
         ");
@@ -38,12 +37,11 @@ class CommentsManager extends Manager
     public function getLatestCommentsWithLimit($limit)
     {
         $query = $this->dbh->prepare("
-            SELECT  c.comment_id, c.content, c.creationDate, c.reason, DATE_FORMAT(c.creationDate, '%d/%m/%y à %Hh%i') as creationDate,
-                    u.user_id, u.pseudo, u.email,
+            SELECT  c.*,
+            DATE_FORMAT(c.creationDate, '%d/%m/%y à %Hh%i') as creationDate,
                     p.post_id,
                     s.status_id
             FROM comments c
-            LEFT JOIN users u ON c.user_id = u.user_id
             INNER JOIN posts p ON c.post_id = p.post_id
             INNER JOIN status s ON c.status_id = s.status_id
             ORDER BY c.comment_id DESC LIMIT :limit
@@ -66,12 +64,11 @@ class CommentsManager extends Manager
     public function getLatestCommentBetween($a, $b)
     {
         $query = $this->dbh->prepare("
-            SELECT  c.comment_id, c.content, c.creationDate, c.reason, DATE_FORMAT(c.creationDate, '%d/%m/%y à %Hh%i') as creationDate,
-                    u.user_id, u.pseudo, u.email,
+            SELECT  c.*, 
+            DATE_FORMAT(c.creationDate, '%d/%m/%y à %Hh%i') as creationDate,
                     p.post_id,
                     s.status_id
             FROM comments c
-            LEFT JOIN users u ON c.user_id = u.user_id
             INNER JOIN posts p ON c.post_id = p.post_id
             INNER JOIN status s ON c.status_id = s.status_id
             WHERE c.comment_id BETWEEN :a AND :b
@@ -90,10 +87,9 @@ class CommentsManager extends Manager
     public function getValidatedCommentsOfPost(Post $post)
     {
         $query = $this->dbh->prepare("
-            SELECT c.*, DATE_FORMAT(c.creationDate, '%d/%m/%y'), u.pseudo as author
+            SELECT c.*, DATE_FORMAT(c.creationDate, '%d/%m/%y')
             FROM comments c
             INNER JOIN posts p ON p.post_id = c.post_id
-            INNER JOIN users u ON u.user_id = c.user_id
             WHERE c.post_id = :post
             AND c.status_id = 2
         ");
@@ -114,12 +110,11 @@ class CommentsManager extends Manager
     public function getCommentById($id)
     {
         $query = $this->dbh->prepare("
-            SELECT  c.comment_id, c.content, c.creationDate, c.reason, DATE_FORMAT(c.creationDate, '%d/%m/%y à %Hh%i') as creationDate,
-                    u.user_id, u.pseudo, u.email,
+            SELECT  c.*, 
+            DATE_FORMAT(c.creationDate, '%d/%m/%y à %Hh%i') as creationDate,
                     p.post_id,
                     s.status_id
             FROM comments c
-            LEFT JOIN users u ON c.user_id = u.user_id
             INNER JOIN posts p ON c.post_id = p.post_id
             INNER JOIN status s ON c.status_id = s.status_id
             WHERE p.post_id = :id
@@ -141,17 +136,17 @@ class CommentsManager extends Manager
     {
         $query = $this->dbh->prepare("
             INSERT INTO comments
-            (content, user_id, post_id, status_id)
+            (content, post_id, author)
             VALUES
-            (:content, :user_id, :post_id, :status_id)
+            (:content, :post_id, :author)
         ");
 
         $query->bindValue(":content", $comment->getContent(), \PDO::PARAM_STR);
-        $query->bindValue(":user_id", $comment->getUser_id(), \PDO::PARAM_INT);
         $query->bindValue(":post_id", $comment->getPost_id(), \PDO::PARAM_INT);
-        $query->bindValue(":status_id", $comment->getStatus_id(), \PDO::PARAM_INT);
+        $query->bindValue(":author", $comment->getAuthor(), \PDO::PARAM_STR);
 
         $query->execute();
+
         return $affectedLines = $query->rowCount();
     }
 

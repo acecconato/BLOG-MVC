@@ -9,7 +9,7 @@ class PostsManager extends Manager
     public function getAllPosts()
     {
         $query = $this->dbh->prepare("
-            SELECT  posts.post_id, posts.title, posts.summary, posts.picture,
+            SELECT  posts.*,
                     DATE_FORMAT(posts.creationDate, '%d/%m/%y à %Hh%i') as creationDate, 
                     DATE_FORMAT(posts.lastUpdate, '%d/%m/%y à %Hh%i') as lastUpdate,
                     u.pseudo as author
@@ -25,7 +25,7 @@ class PostsManager extends Manager
     public function getPostsBetween($a, $b)
     {
         $query = $this->dbh->prepare("
-            SELECT  posts.post_id, posts.title, posts.summary, posts.picture,
+            SELECT  posts.*,
                     DATE_FORMAT(posts.creationDate, '%d/%m/%y à %Hh%i') as creationDate, 
                     DATE_FORMAT(posts.lastUpdate, '%d/%m/%y à %Hh%i') as lastUpdate,
                     u.pseudo as author
@@ -47,7 +47,7 @@ class PostsManager extends Manager
     public function getAllPostsWithLimit($limit)
     {
         $query = $this->dbh->prepare("
-            SELECT  posts.post_id, posts.title, posts.summary, posts.picture,
+            SELECT  posts.*,
                     DATE_FORMAT(posts.creationDate, '%d/%m/%y à %Hh%i') as creationDate, 
                     DATE_FORMAT(posts.lastUpdate, '%d/%m/%y à %Hh%i') as lastUpdate,
                     u.pseudo as author
@@ -85,13 +85,12 @@ class PostsManager extends Manager
     {
         $query = $this->dbh->prepare("
             INSERT INTO posts
-            (title, summary, content, picture, user_id)
+            (title, content, picture, user_id)
             VALUES 
-            (:title, :summary, :content, :picture, :author)
+            (:title, :content, :picture, :author)
         ");
 
         $query->bindValue(":title", $post->getTitle(), \PDO::PARAM_STR);
-        $query->bindValue(":summary", $post->getSummary(), \PDO::PARAM_STR);
         $query->bindValue(":content", $post->getContent(), \PDO::PARAM_STR);
         $query->bindValue(":picture", $post->getPicture(), \PDO::PARAM_STR);
         $query->bindValue(":author", $post->getAuthor(), \PDO::PARAM_STR);
@@ -104,12 +103,11 @@ class PostsManager extends Manager
     {
         $query = $this->dbh->prepare("
             UPDATE posts
-            SET title = :title, summary = :summary, content = :content, picture = :picture, lastUpdate = NOW()
+            SET title = :title, content = :content, picture = :picture, lastUpdate = NOW()
             WHERE post_id = :post_id
         ");
 
         $query->bindValue(":title", $post->getTitle(), \PDO::PARAM_STR);
-        $query->bindValue(":summary", $post->getSummary(), \PDO::PARAM_STR);
         $query->bindValue(":content", $post->getContent(), \PDO::PARAM_STR);
         $query->bindValue(":picture", $post->getPicture(), \PDO::PARAM_STR);
         $query->bindValue(":post_id", $post->getPostId(), \PDO::PARAM_INT);
