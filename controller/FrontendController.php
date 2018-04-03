@@ -26,8 +26,34 @@ class FrontendController extends Controller
     public function detailsOfPost($id)
     {
         /** @var \Model\Managers\PostsManager $postsManager */
-        $postsManager = Manager::getManagerOf("Posts");
         /** @var \Model\Managers\CommentsManager $commentsManager */
+
+        $postsManager = Manager::getManagerOf("Posts");
+        $commentsManager = Manager::getManagerOf("Comments");
+
+        $postData = $postsManager->getPostById($id);
+
+        if(!is_array($postData)) {
+            header("Location: /articles");
+        }
+
+        $post = new Post($postData);
+        $validatedComments = $commentsManager->getValidatedCommentsOfPost($post);
+
+        foreach ($validatedComments as $key => $data) {
+            $this->comments[] = new Comment($data);
+        }
+
+        $comments = $this->comments;
+        $this->generatePage("Post", compact("post", "comments"));
+    }
+
+    public function addComment($id)
+    {
+        /** @var \Model\Managers\PostsManager $postsManager */
+        /** @var \Model\Managers\CommentsManager $commentsManager */
+
+        $postsManager = Manager::getManagerOf("Posts");
         $commentsManager = Manager::getManagerOf("Comments");
 
         $postData = $postsManager->getPostById($id);
@@ -45,29 +71,33 @@ class FrontendController extends Controller
 
         $comments = $this->comments;
 
-        $this->generatePage("Post", compact("post", "comments"));
-    }
-
-    public function addComment($post_id)
-    {
-        /** @var CommentsManager $commentsManager */
-        $commentsManager = Manager::getManagerOf("Comments");
-
-        if(!$_POST["submit"]) {
-            throw new \InvalidArgumentException("Unable find the form");
+        if(!isset($_POST["submit"])) {
+            throw new \InvalidArgumentException("No data found");
         }
 
-        $data = [
-            "author" => $_POST["pseudo"],
-            "content" => $_POST["content"],
-            "post_id" => $post_id
-        ];
+        $pseudo = strip_tags(trim($_POST["pseudo"]));
+        $message = strip_tags(trim($_POST["message"]));
 
-        $comment = new Comment($data);
+        if(!isset($pseudo) || empty($pseudo) || !isset($message) || empty($message)) {
+            $msg["warning"] = "Vous devez remplir tous les champs";
+        }
 
-        $verifyResult = $comment->verifyCommentData($data);
+        if(strlen($pseudo) > 50) {
+            $msg["warning"] = "Le pseudo ne doit pas dépasser 50 caractères";
+        }
 
-        $commentsManager->addComment($comment);
+        if(!isset($msg["error"]) && !isset($msg["warning"])) {
+            $comment = new Comment(["content" => $message, "author" => $pseudo, "post_id" => $id]);
+            $result = $commentsManager->addComment($comment);
+        }
+
+        if ($result > 0) {
+            $msg["success"] = "Le commentaire a bien été ajouté ! Il est désormais en attende de modération";
+        } else {
+            $msg["error"] = "Impossible d'ajouter le commentaire";
+        }
+
+        $this->generatePage("Post", compact("msg", "post", "comments"));
     }
 
     public function getAllPosts()
