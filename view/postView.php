@@ -52,13 +52,13 @@
     </div>
 
     <!-- Comments section -->
-    <div class="row">
+    <div class="row" id="form">
         <div class="col-sm-12 col-md-10 col-lg-8 mx-auto text-center">
 
             <div class="card my-4">
                 <h5 class="card-header">Laisser un commentaire</h5>
                 <div class="card-body">
-                    <form action="" method="POST">
+                    <form action="#form" method="POST">
                         <div class="form-group">
                             <input type="text" name="pseudo" placeholder="Pseudo" class="form-control"/>
                         </div>
@@ -69,6 +69,10 @@
                     </form>
                 </div>
             </div>
+
+            <?= (isset($msg["error"])) ? '<p class="bg-danger">'.$msg["error"].'</p>' : null ?>
+            <?= (isset($msg["warning"])) ? '<p class="bg-warning">'.$msg["warning"].'</p>' : null ?>
+            <?= (isset($msg["success"])) ? '<p class="bg-success">'.$msg["success"].'</p>' : null ?>
 
         </div>
     </div>
