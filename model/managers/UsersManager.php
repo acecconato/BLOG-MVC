@@ -6,6 +6,26 @@ use Model\Entities\User;
 
 class UsersManager extends Manager
 {
+    public function connectionQuery($identifier, $pass)
+    {
+        $query = $this->dbh->prepare("
+            SELECT pseudo, email, password
+            FROM users
+            WHERE pseudo = :identifier OR email = :identifier
+        ");
+
+        $query->bindValue(":identifier", $identifier, \PDO::PARAM_STR);
+
+        $query->execute();
+        $result = $query->fetch();
+
+        if(password_verify($pass, $result["password"])) {
+            return $result;
+        }
+
+        return false;
+    }
+
     public function getAllUsers()
     {
         $query = $this->dbh->prepare("
@@ -40,7 +60,7 @@ class UsersManager extends Manager
         $query->bindValue(":email", $user, \PDO::PARAM_STR);
 
         $query->execute();
-        $result = $query->fetchAll();
+        $result = $query->fetch();
         $query->closeCursor();
         return $result;
     }
