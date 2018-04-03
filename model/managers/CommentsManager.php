@@ -92,6 +92,7 @@ class CommentsManager extends Manager
             INNER JOIN posts p ON p.post_id = c.post_id
             WHERE c.post_id = :post
             AND c.status_id = 2
+            ORDER BY c.comment_id DESC
         ");
 
         $query->bindValue(":post", $post->getPostId(), \PDO::PARAM_INT);
