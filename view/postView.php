@@ -60,19 +60,23 @@
                 <div class="card-body">
                     <form action="#form" method="POST">
                         <div class="form-group">
-                            <input type="text" name="pseudo" placeholder="Pseudo" class="form-control"/>
+                            <input type="text" name="author" placeholder="Pseudo" class="form-control"/>
                         </div>
                         <div class="form-group">
-                            <textarea name="message" class="form-control" rows="3" placeholder="Message ..."></textarea>
+                            <textarea name="content" class="form-control" rows="3" placeholder="Message ..."></textarea>
                         </div>
                         <button type="submit" name="submit" value="submit" class="btn btn-primary">Envoyer</button>
                     </form>
                 </div>
             </div>
 
-            <?= (isset($msg["error"])) ? '<p class="bg-danger">'.$msg["error"].'</p>' : null ?>
-            <?= (isset($msg["warning"])) ? '<p class="bg-warning">'.$msg["warning"].'</p>' : null ?>
-            <?= (isset($msg["success"])) ? '<p class="bg-success">'.$msg["success"].'</p>' : null ?>
+            <?php
+                if(isset($msg)) {
+                    foreach ($msg as $type => $msg) {
+                        echo "<p class='bg-".$type."'>".$msg."</p>";
+                    }
+                }
+            ?>
 
         </div>
     </div>
