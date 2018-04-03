@@ -9,7 +9,6 @@ class Post extends Entity
     private $post_id,
             $creationDate,
             $title,
-            $summary,
             $content,
             $picture,
             $lastUpdate,
@@ -30,38 +29,22 @@ class Post extends Entity
 
     public function setPost_id($id)
     {
-        $id = (int) $id;
-        if(is_int($id) && $id >= 0) {
-            $this->post_id = $id;
-        }
+        $this->post_id = $id;
     }
 
     public function setCreationDate($date)
     {
-        if(!empty($date)) {
-            $this->creationDate = $date;
-        }
+        $this->creationDate = $date;
     }
 
     public function setTitle($title)
     {
-        if(is_string($title) && !empty($title)) {
-            $this->title = $title;
-        }
-    }
-
-    public function setSummary($summary)
-    {
-        if(is_string($summary) && !empty($summary)) {
-            $this->summary = $summary;
-        }
+        $this->title = $title;
     }
 
     public function setContent($content)
     {
-        if(is_string($content) && !empty($content)) {
-            $this->content = $content;
-        }
+        $this->content = $content;
     }
 
     /**
@@ -111,7 +94,7 @@ class Post extends Entity
     }
     public function getSummary()
     {
-        return $this->summary;
+        return substr_replace($this->content, " ...", 150);
     }
 
     public function getContent()
