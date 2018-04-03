@@ -4,9 +4,10 @@ namespace Controller;
 
 use Model\Entities\Comment;
 use Model\Entities\Post;
-use Model\Managers\CommentsManager;
+use Model\Entities\User;
 use Model\Managers\Manager;
 use Model\Managers\PostsManager;
+use Model\Managers\UsersManager;
 
 class FrontendController extends Controller
 {
@@ -20,7 +21,7 @@ class FrontendController extends Controller
 
     public function showHome()
     {
-        $this->generatePage("home");
+        $this->generatePage("Home");
     }
 
     public function detailsOfPost($id)
@@ -116,11 +117,43 @@ class FrontendController extends Controller
 
     public function loginForm()
     {
-
+        try {
+            $this->generateBlankPage("Login");
+        } catch (\Exception $e) {
+            die("Error : " . $e->getMessage());
+        }
     }
 
     public function loginValidation()
     {
+        if (!isset($_POST["submit"])) {
+            throw new \InvalidArgumentException("No data found");
+        }
 
+        $identifier = $_POST["identifier"];
+        $password = $_POST["password"];
+
+        if (!isset($identifier) || !isset($password) || empty($identifier) || empty($password)) {
+            $msg["warning"] = "Vous devez remplir tous les champs";
+        }
+
+        /** @var UsersManager $usersManager */
+        $usersManager = Manager::getManagerOf("Users");
+        $result = $usersManager->connectionQuery($identifier, $password);
+
+        if (!is_array($result)) {
+            $msg["danger"] = "L'identifiant et/ou le mot de passe ne correspondent pas";
+        } else {
+            $userData = $usersManager->getUser($result["pseudo"]);
+            $user = new User($userData);
+            $_SESSION["connected"] = true;
+            $_SESSION["user"] = serialize($user);
+        }
+
+        try {
+            $this->generateBlankPage("Login", compact("msg"));
+        } catch (\Exception $e) {
+            die("Error : " . $e->getMessage());
+        }
     }
 }
