@@ -3,9 +3,11 @@
 namespace Controller;
 
 use App\Helper;
-use Model\Entities\Post;
+use Model\Entities\Comment;
+use Model\Entities\User;
 use Model\Factories\PostFactory;
 use Model\Factories\CommentFactory;
+use Model\Factories\UserFactory;
 use Model\Managers\CommentsManager;
 use Model\Managers\Manager;
 
@@ -54,7 +56,11 @@ class FrontendController extends Controller
         $verification = Helper::verifyComment($commentToAdd);
 
         if($verification === true) {
-             $affectedLines = CommentFactory::addComment($commentToAdd);
+            /** @var CommentsManager $commentsManager */
+            $commentsManager = Manager::getManagerOf("Comments");
+            $comment = new Comment($commentToAdd);
+
+            $affectedLines = $commentsManager->addComment($comment);
              if($affectedLines < 1) {
                  $msg["danger"] = "Une erreur est survenu";
              }
@@ -68,55 +74,66 @@ class FrontendController extends Controller
 
     public function getAllPosts()
     {
-        /** @var PostsManager $postsManager */
-        $postsManager = Manager::getManagerOf("Posts");
-        $posts = $postsManager->getAllPosts();
-
-        foreach ($posts as $post) {
-            $this->posts[] = new Post($post);
-        }
-
-        $posts = $this->posts;
+        $posts = PostFactory::getAllPosts();
         $this->generatePage("Blog", compact("posts"));
     }
 
     public function loginForm()
     {
+        if(Helper::sessionExist() === true) {
+            /** @var User $user */
+            $user = unserialize($_SESSION["userObject"]);
+            if($user->getPermissionLevel() == 10) {
+                return header("Location: /admin");
+            }
+            return header("Location: /");
+        }
+
         try {
-            $this->generateBlankPage("Login");
+            $this->generateViewOnly("Login");
         } catch (\Exception $e) {
             die("Error : " . $e->getMessage());
         }
     }
 
+    public function unsetSession()
+    {
+        unset($_SESSION["userObject"]);
+        session_destroy();
+
+        header("Location: /connexion");
+    }
+
     public function loginValidation()
     {
         if (!isset($_POST["submit"])) {
-            throw new \InvalidArgumentException("No data found");
+            throw new \InvalidArgumentException("No form data found");
         }
 
-        $identifier = $_POST["identifier"];
-        $password = $_POST["password"];
+        $formData = $_POST;
 
-        if (!isset($identifier) || !isset($password) || empty($identifier) || empty($password)) {
-            $msg["warning"] = "Vous devez remplir tous les champs";
-        }
+        $verifiedFormData = Helper::secureData($formData);
+        $verification = Helper::verifyLoginForm($verifiedFormData);
 
-        /** @var UsersManager $usersManager */
-        $usersManager = Manager::getManagerOf("Users");
-        $result = $usersManager->connectionQuery($identifier, $password);
+        if($verification === true) {
+            $identifier = $verifiedFormData["identifier"];
+            $password = $verifiedFormData["password"];
+            /** @var User $user */
+            $user = UserFactory::tryConnectUser($identifier, $password);
 
-        if (!is_array($result)) {
-            $msg["danger"] = "L'identifiant et/ou le mot de passe ne correspondent pas";
+            if(!is_object($user)) {
+                $msg = $user;
+            } else {
+                $_SESSION["userObject"] = serialize($user);
+                header("Location: /connexion");
+            }
+
         } else {
-            $userData = $usersManager->getUser($result["pseudo"]);
-            $user = new User($userData);
-            $_SESSION["connected"] = true;
-            $_SESSION["user"] = serialize($user);
+            $msg = $verification;
         }
 
         try {
-            $this->generateBlankPage("Login", compact("msg"));
+            $this->generateViewOnly("Login", compact("msg"));
         } catch (\Exception $e) {
             die("Error : " . $e->getMessage());
         }

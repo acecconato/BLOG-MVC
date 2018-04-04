@@ -26,4 +26,18 @@
 
             return $post;
         }
+
+        public static function getAllPosts()
+        {
+            /** @var PostsManager $postsManager */
+            $postsManager = Manager::getManagerOf("Posts");
+            $allPosts = $postsManager->getAllPosts();
+
+            $posts = [];
+            foreach ($allPosts as $post) {
+                $posts[] = new Post($post);
+            }
+
+            return $posts;
+        }
     }

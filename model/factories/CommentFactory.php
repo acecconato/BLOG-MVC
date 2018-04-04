@@ -9,12 +9,6 @@
 
     class CommentFactory
     {
-        public function __construct()
-        {
-            $this->commentsManager = Manager::getManagerOf("Comments");
-            $this->postsManager = Manager::getManagerOf("Posts");
-        }
-
         public static function getValidatedCommentsOfPost(Post $post)
         {
             /** @var CommentsManager $commentsManager */
@@ -27,14 +21,5 @@
             }
 
             return $validatedComments;
-        }
-
-        public static function addComment($commentToAdd)
-        {
-            /** @var CommentsManager $commentsManager */
-            $commentsManager = Manager::getManagerOf("Comments");
-            $comment = new Comment($commentToAdd);
-
-            return $commentsManager->addComment($comment);
         }
     }

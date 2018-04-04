@@ -6,7 +6,7 @@ use Model\Entities\User;
 
 class UsersManager extends Manager
 {
-    public function connectionQuery($identifier, $pass)
+    public function loginVerification($identifier, $pass)
     {
         $query = $this->dbh->prepare("
             SELECT pseudo, email, password
@@ -17,13 +17,13 @@ class UsersManager extends Manager
         $query->bindValue(":identifier", $identifier, \PDO::PARAM_STR);
 
         $query->execute();
-        $result = $query->fetch();
+        $user = $query->fetch();
 
-        if(password_verify($pass, $result["password"])) {
-            return $result;
+        if(!password_verify($pass, $user["password"])) {
+            return false;
         }
 
-        return false;
+        return $user;
     }
 
     public function getAllUsers()
@@ -51,8 +51,8 @@ class UsersManager extends Manager
             SELECT *, DATE_FORMAT(creationDate, '%d/%m/%y à %Hh%i') as creationDate
             FROM users
             WHERE user_id = :id 
-            OR LOWER(pseudo) LIKE LOWER(:pseudo)
-            OR LOWER(email) LIKE LOWER(:email)
+            OR pseudo LIKE :pseudo
+            OR email LIKE :email
         ");
 
         $query->bindValue(":id", $user, \PDO::PARAM_INT);

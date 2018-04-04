@@ -7,6 +7,18 @@ use Model\Entities\Post;
 
 class CommentsManager extends Manager
 {
+
+    public function countTotalComments()
+    {
+        $query = $this->dbh->prepare("
+            SELECT COUNT(comment_id)
+            FROM comments
+        ");
+        $query->execute();
+        $result = $query->fetchColumn();
+        die(var_dump($result));
+    }
+
     /**
      * @return array
      * Get all comments

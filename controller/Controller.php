@@ -20,7 +20,7 @@ abstract class Controller
             $view = $nameExploded[1];
         }
 
-        $templateToLoad = ROOT . "/view/" . strtolower($template ) . ".php";
+        $templateToLoad = ROOT . "/view/layout/" . strtolower($template ) . ".php";
         $viewToLoad = ROOT . "/view/" . strtolower($view ) . "View.php";
 
         ob_start();
@@ -35,7 +35,7 @@ abstract class Controller
      * @param array $args
      * @throws \Exception
      */
-    protected function generateBlankPage($name, $args = [])
+    protected function generateViewOnly($name, $args = [])
     {
         $viewToLoad = ROOT . "/view/" . strtolower($name) . "View.php";
 

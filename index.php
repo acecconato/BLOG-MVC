@@ -10,6 +10,8 @@ use App\Router;
 
 $router = new Router($_GET['url']);
 
+$router->get("/unset", "Frontend#unsetSession");
+
 $router->get("/", "Frontend#showHome"); // Index page
 
 $router->get("/articles/:id", "Frontend#detailsOfPost")->with(":id", "#[0-9]+#"); // Show the post :id

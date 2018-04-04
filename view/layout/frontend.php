@@ -6,35 +6,9 @@
         $scroll = "";
         $index = "/";
     }
+
+    require_once "head.php";
 ?>
-
-<!DOCTYPE html>
-<html lang="fr">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Blog personnel d'Anthony Cecconato">
-    <meta name="author" content="Anthony Cecconato">
-
-    <title>Anthony Cecconato | <?= htmlspecialchars($title) ?></title>
-    <!-- Bootstrap core CSS -->
-
-    <link href="/public/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/public/vendor/bootstrap/css/dashboard.css" rel="stylesheet">
-
-    <!-- Custom fonts for this template -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" integrity="sha384-3AB7yXWz4OeoZcPbieVW64vVXEwADiYyAEhwilzWsLw+9FgqpyjjStpPnpBO8o8S" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
-
-    <!-- Plugin CSS -->
-    <link href="/public/vendor/magnific-popup/magnific-popup.css" rel="stylesheet" type="text/css">
-
-    <!-- Custom styles for this template -->
-    <link href="/public/css/freelancer.css" rel="stylesheet">
-    <link href="/public/css/custom.css" rel="stylesheet">
-</head>
 
 <body id="page-top">
 
@@ -110,11 +84,27 @@
                     </li>
                 </ul>
             </div>
+
             <div class="col-md-4 mt-5">
+            <?php
+                if(isset($_SESSION["userObject"])) {
+            ?>
+                <a class="btn btn-md btn-outline-light" href="/admin">
+                    <i class="fas fa-unlock-alt mr-1"></i>
+                    Administration
+                </a>
+                <a class="btn btn-md btn-outline-light" href="/unset">
+                    <i class="fas fa-times-circle mr-1"></i>
+                    Déconnexion
+                </a>
+            <?php
+                } else {
+            ?>
                 <a class="btn btn-md btn-outline-light" href="/connexion">
-                    <i class="fas fa-sign-in-alt"></i>
+                    <i class="fas fa-sign-in-alt mr-1"></i>
                     Connexion
                 </a>
+            <?php } ?>
             </div>
         </div>
     </div>
@@ -128,20 +118,7 @@
 </div>
 
 
-<!-- Bootstrap core JavaScript -->
-<script src="/public/vendor/jquery/jquery.min.js"></script>
-<script src="/public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-<!-- Plugin JavaScript -->
-<script src="/public/vendor/jquery-easing/jquery.easing.min.js"></script>
-<script src="/public/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
-
-<!-- Contact Form JavaScript -->
-<script src="/public/js/jqBootstrapValidation.js"></script>
-<script src="/public/js/contact_me.js"></script>
-
-<!-- Custom scripts for this template -->
-<script src="/public/js/freelancer.min.js"></script>
+<?php require_once "footer_scripts_loader.php" ?>
 
 
 </body>
