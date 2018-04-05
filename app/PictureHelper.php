@@ -2,7 +2,7 @@
 
     namespace App;
 
-    abstract class Picture
+    abstract class PictureHelper extends Helper
     {
         /**
          * @param $file

@@ -2,7 +2,7 @@
 
 namespace Model\Entities;
 
-use App\Picture;
+use App\PictureHelper;
 
 class Post extends Entity
 {
@@ -56,7 +56,7 @@ class Post extends Entity
     {
         if(!is_null($file)) {
             try {
-                $this->picture = Picture::getPostPicture($file);
+                $this->picture = PictureHelper::getPostPicture($file);
             } catch (\Exception $e) {
                 die("Error: " . $e->getMessage());
             }

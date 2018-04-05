@@ -6,6 +6,19 @@ use Model\Entities\Post;
 
 class PostsManager extends Manager
 {
+
+    public function countPosts()
+    {
+        $query = $this->dbh->prepare("
+            SELECT post_id, lastUpdate
+            FROM posts
+        ");
+        $query->execute();
+        $result = $query->fetchAll();
+        $query->closeCursor();
+        return $result;
+    }
+
     public function getAllPosts()
     {
         $query = $this->dbh->prepare("

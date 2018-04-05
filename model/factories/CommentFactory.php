@@ -22,4 +22,18 @@
 
             return $validatedComments;
         }
+
+        public static function getAllComments()
+        {
+            /** @var CommentsManager $commentsManager */
+            $commentsManager = Manager::getManagerOf("Comments");
+            $allComments = $commentsManager->getAllComments();
+
+            $comments = [];
+            foreach ($allComments as $comment) {
+                $comments[] = new Comment($comment);
+            }
+
+            return $comments;
+        }
     }

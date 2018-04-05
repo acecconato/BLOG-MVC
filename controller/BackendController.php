@@ -2,9 +2,17 @@
 
 namespace Controller;
 
+use App\Helper;
+
+use Model\Factories\CommentFactory;
+use Model\factories\PostFactory;
 use Model\Managers\CommentsManager;
-use Model\Managers\Manager;
 use Model\Managers\PostsManager;
+
+use App\CommentHelper;
+use App\PostHelper;
+
+use Model\Entities\User;
 
 class BackendController extends Controller
 {
@@ -16,19 +24,24 @@ class BackendController extends Controller
 
     public function adminHome()
     {
-
         /** @var CommentsManager $commentsManager */
         /** @var PostsManager $postsManager */
 
-        $commentsManager = Manager::getManagerOf("Comments");
-        $postsManager = Manager::getManagerOf("Posts");
+        $nb["comments"] = CommentHelper::countAll();
+        $nb["posts"] = PostHelper::countAll();
 
-        $info = [];
+        $this->generateAdminPage("adminHome", compact("nb"));
+    }
 
-        $info["nbTotalComments"] = $commentsManager->countTotalComments();
-        $info["nbTotalAcceptedComments"] = $commentsManager->countTotalAcceptedComments();
-        $info["nbTotalAcceptedComments"] = $commentsManager->countTotalRefusedComments();
+    public function adminPosts()
+    {
+        $posts = PostFactory::getAllPosts();
+        $this->generateAdminPage("adminListPosts", compact("posts"));
+    }
 
-        $this->generatePage("adminHome");
+    public function adminComments()
+    {
+        $comments = CommentFactory::getAllComments();
+        $this->generateAdminPage("adminListComments", compact("comments"));
     }
 }

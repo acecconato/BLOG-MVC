@@ -2,6 +2,9 @@
 
 namespace Controller;
 
+use App\Helper;
+use Model\Entities\User;
+
 abstract class Controller
 {
     protected $controllerName;
@@ -45,5 +48,19 @@ abstract class Controller
 
         extract($args);
         require $viewToLoad;
+    }
+
+    protected function generateAdminPage($name, $args = [])
+    {
+        if(Helper::sessionExist() === true) {
+            /** @var User $user */
+            $user = unserialize($_SESSION["userObject"]);
+            if($user->getPermissionLevel() < 10) {
+                return header("Location: /");
+            }
+            $this->generatePage($name, $args);
+        } else {
+            return header("Location: /");
+        }
     }
 }

@@ -10,22 +10,12 @@ class Comment extends Entity
             $reason = null,
             $post_id,
             $status_id,
+            $label,
             $author;
 
     public function __construct(array $data)
     {
         $this->hydrate($data);
-    }
-
-    public function verifyCommentData($data)
-    {
-        $author = $data["author"];
-        $content = $data["content"];
-        $post_id = $data["post_id"];
-
-        // Créer un Error manager puis faire les vérifications
-
-        return true;
     }
 
     public function setComment_id($id)
@@ -56,6 +46,11 @@ class Comment extends Entity
     public function setStatus_id($id)
     {
         $this->status_id = $id;
+    }
+
+    public function setLabel($label)
+    {
+        $this->label = $label;
     }
 
     public function setAuthor($pseudo)
@@ -91,6 +86,11 @@ class Comment extends Entity
     public function getStatus_id()
     {
         return $this->status_id;
+    }
+
+    public function getLabel()
+    {
+        return $this->label;
     }
 
     public function getAuthor()

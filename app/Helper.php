@@ -1,7 +1,8 @@
 <?php
+
     namespace App;
 
-    class Helper
+    abstract class Helper
     {
         public static function secureData(array $data)
         {

@@ -8,15 +8,16 @@ use Model\Entities\Post;
 class CommentsManager extends Manager
 {
 
-    public function countTotalComments()
+    public function countComments()
     {
         $query = $this->dbh->prepare("
-            SELECT COUNT(comment_id)
+            SELECT comment_id, status_id
             FROM comments
         ");
         $query->execute();
-        $result = $query->fetchColumn();
-        die(var_dump($result));
+        $result = $query->fetchAll();
+        $query->closeCursor();
+        return $result;
     }
 
     /**
@@ -26,10 +27,10 @@ class CommentsManager extends Manager
     public function getAllComments()
     {
         $query = $this->dbh->prepare("
-            SELECT  c.*, 
+            SELECT  c.*,
             DATE_FORMAT(c.creationDate, '%d/%m/%y à %Hh%i') as creationDate,
                     p.post_id,
-                    s.status_id
+                    s.status_id, s.label
             FROM comments c
             INNER JOIN posts p ON c.post_id = p.post_id
             INNER JOIN status s ON c.status_id = s.status_id
@@ -52,7 +53,7 @@ class CommentsManager extends Manager
             SELECT  c.*,
             DATE_FORMAT(c.creationDate, '%d/%m/%y à %Hh%i') as creationDate,
                     p.post_id,
-                    s.status_id
+                    s.status_id, s.label
             FROM comments c
             INNER JOIN posts p ON c.post_id = p.post_id
             INNER JOIN status s ON c.status_id = s.status_id
@@ -79,7 +80,7 @@ class CommentsManager extends Manager
             SELECT  c.*, 
             DATE_FORMAT(c.creationDate, '%d/%m/%y à %Hh%i') as creationDate,
                     p.post_id,
-                    s.status_id
+                    s.status_id, s.label
             FROM comments c
             INNER JOIN posts p ON c.post_id = p.post_id
             INNER JOIN status s ON c.status_id = s.status_id
@@ -126,7 +127,7 @@ class CommentsManager extends Manager
             SELECT  c.*, 
             DATE_FORMAT(c.creationDate, '%d/%m/%y à %Hh%i') as creationDate,
                     p.post_id,
-                    s.status_id
+                    s.status_id, s.label
             FROM comments c
             INNER JOIN posts p ON c.post_id = p.post_id
             INNER JOIN status s ON c.status_id = s.status_id
