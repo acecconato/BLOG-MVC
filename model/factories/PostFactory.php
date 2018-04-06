@@ -3,16 +3,13 @@
     namespace Model\factories;
 
     use Model\Entities\Post;
-    use Model\Managers\Manager;
-    use Model\Managers\PostsManager;
 
-    class PostFactory
+    class PostFactory extends Factory
     {
         public static function getPostById($id)
         {
-            /** @var PostsManager $postsManager */
-            $postsManager = Manager::getManagerOf("Posts");
-            $postData = $postsManager->getPostById($id);
+
+            $postData = self::getManager("posts")->getPostById($id);
 
             if(!is_array($postData)) {
                 return false;
@@ -29,9 +26,7 @@
 
         public static function getAllPosts()
         {
-            /** @var PostsManager $postsManager */
-            $postsManager = Manager::getManagerOf("Posts");
-            $allPosts = $postsManager->getAllPosts();
+            $allPosts = self::getManager("posts")->getAllPosts();
 
             $posts = [];
             foreach ($allPosts as $post) {
