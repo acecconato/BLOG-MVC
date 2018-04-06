@@ -11,19 +11,13 @@
                 <div class="sidebar-sticky">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">
-                                <span data-feather="home"></span>
-                                Administration
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="/admin/articles">
                                 <span data-feather="file"></span>
                                 Articles
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="/admin/commentaires">
                                 <span data-feather="shopping-cart"></span>
                                 Commentaires <span class="badge badge-pill badge-danger"> <?= $nb["comments"]["awaitingModeration"] ?></span>
                             </a>
@@ -62,13 +56,13 @@
                     <h2>Que voulez-vous faire ?</h2>
                 </div>
                 <div class="col-lg-12">
-                    <a class="btn btn-xl btn-outline-dark mt-3" href="/admin/articles">
+                    <a class="btn btn-lg btn-outline-dark mt-3" href="/admin/articles">
                         <i class="fas fa-file-alt mr-2"></i>
-                        Voir les articles
+                        Gérer les articles
                     </a>
                 </div>
                 <div class="col-lg-12 mb-3">
-                    <a class="btn btn-xl btn-outline-dark mt-3" href="/admin/commentaires">
+                    <a class="btn btn-lg btn-outline-dark mt-3" href="/admin/commentaires">
                         <i class="fas fa-comments mr-2"></i>
                         Gérer les commentaires
                     </a>

@@ -78,6 +78,9 @@ section {
   color:blue;
 }
 
+.fa-times-circle:hover {
+    color:red;
+}
 
 /* Font-Awesome Fonts */
 

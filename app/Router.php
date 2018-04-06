@@ -53,7 +53,7 @@ class Router
             }
         }
 
-        throw new RouterException("No matching routes");
+        header("Location: /");
     }
 
     /**

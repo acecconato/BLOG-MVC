@@ -34,6 +34,7 @@ class CommentsManager extends Manager
             FROM comments c
             INNER JOIN posts p ON c.post_id = p.post_id
             INNER JOIN status s ON c.status_id = s.status_id
+            ORDER BY comment_id DESC
         ");
 
         $query->execute();
@@ -131,13 +132,13 @@ class CommentsManager extends Manager
             FROM comments c
             INNER JOIN posts p ON c.post_id = p.post_id
             INNER JOIN status s ON c.status_id = s.status_id
-            WHERE p.post_id = :id
+            WHERE c.comment_id = :id
         ");
 
         $query->bindValue(":id", $id, \PDO::PARAM_INT);
 
         $query->execute();
-        $result = $query->fetchAll();
+        $result = $query->fetch();
         $query->closeCursor();
         return $result;
     }
@@ -145,6 +146,7 @@ class CommentsManager extends Manager
     /**
      * @param Comment $comment
      * @return int
+     * @throws \Exception
      */
     public function addComment(Comment $comment)
     {
@@ -159,26 +161,43 @@ class CommentsManager extends Manager
         $query->bindValue(":post_id", $comment->getPost_id(), \PDO::PARAM_INT);
         $query->bindValue(":author", $comment->getAuthor(), \PDO::PARAM_STR);
 
-        $query->execute();
+        try {
+            $query->execute();
+        } catch (\Exception $e) {
+            throw new \Exception("Erreur lors de l'insertion du commentaire");
+        }
 
         return $affectedLines = $query->rowCount();
     }
 
+    /**
+     * @param Comment $comment
+     * @throws \Exception
+     */
     public function updateComment(Comment $comment)
     {
         $query = $this->dbh->prepare("
             UPDATE comments
             SET content = :content, reason = :reason, status_id = :status_id
+            WHERE comment_id = :id
         ");
 
         $query->bindValue(":content", $comment->getContent(), \PDO::PARAM_STR);
         $query->bindValue(":reason", $comment->getReason(), \PDO::PARAM_STR);
         $query->bindValue(":status_id", $comment->getStatus_id(), \PDO::PARAM_INT);
+        $query->bindValue(":id", $comment->getComment_id(), \PDO::PARAM_INT);
 
-        $query->execute();
-        return $affectedLines = $query->rowCount();
+        try {
+            $query->execute();
+        } catch (\Exception $e) {
+            throw new \Exception("Impossible de mettre à jour le commentaire");
+        }
     }
 
+    /**
+     * @param $id
+     * @throws \Exception
+     */
     public function deleteComment($id)
     {
         $query = $this->dbh->prepare("
@@ -188,7 +207,10 @@ class CommentsManager extends Manager
 
         $query->bindValue(":id", $id, \PDO::PARAM_INT);
 
-        $query->execute();
-        return $affectedLines = $query->rowCount();
+        try {
+            $query->execute();
+        } catch (\Exception $e) {
+            throw new \Exception("Impossible de supprimer le commentaire");
+        }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Controller;
 
+use App\CommentHelper;
 use App\Helper;
 use Model\Entities\Comment;
 use Model\Entities\User;
@@ -53,18 +54,20 @@ class FrontendController extends Controller
         $_POST["post_id"] = $post->getPostId();
 
         $commentToAdd = Helper::secureData($_POST);
-        $verification = Helper::verifyComment($commentToAdd);
+        $verification = CommentHelper::verifyComment($commentToAdd);
 
         if($verification === true) {
             /** @var CommentsManager $commentsManager */
             $commentsManager = Manager::getManagerOf("Comments");
             $comment = new Comment($commentToAdd);
 
-            $affectedLines = $commentsManager->addComment($comment);
-             if($affectedLines < 1) {
-                 $msg["danger"] = "Une erreur est survenu";
-             }
-             $msg["success"] = "Commentaire ajouté et en attente de modération";
+            try {
+                $commentsManager->addComment($comment);
+                $msg["success"] = "Commentaire ajouté et en attente de modération";
+            } catch (\Exception $e) {
+                $msg["danger"] = $e->getMessage();
+            }
+
         } else {
             $msg = $verification;
         }
@@ -80,20 +83,14 @@ class FrontendController extends Controller
 
     public function loginForm()
     {
-        if(Helper::sessionExist() === true) {
-            /** @var User $user */
-            $user = unserialize($_SESSION["userObject"]);
-            if($user->getPermissionLevel() == 10) {
-                return header("Location: /admin");
+        if($this->isConnected()) {
+            header("Location: /admin");
+        }
+            try {
+                $this->generateViewOnly("Login");
+            } catch (\Exception $e) {
+                die("Error : " . $e->getMessage());
             }
-            return header("Location: /");
-        }
-
-        try {
-            $this->generateViewOnly("Login");
-        } catch (\Exception $e) {
-            die("Error : " . $e->getMessage());
-        }
     }
 
     public function unsetSession()

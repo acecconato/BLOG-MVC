@@ -28,6 +28,7 @@ class PostsManager extends Manager
                     u.pseudo as author
             FROM posts
             INNER JOIN users u ON posts.user_id = u.user_id
+            ORDER BY post_id DESC
         ");
         $query->execute();
         $result = $query->fetchAll();
@@ -81,7 +82,9 @@ class PostsManager extends Manager
     public function getPostById($id)
     {
         $query = $this->dbh->prepare("
-            SELECT posts.*, u.pseudo as author
+            SELECT posts.*, u.pseudo as author,
+            DATE_FORMAT(posts.creationDate, '%d/%m/%y à %Hh%i') as creationDate, 
+            DATE_FORMAT(posts.lastUpdate, '%d/%m/%y à %Hh%i') as lastUpdate
             FROM posts
             INNER JOIN users u ON posts.user_id = u.user_id
             WHERE post_id = :id

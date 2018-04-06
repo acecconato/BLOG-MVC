@@ -31,6 +31,14 @@
     $router->get("/admin/articles/ajouter", "Backend#addPost")->with(":id", "#[0-9]+#");  // Form to add a post
     $router->post("/admin/articles/ajouter", "Backend#addPost")->with(":id", "#[0-9]+#"); // Add a post
 
+    $router->get("/admin/commentaires/accepter/:id", "Backend#acceptComment")->with(":id", "#[0-9]+#");
+
+    $router->get("/admin/commentaires/supprimer/:id", "Backend#deleteComment")->with(":id", "#[0-9]+#");
+
+    $router->get("/admin/commentaires/refuser/:id", "Backend#refuseComment")->with(":id", "#[0-9]+#");
+    $router->post("/admin/commentaires/refuser/:id", "Backend#refuseComment")->with(":id", "#[0-9]+#");
+
+
     $router->get("/admin/articles", "Backend#adminPosts"); // Posts management
     $router->get("/admin/commentaires", "Backend#adminComments"); // Comments management
     $router->get("/admin", "Backend#adminHome"); // Admin main panel

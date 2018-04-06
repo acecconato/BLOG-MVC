@@ -4,6 +4,14 @@
 
     <main role="main" class="col-12 pt-3 px-4">
         <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <a class="btn btn-lg btn-outline-dark mt-3" href="/admin/articles/ajouter">
+                        <i class="far fa-plus-square mr-2"></i>
+                        Ajouter un article
+                    </a>
+                </div>
+            </div>
             <div class="table-responsive">
                 <table class="table table-striped table-sm">
                     <thead>
@@ -28,8 +36,8 @@
                         <td><?= $post->getCreationDate() ?></td>
                         <td><?= $post->getLastUpdate() ?></td>
                         <td>
-                            <a href="#"><i class="far fa-lg fa-edit" title="Modifier"></i></a>
-                            <a href="#"><i class="far fa-lg fa-trash-alt" title="Supprimer"></i></a>
+                            <a href="/admin/articles/modifier/<?= $post->getPostId() ?>"><i class="far fa-lg fa-edit" title="Modifier"></i></a>
+                            <a href="/admin/articles/supprimer/<?= $post->getPostId() ?>"><i class="far fa-lg fa-trash-alt" title="Supprimer"></i></a>
                         </td>
                     </tr>
                     <?php } ?>
@@ -51,9 +59,9 @@
             </nav>
             <div class="row">
                 <div class="col-lg-12 mb-3">
-                    <a class="btn btn-xl btn-outline-dark mt-3" href="/admin">
+                    <a class="btn btn-lg btn-outline-dark mt-3" href="/admin">
                         <i class="fas fa-angle-double-left mr-2"></i>
-                        Retour
+                        Retour à l'administration
                     </a>
                 </div>
             </div>
