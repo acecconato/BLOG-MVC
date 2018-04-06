@@ -4,16 +4,13 @@
 
     use Model\Entities\Comment;
     use Model\Entities\Post;
-    use Model\Managers\CommentsManager;
-    use Model\Managers\Manager;
 
-    class CommentFactory
+    abstract class CommentFactory extends Factory
     {
         public static function getValidatedCommentsOfPost(Post $post)
         {
-            /** @var CommentsManager $commentsManager */
-            $commentsManager = Manager::getManagerOf("Comments");
-            $comments = $commentsManager->getValidatedCommentsOfPost($post);
+            /** @var \Model\Managers\CommentsManager $commentsManager */
+            $comments = self::getManager("comments")->getValidatedCommentsOfPost($post);
 
             $validatedComments = [];
             foreach ($comments as $comment) {
@@ -25,9 +22,7 @@
 
         public static function getAllComments()
         {
-            /** @var CommentsManager $commentsManager */
-            $commentsManager = Manager::getManagerOf("Comments");
-            $allComments = $commentsManager->getAllComments();
+            $allComments = self::getManager("comments")->getAllComments();
 
             $comments = [];
             foreach ($allComments as $comment) {
@@ -35,5 +30,36 @@
             }
 
             return $comments;
+        }
+
+        public static function getComment($id)
+        {
+            $commentData = self::getManager("comments")->getCommentById($id);
+
+            if(is_array($commentData)) {
+                return new Comment($commentData);
+            }
+
+            return header("Location: /admin/commentaires");
+        }
+
+        public static function updateComment(Comment $comment)
+        {
+            try {
+                self::getManager("comments")->updateComment($comment);
+            } catch (\Exception $e) {
+                echo $e->getMessage();
+            }
+        }
+
+        public static function deleteComment(Comment $comment)
+        {
+            $id = $comment->getComment_id();
+
+            try {
+                self::getManager("comments")->deleteComment($id);
+            } catch (\Exception $e) {
+                echo $e->getMessage();
+            }
         }
     }
