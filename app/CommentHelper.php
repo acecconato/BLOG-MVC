@@ -37,4 +37,26 @@
 
             return $nb;
         }
+
+        public static function verifyComment($commentData)
+        {
+            $pseudo = $commentData["author"];
+            $message = $commentData["content"];
+
+            $err = [];
+
+            if(!isset($pseudo) || empty($pseudo) || !isset($message) || empty($message)) {
+                $err["warning"] = "Tous les champs ne sont pas remplis";
+            }
+
+            if(strlen($pseudo) > 50) {
+                $err["warning"] = "Le pseudo ne doit pas dépasser 50 caractères";
+            }
+
+            if(isset($err) && !empty($err)) {
+                return $err;
+            }
+
+            return true;
+        }
     }
