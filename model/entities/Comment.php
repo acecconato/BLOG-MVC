@@ -25,7 +25,7 @@ class Comment extends Entity
 
     public function setContent($content)
     {
-        $this->content = $content;
+        $this->content = stripslashes($content);
     }
 
     public function setCreationDate($date)
@@ -35,7 +35,7 @@ class Comment extends Entity
 
     public function setReason($reason)
     {
-        $this->reason = $reason;
+        $this->reason = stripslashes($reason);
     }
 
     public function setPost_id($id)
@@ -55,7 +55,7 @@ class Comment extends Entity
 
     public function setAuthor($pseudo)
     {
-        $this->author = $pseudo;
+        $this->author = stripslashes($pseudo);
     }
 
     public function getComment_id()

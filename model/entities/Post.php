@@ -39,43 +39,31 @@ class Post extends Entity
 
     public function setTitle($title)
     {
-        $this->title = $title;
+        $this->title = stripslashes($title);
     }
 
     public function setContent($content)
     {
-        $this->content = $content;
+        $this->content = stripslashes($content);
     }
 
-    /**
-     * @param null $file
-     * @return bool
-     * @throws \Exception
-     */
     public function setPicture($file = null)
     {
-        if(!is_null($file)) {
-            try {
-                $this->picture = PictureHelper::getPostPicture($file);
-            } catch (\Exception $e) {
-                die("Error: " . $e->getMessage());
-            }
+        try {
+            $this->picture = PictureHelper::getPostPicture($file);
+        } catch (\Exception $e) {
+            echo $e->getMessage();
         }
-        return false;
     }
 
     public function setLastUpdate($date)
     {
-        if(!empty($date)) {
-            $this->lastUpdate = $date;
-        }
+        $this->lastUpdate = $date;
     }
 
     public function setAuthor($author)
     {
-        if(!empty($author) && is_string($author)) {
-            $this->author = $author;
-        }
+        $this->author = stripslashes($author);
     }
 
     public function getPostId()

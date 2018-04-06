@@ -9,27 +9,30 @@
          * @return bool|string
          * @throws \Exception
          */
-        public static function getPostPicture($file)
+        public static function getPostPicture($file = null)
         {
-            $defaultPicturePath = Config::getInstance()->get("default_posts_picture");
-            $fullPath = ROOT . $defaultPicturePath . "/" . $file;
+            if(!is_null($file)) {
+                $defaultPicturePath = Config::getInstance()->get("default_posts_picture");
+                $fullPath = ROOT . $defaultPicturePath . "/" . $file;
 
-            $pictureToLoad = implode(glob($fullPath.".*"));
+                $pictureToLoad = implode(glob($fullPath.".*"));
 
-            $pictureToDisplay = explode("/", $pictureToLoad);
-            $pictureToDisplay = end($pictureToDisplay);
+                $pictureToDisplay = explode("/", $pictureToLoad);
+                $pictureToDisplay = end($pictureToDisplay);
 
-            if(file_exists($pictureToLoad)) {
-                $fileType = exif_imagetype($pictureToLoad);
-                $allowedTypes = Config::getInstance()->getAllowedPostsImgType();
+                if(file_exists($pictureToLoad)) {
+                    $fileType = exif_imagetype($pictureToLoad);
+                    $allowedTypes = Config::getInstance()->getAllowedPostsImgType();
 
-                if(in_array($fileType, $allowedTypes)) {
-                    return $defaultPicturePath . "/" . $pictureToDisplay;
-                } else {
-                    throw new \Exception("Image type is not allowed");
+                    if(in_array($fileType, $allowedTypes)) {
+                        return $defaultPicturePath . "/" . $pictureToDisplay;
+                    } else {
+                        throw new \Exception("Image type is not allowed");
+                    }
                 }
+                return null;
             }
-            return false;
+            return null;
         }
 
         public static function addNewPicture($picture)
