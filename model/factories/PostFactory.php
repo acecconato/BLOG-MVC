@@ -63,10 +63,10 @@
             return $post;
         }
 
-        public static function updatePost(Post $post)
+        public static function updatePost(Post $post, $changeUpdateDate = true)
         {
             try {
-                self::getManager("posts")->updatePost($post, false);
+                self::getManager("posts")->updatePost($post, $changeUpdateDate);
             } catch (\Exception $e) {
                 echo $e->getMessage();
             }

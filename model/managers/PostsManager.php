@@ -129,10 +129,10 @@ class PostsManager extends Manager
      * @param bool $updateDate
      * @throws \Exception
      */
-    public function updatePost(Post $post, $updateDate = true)
+    public function updatePost(Post $post, $changeUpdateDate = true)
     {
         $queryToPrepare = "UPDATE posts SET title = :title, content = :content, picture = :picture";
-        ($updateDate == true) ? $queryToPrepare .= ", lastUpdate = NOW()" : null;
+        ($changeUpdateDate == true) ? $queryToPrepare .= ", lastUpdate = NOW()" : null;
         $queryToPrepare .= " WHERE post_id = :post_id";
 
         $query = $this->dbh->prepare($queryToPrepare);

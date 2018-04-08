@@ -25,7 +25,7 @@
     $router->get("/admin/articles/supprimer/:id", "Backend#deletePost")->with(":id", "#[0-9]+#"); // Delete a post
 
     $router->get("/admin/articles/modifier/:id", "Backend#editPost")->with(":id", "#[0-9]+#"); // Edit a post (form)
-    $router->post("/admin/articles/modifier/:id", "Backend#addPost")->with(":id", "#[0-9]+#"); // Edit a post (validation)
+    $router->post("/admin/articles/modifier/:id", "Backend#editPost")->with(":id", "#[0-9]+#"); // Edit a post (validation)
 
     $router->get("/admin/articles/ajouter", "Backend#addNewPost")->with(":id", "#[0-9]+#");  // Add a new post (form)
     $router->post("/admin/articles/ajouter", "Backend#addNewPost")->with(":id", "#[0-9]+#"); // Add a new post (validation)

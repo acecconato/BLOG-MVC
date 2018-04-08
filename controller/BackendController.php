@@ -105,31 +105,67 @@ class BackendController extends Controller
             $postData = Helper::secureData($_POST);
 
             Helper::verifyAddPostForm($postData, function($formIsValid, $msg = null, $image = null)
-                use ($postData)
-                {
-                    if( (bool) $formIsValid === true) {
+            use ($postData)
+            {
+                if( (bool) $formIsValid === true) {
 
-                        $post = PostFactory::createPost($postData);
-                        $lastInsertId = PostFactory::addNewPost($post);
+                    $post = PostFactory::createPost($postData);
+                    $lastInsertId = PostFactory::addNewPost($post);
 
-                        if(!is_null($image)) {
-                            $image["name"] = $lastInsertId;
-                            PictureHelper::addNewPicture($image);
+                    if(!is_null($image)) {
+                        $image["name"] = $lastInsertId;
+                        PictureHelper::addNewPicture($image);
 
-                            $post = PostFactory::getPost($lastInsertId);
-                            $post->setPicture($lastInsertId);
+                        $post = PostFactory::getPost($lastInsertId);
+                        $post->setPicture($lastInsertId);
 
-                            PostFactory::updatePost($post);
-                        }
-
-                        $msg["success"] = "L'article a bien été ajouté ! (<a class='text-white' href='/articles/" . $lastInsertId . "' target='_blank'>voir</a>)";
+                        PostFactory::updatePost($post, false);
                     }
 
-                    $this->generatePage("adminAddPost", compact("msg"));
-                });
+                    $msg["success"] = "L'article a bien été ajouté ! (<a class='text-white' href='/articles/" . $lastInsertId . "' target='_blank'>voir</a>)";
+                }
+
+                $this->generatePage("adminAddPost", compact("msg"));
+            });
 
         } else {
             $this->generatePage("adminAddPost");
+        }
+    }
+
+    public function editPost($id)
+    {
+        /** @var \Model\Entities\Post $post */
+        $post = PostFactory::getPost($id);
+
+        if(isset($_POST["submit"])) {
+
+           $postData = Helper::secureData($_POST);
+
+            Helper::verifyAddPostForm($postData, function($formIsValid, $msg = null, $image = null)
+            use ($postData, $post)
+            {
+                if( (bool) $formIsValid === true) {
+
+                    $post->setTitle($postData["title"]);
+                    $post->setContent($postData["content"]);
+
+                    if(!is_null($image)) {
+                        $image["name"] = $post->getPostId();
+                        PictureHelper::addNewPicture($image);
+
+                        $post->setPicture($post->getPostId());
+                    }
+
+                    PostFactory::updatePost($post);
+                    $msg["success"] = "L'article a bien été modifié ! (<a class='text-white' href='/articles/" . $post->getPostId() . "' target='_blank'>voir</a>)";
+                }
+
+                $this->generatePage("adminEditPost", compact("post", "msg"));
+            });
+
+        } else {
+            $this->generatePage("adminEditPost", compact("post"));
         }
     }
 }
