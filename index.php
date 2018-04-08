@@ -10,7 +10,6 @@
 
     $router = new Router($_GET['url']);
 
-
     $router->get("/", "Frontend#showHome"); // Index page
 
     $router->get("/unset", "Frontend#unsetSession"); // Disconnect user
@@ -25,19 +24,18 @@
 
     $router->get("/admin/articles/supprimer/:id", "Backend#deletePost")->with(":id", "#[0-9]+#"); // Delete a post
 
-    $router->get("/admin/articles/modifier/:id", "Backend#editPost")->with(":id", "#[0-9]+#"); // Form to modify a post
-    $router->post("/admin/articles/modifier/:id", "Backend#addPost")->with(":id", "#[0-9]+#"); // Add a post
+    $router->get("/admin/articles/modifier/:id", "Backend#editPost")->with(":id", "#[0-9]+#"); // Edit a post (form)
+    $router->post("/admin/articles/modifier/:id", "Backend#addPost")->with(":id", "#[0-9]+#"); // Edit a post (validation)
 
-    $router->get("/admin/articles/ajouter", "Backend#addPost")->with(":id", "#[0-9]+#");  // Form to add a post
-    $router->post("/admin/articles/ajouter", "Backend#addPost")->with(":id", "#[0-9]+#"); // Add a post
+    $router->get("/admin/articles/ajouter", "Backend#addNewPost")->with(":id", "#[0-9]+#");  // Add a new post (form)
+    $router->post("/admin/articles/ajouter", "Backend#addNewPost")->with(":id", "#[0-9]+#"); // Add a new post (validation)
 
-    $router->get("/admin/commentaires/accepter/:id", "Backend#acceptComment")->with(":id", "#[0-9]+#");
+    $router->get("/admin/commentaires/accepter/:id", "Backend#acceptComment")->with(":id", "#[0-9]+#"); // Accept a comment
 
-    $router->get("/admin/commentaires/supprimer/:id", "Backend#deleteComment")->with(":id", "#[0-9]+#");
+    $router->get("/admin/commentaires/supprimer/:id", "Backend#deleteComment")->with(":id", "#[0-9]+#"); // Delete a comment
 
-    $router->get("/admin/commentaires/refuser/:id", "Backend#refuseComment")->with(":id", "#[0-9]+#");
-    $router->post("/admin/commentaires/refuser/:id", "Backend#refuseComment")->with(":id", "#[0-9]+#");
-
+    $router->get("/admin/commentaires/refuser/:id", "Backend#refuseComment")->with(":id", "#[0-9]+#"); // Refuse a comment
+    $router->post("/admin/commentaires/refuser/:id", "Backend#refuseComment")->with(":id", "#[0-9]+#"); // Refuse a comment (specify reason)
 
     $router->get("/admin/articles", "Backend#adminPosts"); // Posts management
     $router->get("/admin/commentaires", "Backend#adminComments"); // Comments management

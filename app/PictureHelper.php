@@ -22,9 +22,8 @@
 
                 if(file_exists($pictureToLoad)) {
                     $fileType = exif_imagetype($pictureToLoad);
-                    $allowedTypes = Config::getInstance()->getAllowedPostsImgType();
 
-                    if(in_array($fileType, $allowedTypes)) {
+                    if(PictureHelper::verifyImagePostType($fileType) == true) {
                         return $defaultPicturePath . "/" . $pictureToDisplay;
                     } else {
                         throw new \Exception("Image type is not allowed");
@@ -35,8 +34,32 @@
             return null;
         }
 
-        public static function addNewPicture($picture)
+        public static function verifyImagePostType($fileType)
         {
+            $allowedTypes = Config::getInstance()->getAllowedPostsImgType();
 
+            if(in_array($fileType, $allowedTypes)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        public static function addNewPicture(array $picture)
+        {
+            $defaultPicturePath = Config::getInstance()->get("default_posts_picture");
+            $fullPath = ROOT . $defaultPicturePath . "/" . $picture["name"];
+
+            $pictureToLoad = implode(glob($fullPath.".*"));
+
+            if(file_exists($pictureToLoad)) {
+                unlink($pictureToLoad);
+            }
+
+            $defaultPicturePath = dirname($fullPath);
+            $fileType = exif_imagetype($picture["tmp_name"]);
+            $extension = image_type_to_extension($fileType);
+
+            move_uploaded_file($picture["tmp_name"], $defaultPicturePath . "/" . $picture["name"] . $extension);
         }
     }

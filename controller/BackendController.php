@@ -3,14 +3,16 @@
 namespace Controller;
 
 use App\Helper;
+use App\PictureHelper;
+use App\CommentHelper;
+use App\PostHelper;
+
 use Model\Factories\CommentFactory;
 use Model\factories\PostFactory;
 
 use Model\Managers\CommentsManager;
 use Model\Managers\PostsManager;
 
-use App\CommentHelper;
-use App\PostHelper;
 
 class BackendController extends Controller
 {
@@ -86,5 +88,48 @@ class BackendController extends Controller
         CommentFactory::deleteComment($comment);
 
         return header("Location: /admin/commentaires");
+    }
+
+    public function deletePost($id)
+    {
+        $post = PostFactory::getPost($id);
+        PostFactory::deletePost($post);
+
+        return header("Location: /admin/articles");
+    }
+
+    public function addNewPost()
+    {
+        if(isset($_POST["submit"])) {
+
+            $postData = Helper::secureData($_POST);
+
+            Helper::verifyAddPostForm($postData, function($formIsValid, $msg = null, $image = null)
+                use ($postData)
+                {
+                    if( (bool) $formIsValid === true) {
+
+                        $post = PostFactory::createPost($postData);
+                        $lastInsertId = PostFactory::addNewPost($post);
+
+                        if(!is_null($image)) {
+                            $image["name"] = $lastInsertId;
+                            PictureHelper::addNewPicture($image);
+
+                            $post = PostFactory::getPost($lastInsertId);
+                            $post->setPicture($lastInsertId);
+
+                            PostFactory::updatePost($post);
+                        }
+
+                        $msg["success"] = "L'article a bien été ajouté ! (<a class='text-white' href='/articles/" . $lastInsertId . "' target='_blank'>voir</a>)";
+                    }
+
+                    $this->generatePage("adminAddPost", compact("msg"));
+                });
+
+        } else {
+            $this->generatePage("adminAddPost");
+        }
     }
 }

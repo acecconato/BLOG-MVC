@@ -20,7 +20,7 @@
         ?>
             <div class="col-sm-12 col-md-4 post my-2 mx-auto">
                 <div class="card">
-                    <?= ($post->hasPicture()) ? '<img class="card-img-top" src="'.$post->getPicture().'" alt="Image de présentation">' : null ?>
+                    <?= ($post->hasPicture()) ? '<img class="card-img-top" src="' . $post->getImageForDisplay() . '" alt="Image de présentation">' : null ?>
                     <div class="card-body">
                         <h5 class="card-title"><?= $post->getTitle() ?></h5>
                         <?= (!is_null($post->getLastUpdate())) ?  "<p><i>Modifié le ".$post->getLastUpdate()."</i></p>" : null ?>

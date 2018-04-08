@@ -10,13 +10,23 @@ class Post extends Entity
             $creationDate,
             $title,
             $content,
-            $picture,
-            $lastUpdate,
+            $picture = null,
+            $lastUpdate = null,
             $author;
 
     public function __construct(array $data)
     {
         $this->hydrate($data);
+    }
+
+    public function getImageForDisplay()
+    {
+        try {
+            return PictureHelper::getPostPicture($this->getPicture());
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+            return false;
+        }
     }
 
     public function hasPicture()
@@ -47,13 +57,9 @@ class Post extends Entity
         $this->content = stripslashes($content);
     }
 
-    public function setPicture($file = null)
+    public function setPicture($file)
     {
-        try {
-            $this->picture = PictureHelper::getPostPicture($file);
-        } catch (\Exception $e) {
-            echo $e->getMessage();
-        }
+        $this->picture = $file;
     }
 
     public function setLastUpdate($date)
@@ -80,9 +86,13 @@ class Post extends Entity
     {
         return $this->title;
     }
+
     public function getSummary()
     {
-        return substr_replace($this->content, " ...", 150);
+        if(strlen($this->getContent()) > 150) {
+            return substr_replace($this->content, " ...", 150);
+        }
+        return $this->getContent();
     }
 
     public function getContent()

@@ -36,14 +36,14 @@
         <div class="col-12 text-center">
             <?php
                 if($post->hasPicture()) {
-                    echo "<img class='img-fluid rounded' src='". $post->getPicture() ."' alt='Image de l'article numéro'". $post->getPostId() ."'";
+                    echo "<img class='img-fluid rounded' src='". $post->getImageForDisplay() ."' alt='Image de l'article numéro'". $post->getPostId() ."'";
                 }
             ?>
             <hr>
         </div>
 
         <!-- Post content -->
-        <div class="col-12">
+        <div class="col-12 mt-5">
 
             <?= nl2br($post->getContent()) ?>
 

@@ -97,6 +97,11 @@ class PostsManager extends Manager
         return $result;
     }
 
+    /**
+     * @param Post $post
+     * @return string
+     * @throws \Exception
+     */
     public function addPost(Post $post)
     {
         $query = $this->dbh->prepare("
@@ -111,27 +116,43 @@ class PostsManager extends Manager
         $query->bindValue(":picture", $post->getPicture(), \PDO::PARAM_STR);
         $query->bindValue(":author", $post->getAuthor(), \PDO::PARAM_STR);
 
-        $query->execute();
-        return $affectedLines = $query->rowCount();
+        try {
+            $query->execute();
+            return $this->dbh->lastInsertId();
+        } catch (\Exception $e) {
+            throw new \Exception("Impossible d'ajouter l'article dans la base de données");
+        }
     }
 
-    public function updatePost(Post $post)
+    /**
+     * @param Post $post
+     * @param bool $updateDate
+     * @throws \Exception
+     */
+    public function updatePost(Post $post, $updateDate = true)
     {
-        $query = $this->dbh->prepare("
-            UPDATE posts
-            SET title = :title, content = :content, picture = :picture, lastUpdate = NOW()
-            WHERE post_id = :post_id
-        ");
+        $queryToPrepare = "UPDATE posts SET title = :title, content = :content, picture = :picture";
+        ($updateDate == true) ? $queryToPrepare .= ", lastUpdate = NOW()" : null;
+        $queryToPrepare .= " WHERE post_id = :post_id";
+
+        $query = $this->dbh->prepare($queryToPrepare);
 
         $query->bindValue(":title", $post->getTitle(), \PDO::PARAM_STR);
         $query->bindValue(":content", $post->getContent(), \PDO::PARAM_STR);
         $query->bindValue(":picture", $post->getPicture(), \PDO::PARAM_STR);
         $query->bindValue(":post_id", $post->getPostId(), \PDO::PARAM_INT);
 
-        $query->execute();
-        return $affectedLines = $query->rowCount();
+        try {
+            $query->execute();
+        } catch (\Exception $e) {
+            throw new \Exception("Impossible de mettre l'article à jour");
+        }
     }
 
+    /**
+     * @param $id
+     * @throws \Exception
+     */
     public function deletePost($id)
     {
         $query = $this->dbh->prepare("
@@ -141,7 +162,10 @@ class PostsManager extends Manager
 
         $query->bindValue(":id", $id, \PDO::PARAM_INT);
 
-        $query->execute();
-        return $affectedLines = $query->rowCount();
+        try {
+            $query->execute();
+        } catch (\Exception $e) {
+            throw new \Exception("Impossible de supprimer l'article");
+        }
     }
 }

@@ -27,7 +27,7 @@ class FrontendController extends Controller
 
     public function detailsOfPost($id)
     {
-        $post = PostFactory::getPostById($id);
+        $post = PostFactory::getPost($id);
 
         if(!$post) {
             header("Location: /articles");
@@ -39,7 +39,7 @@ class FrontendController extends Controller
 
     public function addComment($id)
     {
-        $post = PostFactory::getPostById($id);
+        $post = PostFactory::getPost($id);
 
         if(!$post) {
             header("Location: /articles");
