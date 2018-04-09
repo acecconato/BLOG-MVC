@@ -2,13 +2,17 @@
 
 namespace Controller;
 
-use App\CommentHelper;
 use App\Helper;
+use App\CommentHelper;
+
+use App\Pagination;
 use Model\Entities\Comment;
 use Model\Entities\User;
+
 use Model\Factories\PostFactory;
 use Model\Factories\CommentFactory;
 use Model\Factories\UserFactory;
+
 use Model\Managers\CommentsManager;
 use Model\Managers\Manager;
 
@@ -78,7 +82,14 @@ class FrontendController extends Controller
     public function getAllPosts()
     {
         $posts = PostFactory::getAllPosts();
-        $this->generatePage("Blog", compact("posts"));
+        $pagination = new Pagination($posts, 6);
+
+        $paginatedData = $pagination->pagine($posts);
+
+        $posts = $paginatedData["data"];
+        $navigation = $paginatedData["navigation"];
+
+        $this->generatePage("Blog", compact("posts", "pagination", "navigation"));
     }
 
     public function loginForm()

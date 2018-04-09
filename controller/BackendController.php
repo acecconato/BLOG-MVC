@@ -3,6 +3,7 @@
 namespace Controller;
 
 use App\Helper;
+use App\Pagination;
 use App\PictureHelper;
 use App\CommentHelper;
 use App\PostHelper;
@@ -37,13 +38,28 @@ class BackendController extends Controller
     public function adminPosts()
     {
         $posts = PostFactory::getAllPosts();
-        $this->generatePage("adminListPosts", compact("posts"));
+        $pagination = new Pagination($posts, 10);
+
+        $paginatedData = $pagination->pagine($posts);
+
+        $posts = $paginatedData["data"];
+        $navigation = $paginatedData["navigation"];
+
+        $this->generatePage("adminListPosts", compact("posts", "pagination", "navigation"));
     }
 
     public function adminComments()
     {
         $comments = CommentFactory::getAllComments();
-        $this->generatePage("adminListComments", compact("comments"));
+
+        $pagination = new Pagination($comments, 10);
+
+        $paginatedData = $pagination->pagine($comments);
+
+        $comments = $paginatedData["data"];
+        $navigation = $paginatedData["navigation"];
+
+        $this->generatePage("adminListComments", compact("comments", "pagination", "navigation"));
     }
 
     public function acceptComment($id)
