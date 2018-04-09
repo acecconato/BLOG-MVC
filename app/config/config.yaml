@@ -1,0 +1,19 @@
+DATABASE:
+  # Database connection configuration
+  hostname: localhost
+  dbname: perso_blog
+  username: root
+  password: ""
+
+  # Default database type
+  default_sql_type: mysql
+
+PATH:
+  # Folder for storing posts images
+  default_posts_picture: "/public/img/posts"
+
+EXTENSIONS:
+  # Extensions allowed for posts images
+  postsImg:
+    - PNG
+    - JPEG

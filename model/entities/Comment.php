@@ -8,9 +8,10 @@ class Comment extends Entity
             $content,
             $creationDate,
             $reason = null,
-            $user_id,
             $post_id,
-            $status_id;
+            $status_id,
+            $label,
+            $author;
 
     public function __construct(array $data)
     {
@@ -19,13 +20,12 @@ class Comment extends Entity
 
     public function setComment_id($id)
     {
-        $id = (int) $id;
-        ($id >= 0) ? $this->comment_id = $id : null;
+        $this->comment_id = $id;
     }
 
     public function setContent($content)
     {
-        $this->content = $content;
+        $this->content = stripslashes($content);
     }
 
     public function setCreationDate($date)
@@ -35,25 +35,27 @@ class Comment extends Entity
 
     public function setReason($reason)
     {
-        $this->reason = $reason;
-    }
-
-    public function setUser_id($id)
-    {
-        $id = (int) $id;
-        ($id >= 0) ? $this->user_id = $id : null;
+        $this->reason = stripslashes($reason);
     }
 
     public function setPost_id($id)
     {
-        $id = (int) $id;
-        ($id >= 0) ? $this->post_id = $id : null;
+        $this->post_id = $id;
     }
 
     public function setStatus_id($id)
     {
-        $id = (int) $id;
-        ($id >= 0) ? $this->status_id = $id : null;
+        $this->status_id = $id;
+    }
+
+    public function setLabel($label)
+    {
+        $this->label = $label;
+    }
+
+    public function setAuthor($pseudo)
+    {
+        $this->author = stripslashes($pseudo);
     }
 
     public function getComment_id()
@@ -76,11 +78,6 @@ class Comment extends Entity
         return $this->reason;
     }
 
-   public function getUser_id()
-   {
-       return $this->user_id;
-   }
-
    public function getPost_id()
    {
        return $this->post_id;
@@ -89,5 +86,15 @@ class Comment extends Entity
     public function getStatus_id()
     {
         return $this->status_id;
+    }
+
+    public function getLabel()
+    {
+        return $this->label;
+    }
+
+    public function getAuthor()
+    {
+        return $this->author;
     }
 }

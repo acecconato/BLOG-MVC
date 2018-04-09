@@ -1,35 +1,48 @@
 <?php
 
-require_once "vendor/autoload.php";
+    session_start();
 
-use App\Router;
+    define("ROOT", dirname(__FILE__));
 
-$router = new Router($_GET['url']);
+    require_once "vendor/autoload.php";
 
-$router->get("/", "Home#showHome"); // Index page
+    use App\Router;
 
-$router->get("/articles/:id", "Blog#getPost")->with(":id", "#[0-9]+#"); // Show the post :id
-$router->post("/articles/:id/", "Blog#addComment")->with(":id", "#[0-9]+#"); // Add a comment on the post :id
+    $router = new Router($_GET['url']);
 
-$router->get("/articles", "Blog#getAllPosts"); // Show all posts
+    $router->get("/", "Frontend#showHome"); // Index page
 
-$router->get("/connexion", "App#loginForm"); // Login form
-$router->post("/connexion", "App#loginValidation"); // Login validation
+    $router->get("/unset", "Frontend#unsetSession"); // Disconnect user
 
-$router->get("/admin/articles/supprimer/:id", "Backend#deletePost")->with(":id", "#[0-9]+#"); // Delete a post
+    $router->get("/articles/:id", "Frontend#detailsOfPost")->with(":id", "#[0-9]+#"); // Show the post :id
+    $router->post("/articles/:id", "Frontend#addComment")->with(":id", "#[0-9]+#"); // Add a comment on the post :id
 
-$router->get("/admin/articles/modifier/:id", "Backend#editPost")->with(":id", "#[0-9]+#"); // Form to modify a post
-$router->post("/admin/articles/modifier/:id", "Backend#addPost")->with(":id", "#[0-9]+#"); // Add a post
+    $router->get("/articles", "Frontend#getAllPosts"); // Show all posts
 
-$router->get("/admin/articles/ajouter", "Backend#addPost")->with(":id", "#[0-9]+#");  // Form to add a post
-$router->post("/admin/articles/ajouter", "Backend#addPost")->with(":id", "#[0-9]+#"); // Add a post
+    $router->get("/connexion", "Frontend#loginForm"); // Login form
+    $router->post("/connexion", "Frontend#loginValidation"); // Login validation
 
-$router->get("/admin/articles", "Backend#adminPosts"); // Posts management
-$router->get("/admin/commentaires", "Backend#adminComments"); // Comments management
-$router->get("/admin", "Backend#adminHome"); // Admin main panel
+    $router->get("/admin/articles/supprimer/:id", "Backend#deletePost")->with(":id", "#[0-9]+#"); // Delete a post
 
-try {
-    $router->run();
-} catch (\App\RouterException $e) {
-    die("Error : " . $e->getMessage());
-}
+    $router->get("/admin/articles/modifier/:id", "Backend#editPost")->with(":id", "#[0-9]+#"); // Edit a post (form)
+    $router->post("/admin/articles/modifier/:id", "Backend#editPost")->with(":id", "#[0-9]+#"); // Edit a post (validation)
+
+    $router->get("/admin/articles/ajouter", "Backend#addNewPost")->with(":id", "#[0-9]+#");  // Add a new post (form)
+    $router->post("/admin/articles/ajouter", "Backend#addNewPost")->with(":id", "#[0-9]+#"); // Add a new post (validation)
+
+    $router->get("/admin/commentaires/accepter/:id", "Backend#acceptComment")->with(":id", "#[0-9]+#"); // Accept a comment
+
+    $router->get("/admin/commentaires/supprimer/:id", "Backend#deleteComment")->with(":id", "#[0-9]+#"); // Delete a comment
+
+    $router->get("/admin/commentaires/refuser/:id", "Backend#refuseComment")->with(":id", "#[0-9]+#"); // Refuse a comment
+    $router->post("/admin/commentaires/refuser/:id", "Backend#refuseComment")->with(":id", "#[0-9]+#"); // Refuse a comment (specify reason)
+
+    $router->get("/admin/articles", "Backend#adminPosts"); // Posts management
+    $router->get("/admin/commentaires", "Backend#adminComments"); // Comments management
+    $router->get("/admin", "Backend#adminHome"); // Admin main panel
+
+    try {
+        $router->run();
+    } catch (\App\RouterException $e) {
+        die("Error : " . $e->getMessage());
+    }

@@ -2,17 +2,16 @@
 
 namespace Model\Entities;
 
-use App\Config;
+use App\PictureHelper;
 
 class Post extends Entity
 {
     private $post_id,
             $creationDate,
             $title,
-            $summary,
             $content,
-            $picture,
-            $lastUpdate,
+            $picture = null,
+            $lastUpdate = null,
             $author;
 
     public function __construct(array $data)
@@ -20,62 +19,57 @@ class Post extends Entity
         $this->hydrate($data);
     }
 
+    public function getImageForDisplay()
+    {
+        try {
+            return PictureHelper::getPostPicture($this->getPicture());
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
+    public function hasPicture()
+    {
+        if(is_null($this->picture)) {
+            return false;
+        }
+        return true;
+    }
+
     public function setPost_id($id)
     {
-        $id = (int) $id;
-        if(is_int($id) && $id >= 0) {
-            $this->post_id = $id;
-        }
+        $this->post_id = $id;
     }
 
     public function setCreationDate($date)
     {
-        if(!empty($date)) {
-            $this->creationDate = $date;
-        }
+        $this->creationDate = $date;
     }
 
     public function setTitle($title)
     {
-        if(is_string($title) && !empty($title)) {
-            $this->title = $title;
-        }
-    }
-
-    public function setSummary($summary)
-    {
-        if(is_string($summary) && !empty($summary)) {
-            $this->summary = $summary;
-        }
+        $this->title = stripslashes($title);
     }
 
     public function setContent($content)
     {
-        if(is_string($content) && !empty($content)) {
-            $this->content = $content;
-        }
+        $this->content = stripslashes($content);
     }
 
-    public function setPicture($path = null)
+    public function setPicture($file)
     {
-        if(is_null($path)) {
-            $path = (Config::getInstance())->get("default_picture_posts_path");
-        }
-        $this->picture = $path . "/" . $this->getPostId();
+        $this->picture = $file;
     }
 
     public function setLastUpdate($date)
     {
-        if(!empty($date)) {
-            $this->lastUpdate = $date;
-        }
+        $this->lastUpdate = $date;
     }
 
     public function setAuthor($author)
     {
-        if(!empty($author) && is_string($author)) {
-            $this->author = $author;
-        }
+        $this->author = stripslashes($author);
     }
 
     public function getPostId()
@@ -92,9 +86,13 @@ class Post extends Entity
     {
         return $this->title;
     }
+
     public function getSummary()
     {
-        return $this->summary;
+        if(strlen($this->getContent()) > 150) {
+            return substr_replace($this->content, " ...", 150);
+        }
+        return $this->getContent();
     }
 
     public function getContent()

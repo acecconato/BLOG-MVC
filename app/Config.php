@@ -5,12 +5,19 @@ namespace App;
 class Config
 {
     private $settings = [];
+    private $configFile;
     private static $_instance;
 
     protected function __construct()
     {
         if(is_null(self::$_instance)) {
-            $this->settings = require dirname(__DIR__) . "/app/config/config.php";
+            $this->configFile = yaml_parse_file(ROOT . "/app/config/config.yaml");
+
+            foreach ($this->configFile as $key => $value) {
+                foreach ($value as $k => $v) {
+                    $this->settings[$k] = $v;
+                }
+            }
         }
     }
 
@@ -22,9 +29,19 @@ class Config
         return self::$_instance;
     }
 
+    public function getAllowedPostsImgType()
+    {
+        $allowedTypes = [];
+        foreach ($this->settings["postsImg"] as $type) {
+            $allowedTypes[] = constant("IMAGETYPE_".strtoupper($type));
+        }
+
+        return $allowedTypes;
+    }
+
     public function get($key) {
-        if(!isset($this->settings[$key])) {
-            return null;
+        if(!array_key_exists($key, $this->settings)) {
+            return false;
         }
         return $this->settings[$key];
     }

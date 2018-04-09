@@ -6,6 +6,26 @@ use Model\Entities\User;
 
 class UsersManager extends Manager
 {
+    public function loginVerification($identifier, $pass)
+    {
+        $query = $this->dbh->prepare("
+            SELECT pseudo, email, password
+            FROM users
+            WHERE pseudo = :identifier OR email = :identifier
+        ");
+
+        $query->bindValue(":identifier", $identifier, \PDO::PARAM_STR);
+
+        $query->execute();
+        $user = $query->fetch();
+
+        if(!password_verify($pass, $user["password"])) {
+            return false;
+        }
+
+        return $user;
+    }
+
     public function getAllUsers()
     {
         $query = $this->dbh->prepare("
@@ -31,8 +51,8 @@ class UsersManager extends Manager
             SELECT *, DATE_FORMAT(creationDate, '%d/%m/%y à %Hh%i') as creationDate
             FROM users
             WHERE user_id = :id 
-            OR LOWER(pseudo) LIKE LOWER(:pseudo)
-            OR LOWER(email) LIKE LOWER(:email)
+            OR pseudo LIKE :pseudo
+            OR email LIKE :email
         ");
 
         $query->bindValue(":id", $user, \PDO::PARAM_INT);
@@ -40,7 +60,7 @@ class UsersManager extends Manager
         $query->bindValue(":email", $user, \PDO::PARAM_STR);
 
         $query->execute();
-        $result = $query->fetchAll();
+        $result = $query->fetch();
         $query->closeCursor();
         return $result;
     }
