@@ -16,6 +16,9 @@ use Model\Factories\UserFactory;
 use Model\Managers\CommentsManager;
 use Model\Managers\Manager;
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 
 class FrontendController extends Controller
 {
@@ -26,7 +29,14 @@ class FrontendController extends Controller
 
     public function showHome()
     {
+        if(isset($_POST["submit"])) {
+            $msg = $this->sendMail();
+            $this->generatePage("Home", compact("msg"));
+            return;
+        }
+
         $this->generatePage("Home");
+        return;
     }
 
     public function detailsOfPost($id)
@@ -144,6 +154,73 @@ class FrontendController extends Controller
             $this->generateViewOnly("Login", compact("msg"));
         } catch (\Exception $e) {
             die("Error : " . $e->getMessage());
+        }
+    }
+
+    public function sendMail()
+    {
+        $formData = Helper::secureData($_POST);
+        extract($formData);
+
+        $errors = [];
+
+        if(isset($name) && isset($email) && isset($message) && !empty($name) && !empty($email) && !empty($name)) {
+            if(strlen($name) > 50) {
+                $errors["warning"] = "Nom trop long. (50 caractères maximum)";
+            } elseif(strlen($name) < 3) {
+                $errors["warning"] = "Nom trop court. (3 caractères minimum)";
+            }
+
+            if(strlen($message) > 1500) {
+                $errors["warning"] = "Message trop long. (1500 caractères max)";
+            } elseif(strlen($message) < 10) {
+                $errors["warning"] = "Message trop court. (10 caractères minimum)";
+            }
+
+            if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $errors["warning"] = "L'adresse email est invalide";
+            }
+
+            if(isset($phone) && !empty($phone)) {
+                if(strlen($phone) !== 10) {
+                    $errors["warning"] = "Le numéro de téléphone est incorrect";
+                }
+            }
+
+        } else {
+            $errors["warning"] = "Vous devez remplir les champs requis";
+        }
+
+        if(!empty($errors)) {
+            return $errors;
+        }
+
+        $mail = new PHPMailer(true);
+
+        try {
+            $mail->setLanguage("fr");
+            $mail->CharSet =  "utf-8";
+
+            $mail->setFrom($email, $name);
+            $mail->AddAddress('antho.cecc@gmail.com');
+
+            $mail->Subject  =  'Personnal Blog : Nouveau message !';
+            $mail->IsHTML(true);
+            $mail->Body    =    '<strong>Nom : </strong>' . $name . '
+                                <br />
+                                <strong>Email : </strong> ' . $email . '
+                                <br /> ';
+
+            (isset($phone) && !empty($phone)) ? $mail->Body .= "<strong>Téléphone : </strong> " . $phone : null;
+
+            if($mail->Send()) {
+                return $msg["success"] = "Le message a bien été envoyé !";
+            } else {
+                return $msg["warning"] =  "Erreur ->" . $mail->ErrorInfo;
+            }
+
+        } catch (Exception $e) {
+            return $msg["danger"] = "Impossible d'envoyer l'email";
         }
     }
 }
