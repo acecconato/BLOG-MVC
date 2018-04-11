@@ -8,10 +8,13 @@
     ],
     "autoload": {
         "psr-4": {
-            "App\\": "app/",
-            "Controller\\": "controller/",
-            "Model\\": "model/"
+            "App\\": "App/",
+            "Controller\\": "Controller/",
+            "Model\\": "Model/"
         }
     },
-    "require": {}
+    "require": {
+        "phpmailer/phpmailer": "^6.0",
+        "symfony/yaml": "^4.0"
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 
-    namespace Model\factories;
+    namespace Model\Factories;
 
     use Model\Entities\Post;
 

@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Symfony\Component\Yaml\Yaml;
+
 class Config
 {
     private $settings = [];
@@ -11,7 +13,7 @@ class Config
     protected function __construct()
     {
         if(is_null(self::$_instance)) {
-            $this->configFile = yaml_parse_file(ROOT . "/app/config/config.yaml");
+            $this->configFile = Yaml::parseFile(ROOT . "/App/Config/config.yaml");
 
             foreach ($this->configFile as $key => $value) {
                 foreach ($value as $k => $v) {

@@ -2,6 +2,7 @@
 
 namespace Controller;
 
+use App\EmailHelper;
 use App\Helper;
 use App\CommentHelper;
 
@@ -16,6 +17,9 @@ use Model\Factories\UserFactory;
 use Model\Managers\CommentsManager;
 use Model\Managers\Manager;
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 
 class FrontendController extends Controller
 {
@@ -26,7 +30,14 @@ class FrontendController extends Controller
 
     public function showHome()
     {
+        if(isset($_POST["submit"])) {
+            $msg = $this->sendMail();
+            $this->generatePage("Home", compact("msg"));
+            return;
+        }
+
         $this->generatePage("Home");
+        return;
     }
 
     public function detailsOfPost($id)
@@ -145,5 +156,56 @@ class FrontendController extends Controller
         } catch (\Exception $e) {
             die("Error : " . $e->getMessage());
         }
+    }
+
+    public function sendMail()
+    {
+        $formData = Helper::secureData($_POST);
+        $errors = EmailHelper::formValidation($formData);
+
+        if($errors != false){
+            return $errors;
+        }
+
+        extract($formData);
+
+        $mail = new PHPMailer(true);
+
+        /** @var string $name */
+        /** @var string $email */
+        /** @var string $message */
+
+        try {
+            $mail->setLanguage("fr");
+            $mail->CharSet =  "utf-8";
+
+            $mail->setFrom($email, $name);
+            $mail->AddAddress('antho.cecc@gmail.com');
+
+            $mail->Subject  =  'Personnal Blog : Nouveau message !';
+            $mail->IsHTML(true);
+            $mail->Body    =    '<p><strong>Nom : </strong>' . $name . '
+                                <br />
+                                <strong>Email : </strong> ' . $email . '
+                                <br /> ';
+
+            (isset($phone) && !empty($phone)) ? $mail->Body .= "<strong>Téléphone : </strong> " . $phone : null;
+
+            $mail->Body .= "</p><p>" . $message . "</p>";
+
+            $mail->AltBody = strip_tags($mail->Body);
+
+            $msg = [];
+            if($mail->Send()) {
+                $msg["success"] = "Le message a bien été envoyé !";
+            } else {
+                $msg["warning"] =  "Erreur ->" . $mail->ErrorInfo;
+            }
+
+        } catch (Exception $e) {
+            $msg["danger"] = "Impossible d'envoyer l'email";
+        }
+
+        return $msg;
     }
 }
