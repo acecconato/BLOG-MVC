@@ -168,40 +168,54 @@ $title = "Accueil";
         <hr class="star-dark mb-5">
         <div class="row">
 
+        <div class="col-sm-12 col-md-8 mx-auto">
+            <?php
+
+            if(isset($msg)) {
+                if(is_array($msg)) {
+                    foreach ($msg as $type => $message) {
+                        echo "<p class='bg-".$type."'>".$message."</p>";
+                    }
+                } elseif (is_string($msg) && !empty($msg)) {
+                    echo "<p class='bg-danger'>$msg</p>";
+                }
+            }
+            ?>
+        </div>
+
           <div class="col-12 col-lg-8 mx-auto">
-            <form method="POST" action="#" name="contactForm" id="contactForm">
+            <form method="POST" action="#contact">
               <div class="control-group">
                 <div class="form-group floating-label-form-group controls mb-0 pb-2">
                   <label>Nom</label>
-                  <input class="form-control" id="name" type="text" placeholder="Nom" required="required">
+                  <input class="form-control" name="name" type="text" placeholder="Nom" required="required" value="<?= (isset($_POST["name"])) ? strip_tags($_POST["name"]) : null ?>">
                   <p class="help-block text-danger"></p>
                 </div>
               </div>
               <div class="control-group">
                 <div class="form-group floating-label-form-group controls mb-0 pb-2">
                   <label>Adresse email</label>
-                  <input class="form-control" id="emailAddr" type="text" placeholder="Adresse email" required="required">
+                  <input class="form-control" name="email" type="text" placeholder="Adresse email" required="required" value="<?= (isset($_POST["email"])) ? strip_tags($_POST["email"]) : null ?>">
                   <p class="help-block text-danger"></p>
                 </div>
               </div>
               <div class="control-group">
                 <div class="form-group floating-label-form-group controls mb-0 pb-2">
                   <label>Numéro de téléphone</label>
-                  <input class="form-control" id="phone" type="tel" placeholder="Numéro de téléphone (Optionnel)">
+                  <input class="form-control" name="phone" type="tel" placeholder="Numéro de téléphone (Optionnel)" value="<?= (isset($_POST["phone"])) ? strip_tags($_POST["phone"]) : null ?>">
                   <p class="help-block text-danger"></p>
                 </div>
               </div>
               <div class="control-group">
                 <div class="form-group floating-label-form-group controls mb-0 pb-2">
                   <label>Message</label>
-                  <textarea class="form-control" id="message" rows="5" placeholder="Message" required="required"></textarea>
+                  <textarea class="form-control" name="message" rows="5" placeholder="Message" required="required"><?= (isset($_POST["message"])) ? strip_tags($_POST["message"]) : null ?></textarea>
                   <p class="help-block text-danger"></p>
                 </div>
               </div>
               <br>
-              <div id="success"></div>
               <div class="form-group text-center">
-                <button type="submit" class="btn btn-primary btn-xl" id="sendMessageButton">Envoyer mon message</button>
+                <button type="submit" name="submit" class="btn btn-primary btn-lg">Envoyer mon message</button>
               </div>
             </form>
           </div>

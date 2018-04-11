@@ -8,8 +8,11 @@
     <meta name="author" content="Anthony Cecconato">
 
     <title>Anthony Cecconato | <?= htmlspecialchars($title) ?></title>
-<!-- Bootstrap core CSS -->
 
+<!-- Favicon -->
+<link rel="icon" href="/public/img/icon.png">
+
+<!-- Bootstrap core CSS -->
 <link href="/public/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="/public/vendor/bootstrap/css/dashboard.css" rel="stylesheet">
 

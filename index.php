@@ -11,8 +11,11 @@
     $router = new Router($_GET['url']);
 
     $router->get("/", "Frontend#showHome"); // Index page
+    $router->post("/", "Frontend#showHome"); // Index page
 
     $router->get("/unset", "Frontend#unsetSession"); // Disconnect user
+
+    $router->post("/email", "Frontend#sendMail"); // Send email
 
     $router->get("/articles/:id", "Frontend#detailsOfPost")->with(":id", "#[0-9]+#"); // Show the post :id
     $router->post("/articles/:id", "Frontend#addComment")->with(":id", "#[0-9]+#"); // Add a comment on the post :id
@@ -43,6 +46,6 @@
 
     try {
         $router->run();
-    } catch (\App\RouterException $e) {
+    } catch (Exception $e) {
         die("Error : " . $e->getMessage());
     }
