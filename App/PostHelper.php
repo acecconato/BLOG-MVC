@@ -1,6 +1,6 @@
 <?php
 
-    namespace Appl;
+    namespace App;
 
     use Model\Managers\Manager;
     use Model\Managers\PostsManager;

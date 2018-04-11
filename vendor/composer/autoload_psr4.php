@@ -6,7 +6,9 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Model\\' => array($baseDir . '/model'),
-    'Controller\\' => array($baseDir . '/controller'),
-    'App\\' => array($baseDir . '/app'),
+    'Symfony\\Component\\Yaml\\' => array($vendorDir . '/symfony/yaml'),
+    'PHPMailer\\PHPMailer\\' => array($vendorDir . '/phpmailer/phpmailer/src'),
+    'Model\\' => array($baseDir . '/Model'),
+    'Controller\\' => array($baseDir . '/Controller'),
+    'App\\' => array($baseDir . '/App'),
 );

@@ -9,7 +9,7 @@ use App\CommentHelper;
 use App\PostHelper;
 
 use Model\Factories\CommentFactory;
-use Model\factories\PostFactory;
+use Model\Factories\PostFactory;
 
 use Model\Managers\CommentsManager;
 use Model\Managers\PostsManager;

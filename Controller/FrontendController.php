@@ -2,6 +2,7 @@
 
 namespace Controller;
 
+use App\EmailHelper;
 use App\Helper;
 use App\CommentHelper;
 
@@ -160,42 +161,19 @@ class FrontendController extends Controller
     public function sendMail()
     {
         $formData = Helper::secureData($_POST);
-        extract($formData);
+        $errors = EmailHelper::formValidation($formData);
 
-        $errors = [];
-
-        if(isset($name) && isset($email) && isset($message) && !empty($name) && !empty($email) && !empty($name)) {
-            if(strlen($name) > 50) {
-                $errors["warning"] = "Nom trop long. (50 caractères maximum)";
-            } elseif(strlen($name) < 3) {
-                $errors["warning"] = "Nom trop court. (3 caractères minimum)";
-            }
-
-            if(strlen($message) > 1500) {
-                $errors["warning"] = "Message trop long. (1500 caractères max)";
-            } elseif(strlen($message) < 10) {
-                $errors["warning"] = "Message trop court. (10 caractères minimum)";
-            }
-
-            if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $errors["warning"] = "L'adresse email est invalide";
-            }
-
-            if(isset($phone) && !empty($phone)) {
-                if(strlen($phone) !== 10) {
-                    $errors["warning"] = "Le numéro de téléphone est incorrect";
-                }
-            }
-
-        } else {
-            $errors["warning"] = "Vous devez remplir les champs requis";
-        }
-
-        if(!empty($errors)) {
+        if($errors != false){
             return $errors;
         }
 
+        extract($formData);
+
         $mail = new PHPMailer(true);
+
+        /** @var string $name */
+        /** @var string $email */
+        /** @var string $message */
 
         try {
             $mail->setLanguage("fr");
@@ -206,21 +184,28 @@ class FrontendController extends Controller
 
             $mail->Subject  =  'Personnal Blog : Nouveau message !';
             $mail->IsHTML(true);
-            $mail->Body    =    '<strong>Nom : </strong>' . $name . '
+            $mail->Body    =    '<p><strong>Nom : </strong>' . $name . '
                                 <br />
                                 <strong>Email : </strong> ' . $email . '
                                 <br /> ';
 
             (isset($phone) && !empty($phone)) ? $mail->Body .= "<strong>Téléphone : </strong> " . $phone : null;
 
+            $mail->Body .= "</p><p>" . $message . "</p>";
+
+            $mail->AltBody = strip_tags($mail->Body);
+
+            $msg = [];
             if($mail->Send()) {
-                return $msg["success"] = "Le message a bien été envoyé !";
+                $msg["success"] = "Le message a bien été envoyé !";
             } else {
-                return $msg["warning"] =  "Erreur ->" . $mail->ErrorInfo;
+                $msg["warning"] =  "Erreur ->" . $mail->ErrorInfo;
             }
 
         } catch (Exception $e) {
-            return $msg["danger"] = "Impossible d'envoyer l'email";
+            $msg["danger"] = "Impossible d'envoyer l'email";
         }
+
+        return $msg;
     }
 }
