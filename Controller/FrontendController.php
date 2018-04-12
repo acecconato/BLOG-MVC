@@ -120,7 +120,7 @@ class FrontendController extends Controller
         unset($_SESSION["userObject"]);
         session_destroy();
 
-        header("Location: /connexion");
+        header("Location: /");
     }
 
     public function loginValidation()
