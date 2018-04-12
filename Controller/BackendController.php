@@ -64,6 +64,11 @@ class BackendController extends Controller
 
     public function acceptComment($id)
     {
+        if(Helper::verifyToken($this->token) == false) {
+            echo "Token invalide";
+            return false;
+        }
+
         $comment = CommentFactory::getComment($id);
         $comment->setStatus_id(2);
 
@@ -73,6 +78,11 @@ class BackendController extends Controller
 
     public function refuseComment($id)
     {
+        if(Helper::verifyToken($this->token) == false) {
+            echo "Token invalide";
+            return false;
+        }
+
         $comment = CommentFactory::getComment($id);
 
         if($comment->getStatus_id() == 1) {
@@ -100,6 +110,11 @@ class BackendController extends Controller
 
     public function deleteComment($id)
     {
+        if(Helper::verifyToken($this->token) == false) {
+            echo "Token invalide";
+            return false;
+        }
+
         $comment = CommentFactory::getComment($id);
         CommentFactory::deleteComment($comment);
 
@@ -108,6 +123,11 @@ class BackendController extends Controller
 
     public function deletePost($id)
     {
+        if(Helper::verifyToken($this->token) == false) {
+            echo "Token invalide";
+            return false;
+        }
+
         $post = PostFactory::getPost($id);
         PostFactory::deletePost($post);
 
@@ -117,6 +137,11 @@ class BackendController extends Controller
     public function addNewPost()
     {
         if(isset($_POST["submit"])) {
+
+            if(Helper::verifyToken($this->token) == false) {
+                echo "Token invalide";
+                return false;
+            }
 
             $postData = Helper::secureData($_POST);
 
@@ -151,6 +176,11 @@ class BackendController extends Controller
 
     public function editPost($id)
     {
+        if(Helper::verifyToken($this->token) == false) {
+            echo "Token invalide";
+            return false;
+        }
+
         /** @var \Model\Entities\Post $post */
         $post = PostFactory::getPost($id);
 
