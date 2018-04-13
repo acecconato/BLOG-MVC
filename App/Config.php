@@ -23,6 +23,10 @@ class Config
         }
     }
 
+    /**
+     * Returns the configuration instance.
+     * @return Config
+     */
     public static function getInstance()
     {
         if(is_null(self::$_instance)) {
@@ -31,6 +35,10 @@ class Config
         return self::$_instance;
     }
 
+    /**
+     * Returns the allowed types, located in the configuration file, for the posts images.
+     * @return array
+     */
     public function getAllowedPostsImgType()
     {
         $allowedTypes = [];
@@ -41,6 +49,11 @@ class Config
         return $allowedTypes;
     }
 
+    /**
+     * Returns the field requested and available in the configuration file.
+     * @param $key
+     * @return bool|mixed
+     */
     public function get($key) {
         if(!array_key_exists($key, $this->settings)) {
             return false;

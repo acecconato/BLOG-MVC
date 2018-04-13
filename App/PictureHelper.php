@@ -5,6 +5,8 @@
     abstract class PictureHelper extends Helper
     {
         /**
+         * Tries to recover the requested image by performing some checks.
+         * Checks if the file exists and if the file type is allowed in the yaml configuration.
          * @param $file
          * @return bool|string
          * @throws \Exception
@@ -34,6 +36,11 @@
             return null;
         }
 
+        /**
+         * Checks the type of a post image?
+         * @param $fileType
+         * @return bool
+         */
         public static function verifyImagePostType($fileType)
         {
             $allowedTypes = Config::getInstance()->getAllowedPostsImgType();
