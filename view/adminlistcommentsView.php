@@ -35,13 +35,13 @@
                                 <?php
                                     if($comment->getStatus_id() == 1) {
                                 ?>
-                                    <a href="/admin/commentaires/accepter/<?= $comment->getComment_id() ?>"><i class="far fa-lg fa-check-circle " title="Accepter"></i></a>
-                                    <a href="/admin/commentaires/refuser/<?= $comment->getComment_id() ?>"><i class="far fa-lg fa-times-circle" title="Refuser"></i></a>
+                                    <a href="/admin/commentaires/accepter/<?= $comment->getComment_id() . "?token=" . $_SESSION["token"] ?>"><i class="far fa-lg fa-check-circle " title="Accepter"></i></a>
+                                    <a href="/admin/commentaires/refuser/<?= $comment->getComment_id() . "?token=" . $_SESSION["token"] ?>"><i class="far fa-lg fa-times-circle" title="Refuser"></i></a>
                                 <?php
                                     }
                                     if($comment->getStatus_id() == 2 || $comment->getStatus_id() == 3) {
                                 ?>
-                                    <a href="/admin/commentaires/supprimer/<?= $comment->getComment_id() ?>"><i class="far fa-lg fa-trash-alt" title="Supprimer"></i></a>
+                                    <a href="/admin/commentaires/supprimer/<?= $comment->getComment_id() . "?token=" . $_SESSION["token"] ?>"><i class="far fa-lg fa-trash-alt" title="Supprimer"></i></a>
                                 <?php
                                     }
                                 ?>

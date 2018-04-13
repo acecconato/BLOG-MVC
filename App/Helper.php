@@ -99,4 +99,17 @@
 
             return $cb(true);
         }
+
+        public static function verifyToken($token)
+        {
+            if(!isset($_SESSION["token"]) || empty($_SESSION["token"])) {
+                return false;
+            }
+
+            if($_SESSION["token"] != $token[0]) {
+                return false;
+            }
+
+            return true;
+        }
     }

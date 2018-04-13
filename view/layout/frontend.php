@@ -88,11 +88,15 @@
             <div class="col-md-4 mt-5">
             <?php
                 if(isset($_SESSION["userObject"])) {
-            ?>
+                    if(unserialize($_SESSION["userObject"])->getPermissionLevel() >= 10) {
+                ?>
                 <a class="btn btn-md btn-outline-light" href="/admin">
                     <i class="fas fa-unlock-alt mr-1"></i>
                     Administration
                 </a>
+                <?php
+                    }
+                ?>
                 <a class="btn btn-md btn-outline-light" href="/unset">
                     <i class="fas fa-times-circle mr-1"></i>
                     Déconnexion

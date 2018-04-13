@@ -41,8 +41,8 @@
                             <td><?= $post->getCreationDate() ?></td>
                             <td><?= $post->getLastUpdate() ?></td>
                             <td>
-                                <a href="/admin/articles/modifier/<?= $post->getPostId() ?>"><i class="far fa-lg fa-edit" title="Modifier"></i></a>
-                                <a href="/admin/articles/supprimer/<?= $post->getPostId() ?>"><i class="far fa-lg fa-trash-alt" title="Supprimer"></i></a>
+                                <a href="/admin/articles/modifier/<?= $post->getPostId() . "?token=" . $_SESSION["token"] ?>"><i class="far fa-lg fa-edit" title="Modifier"></i></a>
+                                <a href="/admin/articles/supprimer/<?= $post->getPostId() . "?token=" . $_SESSION["token"] ?>"><i class="far fa-lg fa-trash-alt" title="Supprimer"></i></a>
                             </td>
                         </tr>
                         <?php } ?>

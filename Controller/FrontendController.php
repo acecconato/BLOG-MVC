@@ -117,6 +117,7 @@ class FrontendController extends Controller
 
     public function unsetSession()
     {
+        unset($_SESSION["token"]);
         unset($_SESSION["userObject"]);
         session_destroy();
 
@@ -143,7 +144,15 @@ class FrontendController extends Controller
             if(!is_object($user)) {
                 $msg = $user;
             } else {
-                $_SESSION["userObject"] = serialize($user);
+                try {
+                    session_regenerate_id(true);
+                    $_SESSION["userObject"] = serialize($user);
+                    $_SESSION["token"] = bin2hex(random_bytes(16));
+                } catch (\Exception $e) {
+                    echo "Impossible de se connecter : " . $e->getMessage();
+                    session_destroy();
+                }
+
                 header("Location: /connexion");
             }
 
