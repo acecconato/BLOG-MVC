@@ -7,6 +7,10 @@ use Model\Entities\Post;
 class PostsManager extends Manager
 {
 
+    /**
+     * Returns all posts and their latest update date as an array.
+     * @return array
+     */
     public function countPosts()
     {
         $query = $this->dbh->prepare("
@@ -19,6 +23,10 @@ class PostsManager extends Manager
         return $result;
     }
 
+    /**
+     * Returns all posts as an array.
+     * @return array
+     */
     public function getAllPosts()
     {
         $query = $this->dbh->prepare("
@@ -36,49 +44,11 @@ class PostsManager extends Manager
         return $result;
     }
 
-    public function getPostsBetween($a, $b)
-    {
-        $query = $this->dbh->prepare("
-            SELECT  posts.*,
-                    DATE_FORMAT(posts.creationDate, '%d/%m/%y à %Hh%i') as creationDate, 
-                    DATE_FORMAT(posts.lastUpdate, '%d/%m/%y à %Hh%i') as lastUpdate,
-                    u.pseudo as author
-            FROM posts
-            INNER JOIN users u ON posts.user_id = u.user_id
-            WHERE post_id BETWEEN ':a' AND ':b'
-            ORDER BY post_id DESC
-        ");
-
-        $query->bindValue(":a", $a, \PDO::PARAM_INT);
-        $query->bindValue("b", $b, \PDO::PARAM_INT);
-
-        $query->execute();
-        $result = $query->fetchAll();
-        $query->closeCursor();
-        return $result;
-    }
-
-    public function getAllPostsWithLimit($limit)
-    {
-        $query = $this->dbh->prepare("
-            SELECT  posts.*,
-                    DATE_FORMAT(posts.creationDate, '%d/%m/%y à %Hh%i') as creationDate, 
-                    DATE_FORMAT(posts.lastUpdate, '%d/%m/%y à %Hh%i') as lastUpdate,
-                    u.pseudo as author
-            FROM posts
-            INNER JOIN users u ON posts.user_id = u.user_id
-            ORDER BY post_id DESC
-            LIMIT :limit
-        ");
-
-        $query->bindValue(":limit", $limit, \PDO::PARAM_INT);
-
-        $query->execute();
-        $result = $query->fetchAll();
-        $query->closeCursor();
-        return $result;
-    }
-
+    /**
+     * Returns a post by its id as an array.
+     * @param $id
+     * @return mixed
+     */
     public function getPostById($id)
     {
         $query = $this->dbh->prepare("
@@ -98,6 +68,7 @@ class PostsManager extends Manager
     }
 
     /**
+     * Try to add a new post in the database and returns the last insert ID.
      * @param Post $post
      * @return string
      * @throws \Exception
@@ -125,8 +96,9 @@ class PostsManager extends Manager
     }
 
     /**
+     * Try to update a post in the database.
      * @param Post $post
-     * @param bool $updateDate
+     * @param bool $changeUpdateDate
      * @throws \Exception
      */
     public function updatePost(Post $post, $changeUpdateDate = true)
@@ -150,6 +122,7 @@ class PostsManager extends Manager
     }
 
     /**
+     * Try to delete a post by its id in the database.
      * @param $id
      * @throws \Exception
      */
