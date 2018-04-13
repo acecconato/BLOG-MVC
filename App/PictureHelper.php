@@ -37,7 +37,7 @@
         }
 
         /**
-         * Checks the type of a post image?
+         * Checks the type of a post image.
          * @param $fileType
          * @return bool
          */
@@ -52,6 +52,11 @@
             }
         }
 
+        /**
+         * Adds an image to the defined folder.
+         * Also check that it does not already exist, otherwise the old one is deleted and the new one is added.
+         * @param array $picture
+         */
         public static function addNewPicture(array $picture)
         {
             $defaultPicturePath = Config::getInstance()->get("default_posts_picture");
