@@ -14,7 +14,7 @@ class Router
     }
 
     /**
-     * Create a GET route
+     * Create a route with HTTP method GET
      * @param $path
      * @param $callable
      * @param null $name
@@ -26,7 +26,7 @@ class Router
     }
 
     /**
-     * Create a POST route
+     * Create a route with HTTP method POST
      * @param $path
      * @param $callable
      * @param null $name
@@ -38,7 +38,7 @@ class Router
     }
 
     /**
-     * Create a route object and add it in a table sorted by methods (GET, POST).
+     * Create a route object and add it in an array sorted by methods (GET, POST).
      * Create the named route and return the route object.
      * @param $path
      * @param $callable

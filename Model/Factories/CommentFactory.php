@@ -7,6 +7,11 @@
 
     abstract class CommentFactory extends Factory
     {
+        /**
+         * Retrieves validated comments of a post and returns them in an array of objects.
+         * @param Post $post
+         * @return array
+         */
         public static function getValidatedCommentsOfPost(Post $post)
         {
             /** @var \Model\Managers\CommentsManager $commentsManager */
@@ -20,6 +25,10 @@
             return $validatedComments;
         }
 
+        /**
+         * Get all comments and returns them in an array of objects.
+         * @return array
+         */
         public static function getAllComments()
         {
             $allComments = self::getManager("comments")->getAllComments();
@@ -32,6 +41,11 @@
             return $comments;
         }
 
+        /**
+         * Get comment by its id and returns it as an object.
+         * @param $id
+         * @return Comment|void
+         */
         public static function getComment($id)
         {
             $commentData = self::getManager("comments")->getCommentById($id);
@@ -43,6 +57,10 @@
             return header("Location: /admin/commentaires");
         }
 
+        /**
+         * Update a comment.
+         * @param Comment $comment
+         */
         public static function updateComment(Comment $comment)
         {
             try {
@@ -52,6 +70,10 @@
             }
         }
 
+        /**
+         * Delete a comment.
+         * @param Comment $comment
+         */
         public static function deleteComment(Comment $comment)
         {
             $id = $comment->getComment_id();

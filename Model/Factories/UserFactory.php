@@ -6,6 +6,13 @@
 
     abstract class UserFactory extends Factory
     {
+        /**
+         * Trying to connect the user by checking his information.
+         * If it's good, returns the user's object.
+         * @param $identifier
+         * @param $password
+         * @return User
+         */
         public static function tryConnectUser($identifier, $password)
         {
             $userToCreate = self::getManager("users")->loginVerification($identifier, $password);

@@ -19,6 +19,10 @@ class Post extends Entity
         $this->hydrate($data);
     }
 
+    /**
+     * Retrieves the image associated with the post to display.
+     * @return bool|string
+     */
     public function getImageForDisplay()
     {
         try {

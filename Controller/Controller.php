@@ -10,6 +10,11 @@ abstract class Controller
     protected $controllerName;
     protected $token;
 
+    /**
+     * Method for generating a view and its template.
+     * @param $name
+     * @param array $args
+     */
     protected function generatePage($name, $args = [])
     {
         $view = strtolower($name);
@@ -35,6 +40,7 @@ abstract class Controller
     }
 
     /**
+     * Method for generating only the view
      * @param $name
      * @param array $args
      * @throws \Exception
@@ -51,6 +57,10 @@ abstract class Controller
         require $viewToLoad;
     }
 
+    /**
+     * Checks if the user is an administrator and also checks tokens.
+     * @return bool
+     */
     protected function checkIsAdmin()
     {
         if(isset($_SESSION["userObject"])) {
@@ -75,6 +85,10 @@ abstract class Controller
         die();
     }
 
+    /**
+     * Checks if the user is connected.
+     * @return bool
+     */
     protected function isConnected()
     {
         if(isset($_SESSION["userObject"])) {
