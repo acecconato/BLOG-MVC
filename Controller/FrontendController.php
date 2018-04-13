@@ -145,6 +145,7 @@ class FrontendController extends Controller
                 $msg = $user;
             } else {
                 try {
+                    session_regenerate_id(true);
                     $_SESSION["userObject"] = serialize($user);
                     $_SESSION["token"] = bin2hex(random_bytes(16));
                 } catch (\Exception $e) {
