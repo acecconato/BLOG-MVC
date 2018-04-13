@@ -5,6 +5,8 @@
     abstract class PictureHelper extends Helper
     {
         /**
+         * Tries to recover the requested image by performing some checks.
+         * Checks if the file exists and if the file type is allowed in the yaml configuration.
          * @param $file
          * @return bool|string
          * @throws \Exception
@@ -34,6 +36,11 @@
             return null;
         }
 
+        /**
+         * Checks the type of a post image.
+         * @param $fileType
+         * @return bool
+         */
         public static function verifyImagePostType($fileType)
         {
             $allowedTypes = Config::getInstance()->getAllowedPostsImgType();
@@ -45,6 +52,11 @@
             }
         }
 
+        /**
+         * Adds an image to the defined folder.
+         * Also check that it does not already exist, otherwise the old one is deleted and the new one is added.
+         * @param array $picture
+         */
         public static function addNewPicture(array $picture)
         {
             $defaultPicturePath = Config::getInstance()->get("default_posts_picture");

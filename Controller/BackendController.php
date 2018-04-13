@@ -24,6 +24,9 @@ class BackendController extends Controller
         $this->controllerName = __CLASS__;
     }
 
+    /**
+     * Generates the admin home page
+     */
     public function adminHome()
     {
         /** @var CommentsManager $commentsManager */
@@ -35,6 +38,9 @@ class BackendController extends Controller
         $this->generatePage("adminHome", compact("nb"));
     }
 
+    /**
+     * Generates the posts administration page
+     */
     public function adminPosts()
     {
         $posts = PostFactory::getAllPosts();
@@ -48,6 +54,9 @@ class BackendController extends Controller
         $this->generatePage("adminListPosts", compact("posts", "pagination", "navigation"));
     }
 
+    /**
+     * Generates the comments administration page
+     */
     public function adminComments()
     {
         $comments = CommentFactory::getAllComments();
@@ -62,6 +71,11 @@ class BackendController extends Controller
         $this->generatePage("adminListComments", compact("comments", "pagination", "navigation"));
     }
 
+    /**
+     * Method for accepting a comment.
+     * @param $id
+     * @return bool|void
+     */
     public function acceptComment($id)
     {
         if(Helper::verifyToken($this->token) == false) {
@@ -76,6 +90,11 @@ class BackendController extends Controller
         return header("Location: /admin/commentaires");
     }
 
+    /**
+     * Method for refuse a comment.
+     * @param $id
+     * @return bool|void
+     */
     public function refuseComment($id)
     {
         if(Helper::verifyToken($this->token) == false) {
@@ -108,6 +127,11 @@ class BackendController extends Controller
         return false;
     }
 
+    /**
+     * Method for delete a comment.
+     * @param $id
+     * @return bool|void
+     */
     public function deleteComment($id)
     {
         if(Helper::verifyToken($this->token) == false) {
@@ -121,6 +145,11 @@ class BackendController extends Controller
         return header("Location: /admin/commentaires");
     }
 
+    /**
+     * Method for delete a post
+     * @param $id
+     * @return bool|void
+     */
     public function deletePost($id)
     {
         if(Helper::verifyToken($this->token) == false) {
@@ -134,6 +163,10 @@ class BackendController extends Controller
         return header("Location: /admin/articles");
     }
 
+    /**
+     * Method for adding a new post
+     * @return bool
+     */
     public function addNewPost()
     {
         if(isset($_POST["submit"])) {
@@ -174,6 +207,11 @@ class BackendController extends Controller
         }
     }
 
+    /**
+     * Method for edit a post
+     * @param $id
+     * @return bool
+     */
     public function editPost($id)
     {
         if(Helper::verifyToken($this->token) == false) {

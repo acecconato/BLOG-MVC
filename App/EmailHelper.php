@@ -5,7 +5,7 @@ namespace App;
 class EmailHelper
 {
     /**
-     * Returns errors encoutered during the verification.
+     * Checks the data sent by the user when trying to send an email.
      * Return false if there is no error.
      * @param array $data
      * @return bool

@@ -6,6 +6,11 @@
 
     class PostFactory extends Factory
     {
+        /**
+         * Get a post by its id and returns him as an object.
+         * @param $id
+         * @return Post|void
+         */
         public static function getPost($id)
         {
 
@@ -18,6 +23,10 @@
             return header("Location: /admin/articles");
         }
 
+        /**
+         * Retrieves all posts and returns them as an array of objects.
+         * @return array
+         */
         public static function getAllPosts()
         {
             $allPosts = self::getManager("posts")->getAllPosts();
@@ -30,6 +39,10 @@
             return $posts;
         }
 
+        /**
+         * Delete a post
+         * @param Post $comment
+         */
         public static function deletePost(Post $comment)
         {
             $id = $comment->getPostId();
@@ -41,6 +54,11 @@
             }
         }
 
+        /**
+         * Add a new post and returns the last insert ID.
+         * @param Post $post
+         * @return bool
+         */
         public static function addNewPost(Post $post)
         {
             try {
@@ -52,6 +70,11 @@
             }
         }
 
+        /**
+         * Create a new post object from a data array.
+         * @param array $data
+         * @return Post
+         */
         public static function createPost(array $data)
         {
             $post = new Post($data);
@@ -63,6 +86,11 @@
             return $post;
         }
 
+        /**
+         * Updates a post and specifying if you want to update the modification date.
+         * @param Post $post
+         * @param bool $changeUpdateDate
+         */
         public static function updatePost(Post $post, $changeUpdateDate = true)
         {
             try {

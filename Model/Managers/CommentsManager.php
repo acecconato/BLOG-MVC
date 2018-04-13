@@ -8,6 +8,10 @@ use Model\Entities\Post;
 class CommentsManager extends Manager
 {
 
+    /**
+     * Returns all comments and their status as an array.
+     * @return array
+     */
     public function countComments()
     {
         $query = $this->dbh->prepare("
@@ -21,8 +25,8 @@ class CommentsManager extends Manager
     }
 
     /**
+     * Returns all comments with their posts and status as an array.
      * @return array
-     * Get all comments
      */
     public function getAllComments()
     {
@@ -44,60 +48,10 @@ class CommentsManager extends Manager
     }
 
     /**
-     * @param $limit
+     * Returns all validated comments of a post as an array.
+     * @param Post $post
      * @return array
-     * Get $limit latest comments
      */
-    public function getLatestCommentsWithLimit($limit)
-    {
-        $query = $this->dbh->prepare("
-            SELECT  c.*,
-            DATE_FORMAT(c.creationDate, '%d/%m/%y à %Hh%i') as creationDate,
-                    p.post_id,
-                    s.status_id, s.label
-            FROM comments c
-            INNER JOIN posts p ON c.post_id = p.post_id
-            INNER JOIN status s ON c.status_id = s.status_id
-            ORDER BY c.comment_id DESC LIMIT :limit
-        ");
-
-        $query->bindValue(":limit", $limit, \PDO::PARAM_INT);
-
-        $query->execute();
-        $result = $query->fetchAll();
-        $query->closeCursor();
-        return $result;
-    }
-
-    /**
-     * @param $a
-     * @param $b
-     * @return array
-     * Get all comments between two values (comment_id) sorted from newest to oldest
-     */
-    public function getLatestCommentBetween($a, $b)
-    {
-        $query = $this->dbh->prepare("
-            SELECT  c.*, 
-            DATE_FORMAT(c.creationDate, '%d/%m/%y à %Hh%i') as creationDate,
-                    p.post_id,
-                    s.status_id, s.label
-            FROM comments c
-            INNER JOIN posts p ON c.post_id = p.post_id
-            INNER JOIN status s ON c.status_id = s.status_id
-            WHERE c.comment_id BETWEEN :a AND :b
-            ORDER BY c.comment_id DESC
-        ");
-
-        $query->bindValue(":a", $a, \PDO::PARAM_INT);
-        $query->bindValue(":b", $b, \PDO::PARAM_INT);
-
-        $query->execute();
-        $result = $query->fetchAll();
-        $query->closeCursor();
-        return $result;
-    }
-
     public function getValidatedCommentsOfPost(Post $post)
     {
         $query = $this->dbh->prepare("
@@ -118,9 +72,9 @@ class CommentsManager extends Manager
     }
 
     /**
+     * Returns a comment by its id as an array.
      * @param $id
-     * @return array
-     * Get a comment by his comment_id
+     * @return mixed
      */
     public function getCommentById($id)
     {
@@ -144,6 +98,7 @@ class CommentsManager extends Manager
     }
 
     /**
+     * Try to add a comment in the database and returns the number of affected lines.
      * @param Comment $comment
      * @return int
      * @throws \Exception
@@ -171,6 +126,7 @@ class CommentsManager extends Manager
     }
 
     /**
+     * Try to update a comment in the database.
      * @param Comment $comment
      * @throws \Exception
      */
@@ -195,6 +151,7 @@ class CommentsManager extends Manager
     }
 
     /**
+     * Try to delete a comment in the database by its id.
      * @param $id
      * @throws \Exception
      */

@@ -28,6 +28,9 @@ class FrontendController extends Controller
         $this->controllerName = __CLASS__;
     }
 
+    /**
+     * Generates the home page
+     */
     public function showHome()
     {
         if(isset($_POST["submit"])) {
@@ -40,6 +43,10 @@ class FrontendController extends Controller
         return;
     }
 
+    /**
+     * Generates a post's details page
+     * @param $id
+     */
     public function detailsOfPost($id)
     {
         $post = PostFactory::getPost($id);
@@ -52,6 +59,10 @@ class FrontendController extends Controller
         $this->generatePage("Post", compact("post", "comments"));
     }
 
+    /**
+     * Performs verifications and add a comment.
+     * @param $id
+     */
     public function addComment($id)
     {
         $post = PostFactory::getPost($id);
@@ -90,6 +101,9 @@ class FrontendController extends Controller
         $this->generatePage("Post", compact("msg", "post", "comments"));
     }
 
+    /**
+     * Generates the blog page
+     */
     public function getAllPosts()
     {
         $posts = PostFactory::getAllPosts();
@@ -103,6 +117,9 @@ class FrontendController extends Controller
         $this->generatePage("Blog", compact("posts", "pagination", "navigation"));
     }
 
+    /**
+     * Generates the login page
+     */
     public function loginForm()
     {
         if($this->isConnected()) {
@@ -115,6 +132,9 @@ class FrontendController extends Controller
             }
     }
 
+    /**
+     * Disconnects the user by destroying his sessions.
+     */
     public function unsetSession()
     {
         unset($_SESSION["token"]);
@@ -124,6 +144,10 @@ class FrontendController extends Controller
         header("Location: /");
     }
 
+    /**
+     * Check the login form and connect the user by creating $_SESSION if everything is good.
+     * Otherwrise, redirect to the login page.
+     */
     public function loginValidation()
     {
         if (!isset($_POST["submit"])) {
@@ -167,6 +191,10 @@ class FrontendController extends Controller
         }
     }
 
+    /**
+     * Checks the data in the email form and sends the email to the recipient.
+     * @return array|bool
+     */
     public function sendMail()
     {
         $formData = Helper::secureData($_POST);
