@@ -17,6 +17,11 @@ abstract class Manager
         (is_null($type)) ? $this->dbh = PDOFactory::create($this->getDefaultType()) : $this->dbh = PDOFactory::create($type);
     }
 
+    /**
+     * Returns the manager of the requested entity.
+     * @param $name
+     * @return mixed
+     */
     public static function getManagerOf($name)
     {
         $name = strtolower($name);
