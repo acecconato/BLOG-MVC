@@ -15,12 +15,23 @@ class Route
         $this->callable = $callable;
     }
 
+    /**
+     * Filters parameters with REGEX and then returns the object.
+     * @param $param
+     * @param $regex
+     * @return $this
+     */
     public function with($param, $regex)
     {
         $this->params[$param] = str_replace('(', '(?:', $regex);
         return $this;
     }
 
+    /**
+     * Check if the URL matches a defined route.
+     * @param $url
+     * @return bool
+     */
     public function match($url)
     {
         $url = trim($url, "/");
@@ -36,6 +47,11 @@ class Route
         return true;
     }
 
+    /**
+     * Check if there is a parameter in the route.
+     * @param $match
+     * @return string
+     */
     private function paramMatch($match)
     {
         if(isset($this->params[$match[1]])) {
@@ -45,6 +61,10 @@ class Route
         return "([^/]+)";
     }
 
+    /**
+     * Call the controller and the method attached to the route.
+     * @return mixed
+     */
     public function call()
     {
         if(is_string($this->callable)) {
@@ -55,15 +75,5 @@ class Route
         } else {
             return call_user_func_array($this->callable, $this->matches);
         }
-    }
-
-    public function getUrl($params)
-    {
-        $path = $this->path;
-        foreach($params as $k => $v) {
-            $path = str_replace(":$k", $v, $path);
-        }
-
-        return $path;
     }
 }

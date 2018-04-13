@@ -6,6 +6,11 @@ use App\Config;
 
 abstract class PDOFactory
 {
+    /**
+     * Create a PDO connection to the database.
+     * @param $type
+     * @return \PDO
+     */
     public static function create($type)
     {
         $cfg = Config::getInstance();

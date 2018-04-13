@@ -37,6 +37,7 @@
                 </div>
 
                 <div class="form-group">
+                    <input type="hidden" name="token" id="token" value="<?= (isset($_SESSION["token"])) ? $_SESSION["token"] : null ?>" />
                     <button type="submit" name="submit" class="btn btn-primary">
                         Créer
                     </button>

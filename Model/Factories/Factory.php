@@ -8,6 +8,11 @@
     {
         private static $managers = [];
 
+        /**
+         * Returns the requested manager.
+         * @param $manager
+         * @return mixed
+         */
         public static function getManager($manager)
         {
             self::$managers["posts"] = Manager::getManagerOf("Posts");

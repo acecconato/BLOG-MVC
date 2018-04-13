@@ -4,6 +4,12 @@
 
     abstract class Helper
     {
+        /**
+         * Receives a data table to secure its values and return them.
+         * Deletes tags directly, this method is not adapted in order to format HTML in the future.
+         * @param array $data
+         * @return array
+         */
         public static function secureData(array $data)
         {
             $vars = [];
@@ -19,14 +25,11 @@
             return $vars;
         }
 
-        public function displayFormattedContentFromDb($content)
-        {
-            $content = stripslashes($content);
-            $content = nl2br($content);
-
-            return $content;
-        }
-
+        /**
+         * Checks the data sent by the user when trying to connect.
+         * @param $loginForm
+         * @return bool
+         */
         public static function verifyLoginForm($loginForm)
         {
             $identifier = $loginForm["identifier"];
@@ -43,6 +46,13 @@
             return true;
         }
 
+        /**
+         * Checks the data sent by the user when trying to add a post.
+         * This function returns several callbacks in order to use them in the call method.
+         * @param $data
+         * @param callable $cb
+         * @return mixed
+         */
         public static function verifyAddPostForm($data, callable $cb)
         {
 
@@ -98,5 +108,23 @@
             }
 
             return $cb(true);
+        }
+
+        /**
+         * Checks a user's tokens to protect him against Cross Site Request Forgery
+         * @param $token
+         * @return bool
+         */
+        public static function verifyToken($token)
+        {
+            if(!isset($_SESSION["token"]) || empty($_SESSION["token"])) {
+                return false;
+            }
+
+            if($_SESSION["token"] != $token[0]) {
+                return false;
+            }
+
+            return true;
         }
     }

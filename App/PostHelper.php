@@ -7,6 +7,11 @@
 
     abstract class PostHelper extends Helper
     {
+        /**
+         * Count all posts then group them by their status.
+         * Used in the admin panel.
+         * @return mixed
+         */
         public static function countAll()
         {
             /** @var PostsManager $postsManager */

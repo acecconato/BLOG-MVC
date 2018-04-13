@@ -7,6 +7,11 @@
 
     abstract class CommentHelper extends Helper
     {
+        /**
+         * Count all comments and order the result by their status
+         * This method is called when displaying the admin homepage
+         * @return mixed
+         */
         public static function countAll()
         {
             /** @var CommentsManager $commentsManager */
@@ -38,6 +43,11 @@
             return $nb;
         }
 
+        /**
+         * Checks the data sent by the user when trying to add a new comment.
+         * @param $commentData
+         * @return array|bool
+         */
         public static function verifyComment($commentData)
         {
             $pseudo = $commentData["author"];

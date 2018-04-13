@@ -18,6 +18,11 @@ class Pagination
         $this->setNbPerPage($nbPerPage);
     }
 
+    /**
+     * Receives a data array as a parameter and returns the paginated data.
+     * @param array $data
+     * @return array|void
+     */
     public function pagine(array $data)
     {
         $paginatedData = [];
@@ -38,6 +43,10 @@ class Pagination
         return $paginatedData;
     }
 
+    /**
+     * Creates navigation and returns it as a table.
+     * @return array
+     */
     protected function createNavigation()
     {
         $navigation = range(0, $this->getTotalPage());
@@ -56,6 +65,10 @@ class Pagination
         return array_slice($navigation, $offset, $length);
     }
 
+    /**
+     * Get the previous page.
+     * @return bool|int
+     */
     public function previous()
     {
         if($this->getActualPage() < 1) {
@@ -65,6 +78,10 @@ class Pagination
         return (int) $this->getActualPage() - 1;
     }
 
+    /**
+     * Get the next page.
+     * @return bool|int
+     */
     public function next()
     {
         if(($this->getActualPage() + 1) > $this->getTotalPage()) {
@@ -74,6 +91,10 @@ class Pagination
         return (int) $this->getActualPage() + 1;
     }
 
+    /**
+     * Get the first page.
+     * @return bool|int
+     */
     public function first()
     {
         if($this->getActualPage() <= 0) {
@@ -83,6 +104,10 @@ class Pagination
         return (int) 0;
     }
 
+    /**
+     * Get the last page.
+     * @return bool|int
+     */
     public function end()
     {
         if($this->getActualPage() >= $this->getTotalPage()) {

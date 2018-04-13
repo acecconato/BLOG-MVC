@@ -1,5 +1,9 @@
 <?php
 
+    ini_set("session.use_only_cookies", true);
+    ini_set("session.use_trans_sid", false);
+    ini_set("session.cookie_lifetime", 1200); // 20mns
+
     session_start();
 
     define("ROOT", dirname(__FILE__));

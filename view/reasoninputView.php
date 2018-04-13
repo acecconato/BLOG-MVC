@@ -2,7 +2,7 @@
     $title = "Spécifier la raison";
 ?>
 
-    <div class="col-sm-12 col-md-8 text-center mx-auto">
+    <div class="col-sm-12 col-md-8 text-center mx-auto mt-5">
         <form action="" method="POST">
             <div class="form-group">
                 <label for="reason">Raison du refus</label>

@@ -2,12 +2,19 @@
 
 namespace Controller;
 
+use App\Helper;
 use Model\Entities\User;
 
 abstract class Controller
 {
     protected $controllerName;
+    protected $token;
 
+    /**
+     * Method for generating a view and its template.
+     * @param $name
+     * @param array $args
+     */
     protected function generatePage($name, $args = [])
     {
         $view = strtolower($name);
@@ -33,6 +40,7 @@ abstract class Controller
     }
 
     /**
+     * Method for generating only the view
      * @param $name
      * @param array $args
      * @throws \Exception
@@ -49,12 +57,24 @@ abstract class Controller
         require $viewToLoad;
     }
 
+    /**
+     * Checks if the user is an administrator and also checks tokens.
+     * @return bool
+     */
     protected function checkIsAdmin()
     {
         if(isset($_SESSION["userObject"])) {
             /** @var User $user */
             $user = unserialize($_SESSION["userObject"]);
             if(is_object($user)) {
+                if(isset($_GET["token"]) && !empty($_GET["token"])) {
+                    $this->token = Helper::secureData([$_GET["token"]]);
+                }
+
+                if(isset($_POST["token"]) && !empty($_POST["token"])) {
+                    $this->token = Helper::secureData([$_POST["token"]]);
+                }
+
                 if($user->getPermissionLevel() >= 10) {
                     return true;
                 }
@@ -65,6 +85,10 @@ abstract class Controller
         die();
     }
 
+    /**
+     * Checks if the user is connected.
+     * @return bool
+     */
     protected function isConnected()
     {
         if(isset($_SESSION["userObject"])) {
