@@ -65,7 +65,7 @@ $title = "Accueil";
                 <h3><i class="fab fa-html5 "></i>
                   HTML5
                   <span class="d-block">
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                   </span>
                 </h3>
           </div>
@@ -74,7 +74,7 @@ $title = "Accueil";
               <h3><i class="fab fa-css3"></i>
                 CSS3
                 <span class="d-block">
-                  <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                  <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
                 </span>
               </h3>
           </div>
@@ -84,7 +84,7 @@ $title = "Accueil";
               <i class="fab fa-php"></i>
               PHP
               <span class="d-block">
-                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
               </span>
             </h3>
           </div>
@@ -108,7 +108,7 @@ $title = "Accueil";
               <i class="fab fa-github"></i>
                Git
               <span class="d-block">
-                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
               </span>
             </h3>
           </div>
@@ -117,7 +117,7 @@ $title = "Accueil";
                 <h3><i class="fas fa-database "></i>
                   SQL / Merise 2
                   <span class="d-block">
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
                   </span>
                 </h3>
           </div>
@@ -130,7 +130,7 @@ $title = "Accueil";
               <i class="fas fa-code"></i>
                Lua
               <span class="d-block">
-                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
               </span>
             </h3>
           </div>
@@ -140,7 +140,7 @@ $title = "Accueil";
               <i class="fab fa-wordpress"></i>
                Wordpress
               <span class="d-block">
-                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
               </span>
             </h3>
           </div>
