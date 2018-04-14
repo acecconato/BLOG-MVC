@@ -38,7 +38,7 @@ class CommentsManager extends Manager
             FROM comments c
             INNER JOIN posts p ON c.post_id = p.post_id
             INNER JOIN status s ON c.status_id = s.status_id
-            ORDER BY comment_id DESC
+            ORDER BY c.creationDate DESC, c.status_id ASC
         ");
 
         $query->execute();
