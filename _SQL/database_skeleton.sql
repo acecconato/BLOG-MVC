@@ -55,7 +55,7 @@ CREATE TABLE posts
   title VARCHAR(255) NOT NULL,
   content TEXT NOT NULL,
   picture VARCHAR(50),
-  lastUpdate TIMESTAMP,
+  lastUpdate TIMESTAMP NULL,
   user_id INT UNSIGNED NOT NULL,
   PRIMARY KEY (post_id),
   INDEX ind_lastUpdate (lastUpdate),
