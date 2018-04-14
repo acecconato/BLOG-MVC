@@ -1,14 +1,6 @@
 SET NAMES "UTF8";
 
 -- -----------------------
--- Database creation
--- -----------------------
-DROP DATABASE IF EXISTS perso_blog;
-CREATE DATABASE perso_blog CHARACTER SET "UTF8MB4" COLLATE utf8mb4_general_ci;
-
-USE perso_blog;
-
--- -----------------------
 -- Users table creation
 -- -----------------------
 DROP TABLE IF EXISTS users;
@@ -19,7 +11,7 @@ CREATE TABLE users
   email VARCHAR(255) NOT NULL,
   pseudo VARCHAR(100) NOT NULL,
   password VARCHAR(255) NOT NULL,
-  creationDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  creationDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (user_id),
   UNIQUE INDEX ind_email (email),
   UNIQUE INDEX ind_pseudo(pseudo)
@@ -33,7 +25,7 @@ CREATE TABLE comments
 (
   comment_id INT UNSIGNED AUTO_INCREMENT,
   content TEXT NOT NULL,
-  creationDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  creationDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   reason VARCHAR(255),
   post_id INT UNSIGNED NOT NULL,
   status_id INT UNSIGNED DEFAULT 1,
@@ -59,7 +51,7 @@ DROP TABLE IF EXISTS posts;
 CREATE TABLE posts
 (
   post_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  creationDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  creationDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   title VARCHAR(255) NOT NULL,
   content TEXT NOT NULL,
   picture VARCHAR(50),
@@ -67,9 +59,7 @@ CREATE TABLE posts
   user_id INT UNSIGNED NOT NULL,
   PRIMARY KEY (post_id),
   INDEX ind_lastUpdate (lastUpdate),
-  FULLTEXT INDEX ind_full_title (title),
-  FULLTEXT INDEX ind_full_content (content),
-  FULLTEXT INDEX ind_full_title_content (title, content)
+  INDEX ind_full_title (title)
 )ENGINE=InnoDB;
 
 -- -----------------------

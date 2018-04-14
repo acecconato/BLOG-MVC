@@ -1,5 +1,3 @@
-USE perso_blog;
-
 INSERT INTO status (status_id, label) VALUES
   (1, 'En attente'),
   (2, 'Validé'),
