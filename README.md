@@ -16,9 +16,10 @@ _If you are not sure about the web server, you can use [XAMPP](https://www.apach
  1. Clone or download the repository
  2. Place content in your web server
  3. Go to the project directory and run the command : `composer install`
- 4. Import the `_SQL/database.sql` file into your database
- 5. Open the file `App/Config/config.yaml` then configure the connection to the database
- 6. Everything should be good !
+ 4. Import the `_SQL/database_skeleton.sql` file into your database
+ 5. Import the `_SQL/example_data_set.sql` file into your database
+ 6. Open the file `App/Config/config.yaml` then configure the connection to the database
+ 7. Everything should be good !
 
 ### If you have any problems
 
