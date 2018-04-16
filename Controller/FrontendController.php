@@ -213,24 +213,31 @@ class FrontendController extends Controller
         /** @var string $message */
 
         try {
+
+            $name = strip_tags($name);
+            $email = strip_tags($email);
+            $message = strip_tags($message);
+
             $mail->setLanguage("fr");
             $mail->CharSet =  "utf-8";
 
             $mail->setFrom($email, $name);
-            $mail->AddAddress('antho.cecc@gmail.com');
+            $mail->AddAddress(Config::getInstance()->get("contact_email"));
 
             $mail->Subject  =  'Personnal Blog : Nouveau message !';
             $mail->IsHTML(true);
-            $mail->Body    =    '<p><strong>Nom : </strong>' . $name . '
-                                <br />
-                                <strong>Email : </strong> ' . $email . '
-                                <br /> ';
 
-            (isset($phone) && !empty($phone)) ? $mail->Body .= "<strong>Téléphone : </strong> " . $phone : null;
+            $bodyMessage = '<p><strong>Nom : </strong>' . $name . '
+                            <br />
+                            <strong>Email : </strong> ' . $email . '
+                            <br />';
 
-            $mail->Body .= "</p><p>" . $message . "</p>";
+            (isset($phone) && !empty($phone)) ? $bodyMessage .= "<strong>Téléphone : </strong> " . strip_tags($phone) : null;
 
-            $mail->AltBody = strip_tags($mail->Body);
+            $bodyMessage .= "</p><p>" . $message . "</p>";
+
+            $mail->Body = trim(stripslashes($bodyMessage));
+            $mail->AltBody = trim(strip_tags($mail->Body));
 
             $msg = [];
             if($mail->Send()) {

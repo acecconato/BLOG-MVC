@@ -8,6 +8,10 @@ DATABASE:
   # Default database type
   default_sql_type: mysql
 
+CONTACT:
+  # Contact email
+  contact_email: "antho.cecc@gmail.com"
+
 PATH:
   # Folder for storing posts images
   default_posts_picture: "/public/img/posts"
