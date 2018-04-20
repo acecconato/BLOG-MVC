@@ -2,7 +2,7 @@
 
 namespace App;
 
-class EmailHelper
+class EmailHelper extends Helper
 {
     /**
      * Checks the data sent by the user when trying to send an email.
