@@ -4,7 +4,7 @@ namespace Model\Factories;
 
 use App\Config;
 
-abstract class PDOFactory
+abstract class PDOFactory extends Factory
 {
     /**
      * Create a PDO connection to the database.
