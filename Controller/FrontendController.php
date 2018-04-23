@@ -2,6 +2,7 @@
 
 namespace Controller;
 
+use App\Config;
 use App\EmailHelper;
 use App\Helper;
 use App\CommentHelper;
