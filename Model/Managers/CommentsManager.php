@@ -73,10 +73,10 @@ class CommentsManager extends Manager
 
     /**
      * Returns a comment by its id as an array.
-     * @param $id
+     * @param $commentId
      * @return mixed
      */
-    public function getCommentById($id)
+    public function getCommentById($commentId)
     {
         $query = $this->dbh->prepare("
             SELECT  c.*, 
@@ -89,7 +89,7 @@ class CommentsManager extends Manager
             WHERE c.comment_id = :id
         ");
 
-        $query->bindValue(":id", $id, \PDO::PARAM_INT);
+        $query->bindValue(":id", $commentId, \PDO::PARAM_INT);
 
         $query->execute();
         $result = $query->fetch();
@@ -152,17 +152,17 @@ class CommentsManager extends Manager
 
     /**
      * Try to delete a comment in the database by its id.
-     * @param $id
+     * @param $commentId
      * @throws \Exception
      */
-    public function deleteComment($id)
+    public function deleteComment($commentId)
     {
         $query = $this->dbh->prepare("
             DELETE FROM comments
             WHERE comment_id = :id
         ");
 
-        $query->bindValue(":id", $id, \PDO::PARAM_INT);
+        $query->bindValue(":id", $commentId, \PDO::PARAM_INT);
 
         try {
             $query->execute();

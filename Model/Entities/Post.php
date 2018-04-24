@@ -41,9 +41,9 @@ class Post extends Entity
         return true;
     }
 
-    public function setPost_id($id)
+    public function setPost_id($postId)
     {
-        $this->post_id = $id;
+        $this->post_id = $postId;
     }
 
     public function setCreationDate($date)

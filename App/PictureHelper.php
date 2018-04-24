@@ -4,10 +4,12 @@
 
     abstract class PictureHelper extends Helper
     {
+
+
         /**
          * Tries to recover the requested image by performing some checks.
          * Checks if the file exists and if the file type is allowed in the yaml configuration.
-         * @param $file
+         * @param null $file
          * @return bool|string
          * @throws \Exception
          */
@@ -23,17 +25,17 @@
                 $pictureToDisplay = end($pictureToDisplay);
 
                 if(file_exists($pictureToLoad)) {
+
                     $fileType = exif_imagetype($pictureToLoad);
 
-                    if(PictureHelper::verifyImagePostType($fileType) == true) {
-                        return $defaultPicturePath . "/" . $pictureToDisplay;
-                    } else {
+                    if(PictureHelper::verifyImagePostType($fileType) !== true) {
                         throw new \Exception("Image type is not allowed");
                     }
+
+                    return $defaultPicturePath . "/" . $pictureToDisplay;
                 }
-                return null;
             }
-            return null;
+            return false;
         }
 
         /**

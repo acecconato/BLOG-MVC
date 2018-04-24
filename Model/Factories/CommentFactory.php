@@ -43,12 +43,12 @@
 
         /**
          * Get comment by its id and returns it as an object.
-         * @param $id
-         * @return Comment|void
+         * @param $commentId
+         * @return Comment
          */
-        public static function getComment($id)
+        public static function getComment($commentId)
         {
-            $commentData = self::getManager("comments")->getCommentById($id);
+            $commentData = self::getManager("comments")->getCommentById($commentId);
 
             if(is_array($commentData)) {
                 return new Comment($commentData);

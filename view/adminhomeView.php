@@ -20,7 +20,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="/admin/commentaires">
                                         <span data-feather="shopping-cart"></span>
-                                        Commentaires <span class="badge badge-pill badge-danger"> <?= $nb["comments"]["awaitingModeration"] ?></span>
+                                        Commentaires <span class="badge badge-pill badge-danger"> <?= $count["comments"]["awaitingModeration"] ?></span>
                                     </a>
                                 </li>
                             </ul>
@@ -36,18 +36,18 @@
                             <ins>Commentaires :</ins>
                         </p>
                         <p>
-                            <b>En attente de modération :</b> <?= $nb["comments"]["awaitingModeration"] ?> <br>
-                            <b>Accepté :</b> <?= $nb["comments"]["accepted"] ?>  <br>
-                            <b>Refusé :</b> <?= $nb["comments"]["refused"] ?> <br>
-                            <b>Total :</b> <?= $nb["comments"]["all"] ?>
+                            <b>En attente de modération :</b> <?= $count["comments"]["awaitingModeration"] ?> <br>
+                            <b>Accepté :</b> <?= $count["comments"]["accepted"] ?>  <br>
+                            <b>Refusé :</b> <?= $count["comments"]["refused"] ?> <br>
+                            <b>Total :</b> <?= $count["comments"]["all"] ?>
                         </p>
 
                         <p class="lead">
                             <ins>Articles :</ins>
                         </p>
                         <p>
-                            <b>Modifié :</b> <?= $nb["posts"]["modified"] ?> <br>
-                            <b>Total :</b> <?= $nb["posts"]["all"] ?>
+                            <b>Modifié :</b> <?= $count["posts"]["modified"] ?> <br>
+                            <b>Total :</b> <?= $count["posts"]["all"] ?>
                         </p>
                     </div>
 

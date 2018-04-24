@@ -32,10 +32,10 @@ class BackendController extends Controller
         /** @var CommentsManager $commentsManager */
         /** @var PostsManager $postsManager */
 
-        $nb["comments"] = CommentHelper::countAll();
-        $nb["posts"] = PostHelper::countAll();
+        $count["comments"] = CommentHelper::countAll();
+        $count["posts"] = PostHelper::countAll();
 
-        $this->generatePage("adminHome", compact("nb"));
+        $this->generatePage("adminHome", compact("count"));
     }
 
     /**
@@ -73,28 +73,26 @@ class BackendController extends Controller
 
     /**
      * Method for accepting a comment.
-     * @param $id
-     * @return bool|void
+     * @param $commentId
+     * @return bool
      */
-    public function acceptComment($id)
+    public function acceptComment($commentId)
     {
         if(Helper::verifyToken($this->token) == false) {
             echo "Token invalide";
             return false;
         }
 
-        $comment = CommentFactory::getComment($id);
+        $comment = CommentFactory::getComment($commentId);
         $comment->setStatus_id(2);
 
         CommentFactory::updateComment($comment);
         return header("Location: /admin/commentaires");
     }
 
-    /**
-     * Method for refuse a comment.
-     * @param $id
-     * @return bool|void
-     */
+
+     // Method for refuse a comment.
+
     public function refuseComment($id)
     {
         if(Helper::verifyToken($this->token) == false) {
@@ -104,33 +102,32 @@ class BackendController extends Controller
 
         $comment = CommentFactory::getComment($id);
 
-        if($comment->getStatus_id() == 1) {
-            if(!isset($_POST["reason"])) {
-                $this->generatePage("reasonInput");
-            } else {
-
-                if(empty($_POST["reason"])) {
-                    $securedData = Helper::secureData(["reason" => "Non spécifié"]);
-                } else {
-                    $securedData = Helper::secureData($_POST);
-                }
-
-                $comment->setStatus_id(3);
-                $comment->setReason($securedData["reason"]);
-
-                CommentFactory::updateComment($comment);
-                return header("Location: /admin/commentaires");
-            }
-        } else {
+        if( (int) $comment->getStatus_id() !== 1) {
             return header("Location: /admin/commentaires");
         }
-        return false;
+
+        if(!isset($_POST["reason"])) {
+            $this->generatePage("reasonInput");
+            return false;
+        }
+
+        if(empty($_POST["reason"])) {
+            $securedData = Helper::secureData(["reason" => "Non spécifié"]);
+        } else {
+            $securedData = Helper::secureData($_POST);
+        }
+
+        $comment->setStatus_id(3);
+        $comment->setReason($securedData["reason"]);
+
+        CommentFactory::updateComment($comment);
+        return header("Location: /admin/commentaires");
     }
 
     /**
      * Method for delete a comment.
      * @param $id
-     * @return bool|void
+     * @return bool
      */
     public function deleteComment($id)
     {
@@ -147,17 +144,17 @@ class BackendController extends Controller
 
     /**
      * Method for delete a post
-     * @param $id
-     * @return bool|void
+     * @param $postId
+     * @return bool
      */
-    public function deletePost($id)
+    public function deletePost($postId)
     {
         if(Helper::verifyToken($this->token) == false) {
             echo "Token invalide";
             return false;
         }
 
-        $post = PostFactory::getPost($id);
+        $post = PostFactory::getPost($postId);
         PostFactory::deletePost($post);
 
         return header("Location: /admin/articles");
@@ -209,10 +206,10 @@ class BackendController extends Controller
 
     /**
      * Method for edit a post
-     * @param $id
+     * @param $postId
      * @return bool
      */
-    public function editPost($id)
+    public function editPost($postId)
     {
         if(Helper::verifyToken($this->token) == false) {
             echo "Token invalide";
@@ -220,7 +217,7 @@ class BackendController extends Controller
         }
 
         /** @var \Model\Entities\Post $post */
-        $post = PostFactory::getPost($id);
+        $post = PostFactory::getPost($postId);
 
         if(isset($_POST["submit"])) {
 

@@ -15,7 +15,7 @@ class Config
         if(is_null(self::$_instance)) {
             $this->configFile = Yaml::parseFile(ROOT . "/App/Config/config.yaml");
 
-            foreach ($this->configFile as $key => $value) {
+            foreach ($this->configFile as $value) {
                 foreach ($value as $k => $v) {
                     $this->settings[$k] = $v;
                 }

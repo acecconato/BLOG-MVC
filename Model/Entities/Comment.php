@@ -18,9 +18,9 @@ class Comment extends Entity
         $this->hydrate($data);
     }
 
-    public function setComment_id($id)
+    public function setComment_id($commentId)
     {
-        $this->comment_id = $id;
+        $this->comment_id = $commentId;
     }
 
     public function setContent($content)
@@ -38,14 +38,14 @@ class Comment extends Entity
         $this->reason = stripslashes($reason);
     }
 
-    public function setPost_id($id)
+    public function setPost_id($postId)
     {
-        $this->post_id = $id;
+        $this->post_id = $postId;
     }
 
-    public function setStatus_id($id)
+    public function setStatus_id($statusId)
     {
-        $this->status_id = $id;
+        $this->status_id = $statusId;
     }
 
     public function setLabel($label)

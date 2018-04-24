@@ -50,64 +50,63 @@
          * Checks the data sent by the user when trying to add a post.
          * This function returns several callbacks in order to use them in the call method.
          * @param $data
-         * @param callable $cb
+         * @param callable $callback
          * @return mixed
          */
-        public static function verifyAddPostForm($data, callable $cb)
+        public static function verifyAddPostForm($data, callable $callback)
         {
-
-
             $title = $data["title"];
             $image = $_FILES["image"];
             $content = $data["content"];
 
             if(!isset($title) || !isset($image) || !isset($content) || empty($title) || empty($content)) {
                 $err["warning"] = "Vous devez renseigner les champs requis";
-            } else {
-                if(strlen($title) > 100) {
-                    $err["warning"] = "La longueur du titre est supérieure à 100 caractères";
+                $callback(false, $err);
+            }
+
+            if(strlen($title) > 100) {
+                $err["warning"] = "La longueur du titre est supérieure à 100 caractères";
+            }
+
+            // File error verification
+            if($image["error"] > 0 && $image["error"] != UPLOAD_ERR_NO_FILE) {
+                switch ($image["error"]) {
+                    case UPLOAD_ERR_INI_SIZE || UPLOAD_ERR_FORM_SIZE:
+                        $err["danger"] = "Le fichier est trop volumineux (1Mb maximum)";
+                        break;
+                    case UPLOAD_ERR_PARTIAL:
+                        $err["danger"] = "Le fichier n'a été que partiellement téléchargé";
+                        break;
+                    case UPLOAD_ERR_NO_TMP_DIR:
+                        $err["danger"] = "Un dossier temporaire est manquant. Merci de contacter l'administrateur";
+                        break;
+                    case UPLOAD_ERR_CANT_WRITE:
+                        $err["danger"] = "Échec de l'écriture du fichier sur le disque. Merci de contacter l'administrateur";
+                        break;
+                    default:
+                        $err["danger"] = "Erreur lors du transfert de l'image";
+                }
+            }
+
+            if($image["size"] > 0) {
+                if($image["size"] > 1048576) {
+                    $err["danger"] = "Fichier trop volumineux (1Mb max)";
                 }
 
-                // File error verification
-                if($image["error"] > 0 && $image["error"] != UPLOAD_ERR_NO_FILE) {
-                    switch ($image["error"]) {
-                        case UPLOAD_ERR_INI_SIZE || UPLOAD_ERR_FORM_SIZE:
-                            $err["danger"] = "Le fichier est trop volumineux (1Mb maximum)";
-                            break;
-                        case UPLOAD_ERR_PARTIAL:
-                            $err["danger"] = "Le fichier n'a été que partiellement téléchargé";
-                            break;
-                        case UPLOAD_ERR_NO_TMP_DIR:
-                            $err["danger"] = "Un dossier temporaire est manquant. Merci de contacter l'administrateur";
-                            break;
-                        case UPLOAD_ERR_CANT_WRITE:
-                            $err["danger"] = "Échec de l'écriture du fichier sur le disque. Merci de contacter l'administrateur";
-                            break;
-                        default:
-                            $err["danger"] = "Erreur lors du transfert de l'image";
-                    }
-                }
+                $fileType = exif_imagetype($image["tmp_name"]);
 
-                if($image["size"] > 0) {
-                    if($image["size"] > 1048576) {
-                        $err["danger"] = "Fichier trop volumineux (1Mb max)";
-                    }
-
-                    $fileType = exif_imagetype($image["tmp_name"]);
-
-                    if(PictureHelper::verifyImagePostType($fileType)) {
-                        return $cb(true, null, $image);
-                    } else {
-                        $err["danger"] = "Fichier non authorisé";
-                    }
+                if(PictureHelper::verifyImagePostType($fileType)) {
+                    return $callback(true, null, $image);
+                } else {
+                    $err["danger"] = "Fichier non authorisé";
                 }
             }
 
             if(isset($err) && !empty($err)) {
-                return $cb(false, $err);
+                return $callback(false, $err);
             }
 
-            return $cb(true);
+            return $callback(true);
         }
 
         /**

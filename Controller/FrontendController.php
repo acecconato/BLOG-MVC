@@ -126,11 +126,13 @@ class FrontendController extends Controller
         if($this->isConnected()) {
             header("Location: /admin");
         }
-            try {
-                $this->generateViewOnly("Login");
-            } catch (\Exception $e) {
-                die("Error : " . $e->getMessage());
-            }
+
+        try {
+            $this->generateViewOnly("Login");
+        } catch (\Exception $e) {
+            echo "Error : " . $e->getMessage();
+            return;
+        }
     }
 
     /**
