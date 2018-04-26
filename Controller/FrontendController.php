@@ -46,11 +46,11 @@ class FrontendController extends Controller
 
     /**
      * Generates a post's details page
-     * @param $id
+     * @param $postId
      */
-    public function detailsOfPost($id)
+    public function detailsOfPost($postId)
     {
-        $post = PostFactory::getPost($id);
+        $post = PostFactory::getPost($postId);
 
         if(!$post) {
             header("Location: /articles");
@@ -83,20 +83,21 @@ class FrontendController extends Controller
         $commentToAdd = Helper::secureData($_POST);
         $verification = CommentHelper::verifyComment($commentToAdd);
 
-        if($verification === true) {
-            /** @var CommentsManager $commentsManager */
-            $commentsManager = Manager::getManagerOf("Comments");
-            $comment = new Comment($commentToAdd);
-
-            try {
-                $commentsManager->addComment($comment);
-                $msg["success"] = "Commentaire ajouté et en attente de modération";
-            } catch (\Exception $e) {
-                $msg["danger"] = $e->getMessage();
-            }
-
-        } else {
+        if($verification !== true) {
             $msg = $verification;
+            $this->generatePage("Post", compact("msg", "post", "comments"));
+            return;
+        }
+
+        /** @var CommentsManager $commentsManager */
+        $commentsManager = Manager::getManagerOf("Comments");
+        $comment = new Comment($commentToAdd);
+
+        try {
+            $commentsManager->addComment($comment);
+            $msg["success"] = "Commentaire ajouté et en attente de modération";
+        } catch (\Exception $e) {
+            $msg["danger"] = $e->getMessage();
         }
 
         $this->generatePage("Post", compact("msg", "post", "comments"));

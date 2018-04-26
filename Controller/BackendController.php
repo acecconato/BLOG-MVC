@@ -93,14 +93,14 @@ class BackendController extends Controller
 
      // Method for refuse a comment.
 
-    public function refuseComment($id)
+    public function refuseComment($commentId)
     {
         if(Helper::verifyToken($this->token) == false) {
             echo "Token invalide";
             return false;
         }
 
-        $comment = CommentFactory::getComment($id);
+        $comment = CommentFactory::getComment($commentId);
 
         if( (int) $comment->getStatus_id() !== 1) {
             return header("Location: /admin/commentaires");
@@ -111,11 +111,7 @@ class BackendController extends Controller
             return false;
         }
 
-        if(empty($_POST["reason"])) {
-            $securedData = Helper::secureData(["reason" => "Non spécifié"]);
-        } else {
-            $securedData = Helper::secureData($_POST);
-        }
+        $securedData = (empty($_POST["reason"])) ? Helper::secureData(["reason" => "Non spécifié"]) : Helper::secureData($_POST);
 
         $comment->setStatus_id(3);
         $comment->setReason($securedData["reason"]);
@@ -126,17 +122,17 @@ class BackendController extends Controller
 
     /**
      * Method for delete a comment.
-     * @param $id
+     * @param $commentId
      * @return bool
      */
-    public function deleteComment($id)
+    public function deleteComment($commentId)
     {
         if(Helper::verifyToken($this->token) == false) {
             echo "Token invalide";
             return false;
         }
 
-        $comment = CommentFactory::getComment($id);
+        $comment = CommentFactory::getComment($commentId);
         CommentFactory::deleteComment($comment);
 
         return header("Location: /admin/commentaires");

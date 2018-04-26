@@ -18,29 +18,29 @@
             $commentsManager = Manager::getManagerOf("Comments");
             $countComments = $commentsManager->countComments();
 
-            $nb["all"] = 0;
-            $nb["accepted"] = 0;
-            $nb["refused"] = 0;
-            $nb["awaitingModeration"] = 0;
+            $count["all"] = 0;
+            $count["accepted"] = 0;
+            $count["refused"] = 0;
+            $count["awaitingModeration"] = 0;
 
             foreach ($countComments as $result) {
                 switch ($result["status_id"]) {
                     case 1:
-                        $nb["all"]++;
-                        $nb["awaitingModeration"]++;
+                        $count["all"]++;
+                        $count["awaitingModeration"]++;
                         break;
                     case 2:
-                        $nb["all"]++;
-                        $nb["accepted"]++;
+                        $count["all"]++;
+                        $count["accepted"]++;
                         break;
                     case 3:
-                        $nb["all"]++;
-                        $nb["refused"]++;
+                        $count["all"]++;
+                        $count["refused"]++;
                         break;
                 }
             }
 
-            return $nb;
+            return $count;
         }
 
         /**

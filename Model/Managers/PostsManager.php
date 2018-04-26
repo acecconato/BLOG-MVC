@@ -46,10 +46,10 @@ class PostsManager extends Manager
 
     /**
      * Returns a post by its id as an array.
-     * @param $id
+     * @param $postId
      * @return mixed
      */
-    public function getPostById($id)
+    public function getPostById($postId)
     {
         $query = $this->dbh->prepare("
             SELECT posts.*, u.pseudo as author,
@@ -59,7 +59,7 @@ class PostsManager extends Manager
             INNER JOIN users u ON posts.user_id = u.user_id
             WHERE post_id = :id
         ");
-        $query->bindValue(":id", $id, \PDO::PARAM_INT);
+        $query->bindValue(":id", $postId, \PDO::PARAM_INT);
         $query->execute();
 
         $result = $query->fetch();
@@ -123,17 +123,17 @@ class PostsManager extends Manager
 
     /**
      * Try to delete a post by its id in the database.
-     * @param $id
+     * @param $postId
      * @throws \Exception
      */
-    public function deletePost($id)
+    public function deletePost($postId)
     {
         $query = $this->dbh->prepare("
             DELETE FROM posts
             WHERE post_id = :id
         ");
 
-        $query->bindValue(":id", $id, \PDO::PARAM_INT);
+        $query->bindValue(":id", $postId, \PDO::PARAM_INT);
 
         try {
             $query->execute();

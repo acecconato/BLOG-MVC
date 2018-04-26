@@ -95,11 +95,12 @@
 
                 $fileType = exif_imagetype($image["tmp_name"]);
 
-                if(PictureHelper::verifyImagePostType($fileType)) {
-                    return $callback(true, null, $image);
-                } else {
+                if(PictureHelper::verifyImagePostType($fileType) === false) {
                     $err["danger"] = "Fichier non authorisé";
+                    return $callback(false, $err);
                 }
+
+                return $callback(true, null, $image);
             }
 
             if(isset($err) && !empty($err)) {

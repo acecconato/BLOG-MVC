@@ -49,9 +49,9 @@
 
             if(in_array($fileType, $allowedTypes)) {
                 return true;
-            } else {
-                return false;
             }
+
+            return false;
         }
 
         /**

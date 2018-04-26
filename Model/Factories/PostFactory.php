@@ -8,13 +8,13 @@
     {
         /**
          * Get a post by its id and returns him as an object.
-         * @param $id
-         * @return Post|void
+         * @param $postId
+         * @return mixed
          */
-        public static function getPost($id)
+        public static function getPost($postId)
         {
 
-            $postData = self::getManager("posts")->getPostById($id);
+            $postData = self::getManager("posts")->getPostById($postId);
 
             if(is_array($postData)) {
                 return new Post($postData);
@@ -45,10 +45,10 @@
          */
         public static function deletePost(Post $comment)
         {
-            $id = $comment->getPostId();
+            $postId = $comment->getPostId();
 
             try {
-                self::getManager("posts")->deletePost($id);
+                self::getManager("posts")->deletePost($postId);
             } catch (\Exception $e) {
                 echo $e->getMessage();
             }

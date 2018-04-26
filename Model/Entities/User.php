@@ -16,10 +16,9 @@ class User extends Entity
         $this->hydrate($data);
     }
 
-    public function setUser_id($id)
+    public function setUser_id($userId)
     {
-        $id = (int) $id;
-        $this->user_id = $id;
+        $this->user_id = (int) $userId;
     }
 
     public function setPermissionLevel($permLevel)

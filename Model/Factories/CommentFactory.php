@@ -76,10 +76,10 @@
          */
         public static function deleteComment(Comment $comment)
         {
-            $id = $comment->getComment_id();
+            $commentId = $comment->getComment_id();
 
             try {
-                self::getManager("comments")->deleteComment($id);
+                self::getManager("comments")->deleteComment($commentId);
             } catch (\Exception $e) {
                 echo $e->getMessage();
             }
